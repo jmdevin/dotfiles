@@ -55,3 +55,4 @@ alias showColors='curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f
 alias mnotes='vim ~/vimwiki/index.wiki'
 alias vimwiki='vim ~/vimwiki/index.wiki'
 alias mvimrc='vim ~/.vim/vimrc'
+eval "$(hub alias -s)"
