@@ -1,0 +1,23 @@
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Appearance
+set number
+set relativenumber
+set showmode
+
+" Appearance functionality
+set scrolloff=3
+set sidescrolloff=3
+
+set visualbell
+set t_vb=
+
+set surround
+set multiple-cursors
+
+" TODO
+" set selection

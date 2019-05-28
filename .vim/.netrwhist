@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/Users/jdevin'
+let g:netrw_dirhist_2='/Users/jdevin/.gem'
+let g:netrw_dirhist_3='/Users/jdevin'
+let g:netrw_dirhist_4='/Users/jdevin/zotes'
+let g:netrw_dirhist_5='/Users/jdevin'

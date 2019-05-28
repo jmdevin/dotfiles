@@ -1,0 +1,347 @@
+" Notes
+    " set cedit
+    " :h hit-enter
+    " :h complete-functions
+    " :h completeopt
+    " :h cmdwin
+    " :h confirm
+    " :h set cptoptions+=I
+    " :h make and makeprg
+    " set menuitems
+    " set pumheight
+    " :h ins-completion-menu
+    " set highlight+=
+    " set formatoptions+=r
+    " command-line mode ^F
+
+filetype plugin indent on
+syntax on
+set background=dark
+
+if $TERM_PROGRAM =~? 'iTerm'
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    " Blinking vertical bar in insert mode
+    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    " Blinking underscore in replace mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    " Blinking block in normal mode
+endif
+
+" Call Plugins
+    " Current
+    call plug#begin('~/.vim/plugged')
+        Plug 'junegunn/vim-plug'
+        Plug 'tpope/vim-surround'
+        Plug 'w0rp/ale'
+        Plug 'dart-lang/dart-vim-plugin'
+        Plug 'junegunn/vim-easy-align'
+        Plug 'yggdroot/indentline'
+    " Probable or Unsure or Toggled
+        Plug 'tpope/vim-vinegar'
+        Plug 'jiangmiao/auto-pairs'
+        Plug 'vimwiki/vimwiki'
+        Plug 'mhinz/vim-startify'
+        " Plug 'thosakwe/vim-flutter'
+        " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+        " Plug 'tpope/vim-fugitive'
+        " Plug 'junegunn/fzf'
+        " Plug 'wincent/command-t'
+        " Plug 'tpope/vim-unimpaired'
+        Plug 'tpope/vim-commentary'
+            " Plug 'scrooloose/nerdcommenter'
+            " Plug 'tomtom/tcomment_vim'
+        " Plug 'justinmk/vid-dirvish'
+        " Plug 'andymass/vim-matchup'
+    " Possible
+        " Plug 'mbbill/undotree'
+            " Undo history visualizer
+        " Plug 'tpope/vim-dadbod'
+        " Plug 'markonm/traces.vim'
+        " Plug 'airblade/vim-gitgutter'
+        " Plug 'mhinz/vim-signify'
+        " Plug 'purcell/sqlint'
+            " Only Supports PostgreSQL syntax right now
+        " Plug 'jackc/sqlfmt'
+            " Not sure, maybe it's good?
+        " Plug 'bling/vim-bufferline'
+        " Plug 'python-mode/python-mode'
+        " Plug 'ctrlpvim/ctrlp.vim'
+        " Plug 'christoomey/vim-tmux-navigator'
+        " Plug 'ryanoasis/vim-devicons'
+        " Plug 'edkolev/tmuxline.vim'
+        " Plug 'svermeulen/vim-yoink'
+        " Plug 'svermeulen/vim-subversive'
+        " Plug 'majutsushi/tagbar'
+        " Plug 'xolox/vim-easytags'
+        " Plug 'AndrewRadev/splitjoin.vim'
+        " Plug 'tpope/vim-rsi'
+        " Plug 'guns/vim-sexp'
+        " Plug 'tpope/vim-repeat'
+        " Plug 'jlanzarotta/bufexplorer'
+        " Plug 'romainl/vim-qf'
+        " Plug 'garbas/vim-snipmate'
+    " Colorschemes
+        " Using industry
+        Plug 'NLKNguyen/papercolor-theme'
+            " papercolor
+        Plug 'romainl/Apprentice'
+        Plug 'aonemd/kuroi.vim'
+        Plug 'dikiaap/minimalist'
+        Plug 'challenger-deep-theme/vim'
+            " challenger_deep
+        Plug 'rakr/vim-two-firewatch'
+            " two-firewatch
+        Plug 'nanotech/jellybeans.vim'
+        Plug 'kristijanhusak/vim-hybrid-material'
+    call plug#end()
+
+" Plugins
+    " Ale
+        " let g:ale_change_sign_column_color
+        let g:ale_close_preview_on_insert = 0
+        " let g:ale_completion_delay
+        " let g:ale_completion_enabled
+        " let g:ale_cursor_detail = 1
+        " let g:ale_disable_lsp = 0
+        let g:ale_echo_cursor = 1
+        " let g:ale_echo_delay
+        " let g:ale_enabled = 1
+        let g:ale_keep_list_window_open = 1
+        " let g:ale_list_window_size=10
+        let g:ale_lint_delay = 100
+        let g:ale_lint_on_enter = 1
+        let g:ale_lint_on_filetype_changed = 1
+        let g:ale_lint_on_save = 1
+        let g:ale_lint_on_text_changed = 'normal'
+        let g:ale_lint_on_insert_leave = 1
+        " g:ale_lsp_root
+        let g:ale_open_list = 0
+        let g:ale_set_balloons = 1
+        let g:ale_set_balloons_legacy_echo = 1
+        let g:ale_set_highlights = 1
+        let g:ale_set_loclist = 1
+        let g:ale_set_quickfix = 0
+            " Set this to use quickfix instead of loclist
+        let g:ale_set_signs = 1
+            " g:ale_sign_error = 
+            " g:ale_sign_warning = 
+            " g:ale_sign_info = 
+            " g:ale_sign_style_error = 
+            " g:ale_sign_style_warning = 
+        let g:ale_sign_column_always = 1
+        let g:ale_virtualtext_cursor = 1
+        " let g:ale_virtualtext_delay
+        let g:ale_warn_about_trailing_blank_lines = 1
+        let g:ale_warn_about_trailing_whitespace = 1
+
+        let g:ale_linters = {
+            \   'dart': ['dartanalyzer'],
+        \}
+
+        let g:ale_dart_dartanalyzer_executable = 'dartanalyzer'
+
+        " let g:ale_dart_dartanalyzer_executable = "/Users/jdevin/fluterdartanalyzer\ --packages=/Users/jdevin/carepeepsdevstuff/carepeeps_mobile/carepeeps_flutter/.packages\ --options=/Users/jdevin/carepeepsdevstuff/carepeeps_mobile/carepeeps_flutter/analysis_options.yaml --lints"
+
+    " Autopairs
+        let g:AutoPairsFlyMode=0
+        " let g:AutoPairsShortcutBackInsert=Something (default '<M-b>')
+        " There are also shortcuts for toggle autopairs, fast wrap, jump to next
+        " closed pair, and backinsert
+
+    " Dart
+        let g:dart_html_in_string = v:true
+        let g:dart_corelib_highlight = v:false
+
+    " Indent-Line
+        let g:indentLine_char='|'
+
+    " Netrw
+        let g:netrw_banner=0
+        let g:netrw_hide=0
+        let g:netrw_keepdir=1
+        let g:netrw_sizestyle='h'
+        let g:netrw_sort_options='i'
+        " let g:netrw_sort_by
+            " :h :sort
+        " NERDtree setup
+            " let g:netrw_banner=0
+            " let g:netrw_liststyle=3
+            " let g:netrw_browse_split=4
+            " let g:netrw_altv=1
+            " let g:netrw_winsize=25
+            " augroup ProjectDrawer
+            "     autocmd!
+            "     autocmd VimEnter * :Vexplore
+            " augroup END
+
+" Vim Options
+    " System integration settings
+        set clipboard=unnamed
+        set mouse=nvc
+    " Text Editor Settings
+        set report=0
+        " set virtualedit
+        " set whichwrap=b,s,<,>,[,]
+        " set winminheight
+        " set winminwidth
+        " set autochdir
+
+        " set belloff=all
+        " set errorbells
+        set visualbell
+        set t_vb=
+        " set ttyfast
+        " set ttyscroll
+        " set timeout
+        " set ttimeout
+        
+        " set selectmode 'include mouse or something?'
+
+        " set matchpairs+=<:> " use % to jump between pairs
+        " runtime! macros/matchit.vim
+
+        set display=lastline
+        set incsearch
+        set hlsearch
+        set ignorecase
+        set smartcase
+        set wrapscan
+        set gdefault
+        set tabstop=4
+        set expandtab
+        set softtabstop=-1
+        set shiftwidth=0
+        set shiftround
+        set backspace=indent,eol,start
+        set autoindent
+        set smartindent
+        set smarttab
+        set foldenable
+        set foldmethod=indent
+        set foldlevelstart=5
+        set foldminlines=3
+        set wrap
+        set linebreak
+        set breakindent
+        set breakindentopt=shift:2,sbr
+        set cpoptions+=n
+        set showbreak=>>\ 
+        set selection=old
+        set noshowmode
+        set showcmd
+        set number
+        set relativenumber
+        set ruler
+        set wildmenu
+        set scrolloff=3
+        set sidescroll=1
+        set sidescrolloff=3
+        set noequalalways
+        " set eadirection=both
+        " set winheight
+        " set winminheight
+        " set winfixheight
+        " set winfixwidth
+        " set winwidth
+        " set winminwidth
+        set autoread
+        set cmdheight=2
+        set cmdwinheight=12
+        set laststatus=2
+        set showtabline=2
+        set winminheight=0
+        " set winminwidth=0
+        set splitbelow
+        set splitright
+        " set infercase
+    " Appearance
+        set fillchars=fold:\ ,
+        set listchars+=tab:<->,eol:?
+        " set fillchars=stl:^,stlnc:-,fold:''
+        " set tabline
+        " set statusline
+        " set foldtext=
+    " tpope's sensible
+        " set ttimeout
+        " set ttimeoutlen=100
+        " set complete-=i
+        " set nrformats-=octal
+        " set display+=lastline
+        " set formatoptions+=j
+        " set sessionoptions-=options
+        " also the matchit thing
+        " also the tags thing
+        " also the set viminfo thing
+        " Use <C-L> to clear the highlighting of :set hlsearch.
+            " if maparg('<C-L>', 'n') ==# ''
+                " nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?
+                "           \ '<Bar>diffupdate':''<CR><CR><C-L>
+            " endif
+    " Completion
+        set completeopt=menuone,preview
+        " :h popupmenu-key,wildmenu,ins-completion,ins-completion-menu
+
+" Remappings
+    " :nmap <Leader>ss <Plug>VimwikiSplitLink
+    " :nmap <Leader>vv <Plug>VimwikiVSplitLink
+    nnoremap n nzz
+    nnoremap N Nzz
+    nnoremap * *zz
+    nnoremap # #zz
+    nnoremap g* g*zz
+    nnoremap g# g#zz
+    " nnoremap j gj
+    " nnoremap k gk
+
+" augroups
+    augroup format_stuff
+        autocmd!
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=t
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=c
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=r
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=o
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=q
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=j
+        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=n
+        " Default when I set this was croql
+        " set formatoptions+=q
+        " set formatoptions-=2vb
+        " set formatoptions+=qwanl
+        " Neither?=j
+    augroup END
+
+    source ~/myvimfiles/highlight.vim
+    source ~/myvimfiles/status.vim
+    source ~/myvimfiles/foldtext.vim
+    source ~/myvimfiles/tab.vim
+
+    set foldtext=GetFoldText() 
+    set tabline=%!SetTabLine()
+
+    augroup SetStatusLines
+        autocmd!
+        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter * call SetStatusLineActive()
+        autocmd Filetype netrw call SetStatusLineActive()
+        autocmd BufLeave,WinLeave * call SetStatusLineInactive()
+        " autocmd CmdwinEnter
+        " autocmd CmdwinLeave
+    augroup END
+
+    augroup SetTabLines
+        autocmd!
+        " autocmd WinEnter,BufEnter * call SetTabLine()
+        " autocmd WinLeave,BufLeave * call SetTabLine()
+    augroup END
+
+    augroup SetNumberColumns
+        autocmd!
+        autocmd BufEnter,WinEnter * call SetNumberColumnActive()
+        autocmd WinLeave * call SetNumberColumnInactive()
+    augroup END
+
+" TODO
+    " Separate statusline augroup into two groups. Statuslines should be its own thing. Also do not turn on numbers for help files
+
+    " augroup to set virtualedit when in virtual-replace mode? Maybe also set invisible characters to be seen
+        " reference set list, listchars
+
