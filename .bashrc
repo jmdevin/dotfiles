@@ -1,58 +1,73 @@
-# The shell normally executes /etc/profile, then /etc/bashrc, then ~/.bash_profile, then ~/.bash_login, then ~/.profile
-# TODO:Figure out difference between single-quotes, double-quotes, and backticks
+# Remember to install and set the newer bash version as default on osx
+
+# The shell normally executes /etc/profile, then /etc/bashrc, then
+# ~/.bash_profile, then ~/.bash_login, then ~/.profile
 echo "executing ~/.bashrc..."
 
 if [ "$(uname)" == "Darwin" ]; then
     export 'CLICOLOR=1'
 fi
 
-export PS1='\[\e[1;32m\][ \d | \A ][J:\j]\[\e[m\] \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$ \[\e[m\]'
+# export PS1='\[\e[1;32m\]| \A - \d - J:\j |\[\e[m\] \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$ \[\e[m\]'
+export PS1=' \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$\[\e[m\] '
+export EDITOR='vim'
 
-export FLUTTER_HOME='~/flutter'
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+# Path
+    # Dart and flutter
+        export FLUTTER_HOME="$HOME/flutter/"
+        export PATH="$FLUTTER_HOME/bin/:$PATH"
+        export PATH="$HOME/.pub-cache/bin/:$PATH"
+        export PATH="$FLUTTER_HOME/bin/cache/dart-sdk/bin/:$PATH"
 
-alias gradle='~/gradle-4.4.1/bin/gradle'
-alias gradle4='~/gradle-4.4.1/bin/gradle'
-alias gradle5='/usr/local/Cellar/gradle/5.0/libexec/bin/gradle'
+    # android
+        export PATH="$HOME/Library/Android/sdk/emulator/:$PATH"
+        export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
 
-# emulator @emulatorName
-# || -snapshot-list
-                # Lists snapshots
-# || -snapshot snapshotName
-                # Loads a snapshot if exists, else cold boots
-# || -no-snapshot
-                # Disables both loading and saving a snapshot
-# || -no-snapshot-save
-                # Can load a snapshot, but won't save it
-# || -wipe-data
-                # Seems to mean cold boot and delete snapshots
-# || -no-boot-anim
-                # "Disables boot animation for faster booting."
-alias mysnap='snap_2019-04-26_11-05-03'
-alias emustart='emulator @9.0apis -no-snapshot-save -no-boot-anim -snapshot '
-alias emulistavds='emulator -list-avds'
-alias emulistsnaps='emulator @9.0apis -snapshot-list'
+    # Java
+        JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+        export JAVA_HOME
+        export PATH="$JAVA_HOME":$PATH
+        # export PATH="$JAVA_HOME/bin":$PATH
 
-alias setJava8="export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)"
-alias setJava11="export JAVA_HOME=$(/usr/libexec/java_home -v 11)"
+    # Python
+        export PATH='/usr/local/opt/python/libexec/bin/':$PATH
 
-export PATH='~/.pub-cache/bin':$PATH
-export PATH='~/.pub-cache/bin/':$PATH
-export PATH='~/.pub-cache/bin/dart_language_server':$PATH
-export PATH='/usr/local/share/python/':$PATH
-export PATH='/Users/jdevin/Library/Android/sdk/emulator/':$PATH
-export PATH='/Users/jdevin/flutter/bin/cache/dart-sdk/bin':$PATH
-export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH=$JAVA_HOME:$PATH
-export PATH=$JAVA_HOME/bin:$PATH
+# Aliases
+    alias gradle='~/gradle-4.4.1/bin/gradle'
+    alias gradle4='~/gradle-4.4.1/bin/gradle'
+    alias gradle5='/usr/local/Cellar/gradle/5.0/libexec/bin/gradle'
 
-alias lis='ls -FG'
-alias lsa='ls -AFG'
-alias lsl='ls -FGho'
-alias lal='ls -AFGho'
+    alias mysnap='snap_2019-04-26_11-05-03'
+    alias emustart='emulator @9.0apis -no-snapshot-save -no-boot-anim -snapshot '
+    alias emulistavds='emulator -list-avds'
+    alias emulistsnaps='emulator @9.0apis -snapshot-list'
+    alias avd='avdmanager'
 
-alias showColors='curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash'
-alias mnotes='vim ~/vimwiki/index.wiki'
-alias vimwiki='vim ~/vimwiki/index.wiki'
-alias mvimrc='vim ~/.vim/vimrc'
-eval "$(hub alias -s)"
+    alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
+    alias setJava11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
+
+    alias lis='ls -FG'
+    alias lsa='ls -AFG'
+    alias lsl='ls -FGho'
+    alias lal='ls -AFGho'
+
+    alias showColors='curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash'
+    alias mnotes='vim ~/vimwiki/index.wiki'
+    alias vimwiki='vim ~/vimwiki/index.wiki'
+    alias mvimrc='vim ~/.vim/vimrc'
+    eval "$(hub alias -s)"
+
+    # emulator @emulatorName
+    # || -snapshot-list
+                    # Lists snapshots
+    # || -snapshot snapshotName
+                    # Loads a snapshot if exists, else cold boots
+    # || -no-snapshot
+                    # Disables both loading and saving a snapshot
+    # || -no-snapshot-save
+                    # Can load a snapshot, but won't save it
+    # || -wipe-data
+                    # Seems to mean cold boot and delete snapshots
+    # || -no-boot-anim
+                    # "Disables boot animation for faster booting."
+

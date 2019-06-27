@@ -1,4 +1,22 @@
+scriptencoding utf-8
+" Ideas
+    " Add something which shows invisible characters when you enter virtual-
+        " edit mode or whatever
+    " Add logic to only set plugin settings when the plugin is present? So when
+        " I toggle them off they don't get set
+    " Fix the git branch thing
+    " Add shortmess settings
+    " Add something to deal with "DIR" when the file is new or a terminal or
+        " anything else
+    " Add sessions settings
+    " Add vim-plug automatic installation
+    " Deal with statusline not updating if the cursor doesn't move
+    " autocmd to clear matchparen when leaving a window
+    " autocmd to remove trail from listchars in insert mode
+    " g:netrw_dirhistmax
+
 " Notes
+    " set keywordprg
     " set cedit
     " :h hit-enter
     " :h complete-functions
@@ -14,48 +32,94 @@
     " set formatoptions+=r
     " command-line mode ^F
 
+set runtimepath+=~/zotes/learning/plugin/mpc/
+runtime ftplugin/man.vim
+
 filetype plugin indent on
 syntax on
 set background=dark
 
-if $TERM_PROGRAM =~? 'iTerm'
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    " Blinking vertical bar in insert mode
-    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-    " Blinking underscore in replace mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    " Blinking block in normal mode
-endif
+" Cursor Settings
+    " Set as the following:
+        " &t_SI (Insert mode)       Blinking vertical bar
+        " &t_SR (Replace mode)      Blinking underscore
+        " &t_EI (Normal mode)       Blinking block
+
+    if $TERM_PROGRAM =~? 'Apple_Terminal'
+        let &t_SI = "\e[5 q"
+        let &t_SR = "\e[3 q"
+        let &t_EI = "\e[1 q"
+    elseif $TERM_PROGRAM =~? 'iTerm\|xterm' && !exists('$TMUX')
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    elseif $TERM_PROGRAM =~? 'iTerm' || 'xterm' && exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+        let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    elseif exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+        let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    else
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    endif
+
+    " Mac Terminal ($TERM_PROGRAM =~? 'Apple_Terminal')
+        " 1 -> blinking block
+        " 2 -> solid block
+        " 3 -> blinking underscore
+        " 4 -> solid underscore
+        " 5 -> blinking vertical bar
+        " 6 -> solid vertical bar
 
 " Call Plugins
-    " Current
     call plug#begin('~/.vim/plugged')
-        Plug 'junegunn/vim-plug'
+    " tpope
+        Plug 'tpope/vim-endwise'
+        Plug 'tpope/vim-vinegar'
         Plug 'tpope/vim-surround'
+        " Plug 'tpope/vim-fugitive'
+        Plug 'tpope/vim-unimpaired'
+        Plug 'tpope/vim-commentary'
+        " Plug 'tpope/vim-rsi'
+        " Plug 'tpope/vim-dadbod'
+        " Plug 'tpope/vim-repeat'
+        " Plug 'tpope/vim-eunuch'
+    " Current
+        Plug 'junegunn/vim-plug'
         Plug 'w0rp/ale'
+        " Plug 'natebosch/vim-lsc'
+        " Plug 'natebosch/vim-lsc-dart'
         Plug 'dart-lang/dart-vim-plugin'
         Plug 'junegunn/vim-easy-align'
         Plug 'yggdroot/indentline'
     " Probable or Unsure or Toggled
-        Plug 'tpope/vim-vinegar'
-        Plug 'jiangmiao/auto-pairs'
+        " Plug 'ervandew/supertab'
+        Plug 'tmux-plugins/vim-tmux'            " Filetype plugin
+        Plug 'zah/nim.vim'
+        " Plug 'easymotion/vim-easymotion'
+        " Plug 'justinmk/vim-sneak'
+        " Plug 'jiangmiao/auto-pairs'
         Plug 'vimwiki/vimwiki'
         Plug 'mhinz/vim-startify'
-        " Plug 'thosakwe/vim-flutter'
-        " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
-        " Plug 'tpope/vim-fugitive'
+        Plug 'thosakwe/vim-flutter'
+        " Plug 'neoclide/coc.nvim', {'branch': 'release'}
         " Plug 'junegunn/fzf'
         " Plug 'wincent/command-t'
-        " Plug 'tpope/vim-unimpaired'
-        Plug 'tpope/vim-commentary'
             " Plug 'scrooloose/nerdcommenter'
             " Plug 'tomtom/tcomment_vim'
         " Plug 'justinmk/vid-dirvish'
         " Plug 'andymass/vim-matchup'
     " Possible
+        " Plug 'ajh17/VimCompletesMe'
+        " Plug 'rbong/vim-crystalline'
+        " Plug 'machakann/vim-sandwich'
+        " Plug 'wellle/targets.vim"
         " Plug 'mbbill/undotree'
             " Undo history visualizer
-        " Plug 'tpope/vim-dadbod'
         " Plug 'markonm/traces.vim'
         " Plug 'airblade/vim-gitgutter'
         " Plug 'mhinz/vim-signify'
@@ -74,9 +138,7 @@ endif
         " Plug 'majutsushi/tagbar'
         " Plug 'xolox/vim-easytags'
         " Plug 'AndrewRadev/splitjoin.vim'
-        " Plug 'tpope/vim-rsi'
         " Plug 'guns/vim-sexp'
-        " Plug 'tpope/vim-repeat'
         " Plug 'jlanzarotta/bufexplorer'
         " Plug 'romainl/vim-qf'
         " Plug 'garbas/vim-snipmate'
@@ -93,67 +155,105 @@ endif
             " two-firewatch
         Plug 'nanotech/jellybeans.vim'
         Plug 'kristijanhusak/vim-hybrid-material'
+        Plug 'altercation/vim-colors-solarized'
+        Plug 'chriskempson/base16-vim'
+        Plug 'nightsense/cosmic_latte'
+            " cosmic_latte
+            " Very nice
+        Plug 'flrnprz/candid.vim'
+        Plug 'flrnprz/plastic.vim'
+        Plug 'liuchengxu/space-vim-theme'
+        Plug 'sainnhe/vim-color-forest-night'
+        Plug 'caksoylar/vim-mysticaltutor'
     call plug#end()
 
-" Plugins
+" Plugin Settings
     " Ale
+        " Other things
+            " install flake8 with 'python -m pip install flake8'
+            " install pylint with 'pip install pylint'
+            " install mypu with 'python -m pip install -U mypy'
+            " install bandit with 'pip install bandit'
+            " install autopep8 with 'pip install --upgrade autopep8'
         " let g:ale_change_sign_column_color
         let g:ale_close_preview_on_insert = 0
         " let g:ale_completion_delay
-        " let g:ale_completion_enabled
-        " let g:ale_cursor_detail = 1
+        let g:ale_completion_enabled = 0
+        " let g:ale_completion_max_suggestions = 50
+        let g:ale_cursor_detail = 0
         " let g:ale_disable_lsp = 0
         let g:ale_echo_cursor = 1
-        " let g:ale_echo_delay
+        let g:ale_echo_delay = 10
         " let g:ale_enabled = 1
+        let g:ale_fix_on_save = 0
         let g:ale_keep_list_window_open = 1
-        " let g:ale_list_window_size=10
-        let g:ale_lint_delay = 100
+        let g:ale_list_window_size = 5
+        let g:ale_lint_delay = 10
         let g:ale_lint_on_enter = 1
         let g:ale_lint_on_filetype_changed = 1
         let g:ale_lint_on_save = 1
         let g:ale_lint_on_text_changed = 'normal'
         let g:ale_lint_on_insert_leave = 1
+        " let g:ale_linter_aliases
+        " let g:ale_linters_explicit = 0
+        " let g:ale_linters_ignore
+        " let g:ale_list_vertical
         " g:ale_lsp_root
+        let g:ale_max_sings = -1
         let g:ale_open_list = 0
         let g:ale_set_balloons = 1
         let g:ale_set_balloons_legacy_echo = 1
-        let g:ale_set_highlights = 1
+        let g:ale_set_highlights = 0
         let g:ale_set_loclist = 1
         let g:ale_set_quickfix = 0
             " Set this to use quickfix instead of loclist
         let g:ale_set_signs = 1
-            " g:ale_sign_error = 
-            " g:ale_sign_warning = 
-            " g:ale_sign_info = 
-            " g:ale_sign_style_error = 
-            " g:ale_sign_style_warning = 
+        " Sign column signs
+            let g:ale_sign_error = '>>'
+            let g:ale_sign_warning = '>>'
+            let g:ale_sign_info = '>>'
+            let g:ale_sign_style_error = '>>'
+            let g:ale_sign_style_warning = '>>'
+        " g:ale_shell
+        " g:ale_shell_arguments
         let g:ale_sign_column_always = 1
+        " g:ale_update_tagstack = 1
+        " g:ale_use_global_executables
         let g:ale_virtualtext_cursor = 1
-        " let g:ale_virtualtext_delay
+        let g:ale_virtualtext_delay = 10
+        " g:ale_virtualtext_prefix = '> '
+        " g:ale_virtualenv_dir_names
         let g:ale_warn_about_trailing_blank_lines = 1
         let g:ale_warn_about_trailing_whitespace = 1
+        " g:ale_windows_node_executable_path
 
-        let g:ale_linters = {
-            \   'dart': ['dartanalyzer'],
+        let g:ale_fixers = {
+            \   'python'    : ['autopep8'],
         \}
 
-        let g:ale_dart_dartanalyzer_executable = 'dartanalyzer'
-
-        " let g:ale_dart_dartanalyzer_executable = "/Users/jdevin/fluterdartanalyzer\ --packages=/Users/jdevin/carepeepsdevstuff/carepeeps_mobile/carepeeps_flutter/.packages\ --options=/Users/jdevin/carepeepsdevstuff/carepeeps_mobile/carepeeps_flutter/analysis_options.yaml --lints"
+        let g:ale_linters = {
+            \   'dart'      : ['language_server'],
+            \   'python'    : ['flake8', 'mypy', 'pylint', 'bandit']
+        \}
 
     " Autopairs
+        let g:AutoPairsMapBS=0
+        let g:AutoPairsMapCh=0
+        let g:AutoPairsMapCR=1
+        let g:AutoPairsCenterLine=0
+        let g:AutoPairsMapSpace=1
         let g:AutoPairsFlyMode=0
-        " let g:AutoPairsShortcutBackInsert=Something (default '<M-b>')
-        " There are also shortcuts for toggle autopairs, fast wrap, jump to next
-        " closed pair, and backinsert
+        let g:AutoPairsMultilineClose=0
 
     " Dart
         let g:dart_html_in_string = v:true
-        let g:dart_corelib_highlight = v:false
+        let g:dart_corelib_highlight = v:true
 
     " Indent-Line
         let g:indentLine_char='|'
+
+    " Lsc
+        " let g:lsc_server_commands = {'dart': 'dart_language_server'}
 
     " Netrw
         let g:netrw_banner=0
@@ -174,13 +274,39 @@ endif
             "     autocmd VimEnter * :Vexplore
             " augroup END
 
+    " Nim
+        function! JumpToDef()
+            if exists('*GotoDefinition_' . &filetype)
+                call GotoDefinition_{&filetype}()
+            else
+                exe "norm! \<C-]>"
+            endif
+        endfunction
+
+    " Startify
+        let g:startify_files_number = 15
+        let g:startify_update_oldfiles = 1
+        let g:startify_session_autoload = 0
+        let g:startify_session_persistence = 0
+        " let g:startify_session_delete_buffers = 1
+        let g:startify_change_to_dir = 0
+        " let g:startify_custom_header
+        " let g:startify_custom_footer
+
 " Vim Options
     " System integration settings
-        set clipboard=unnamed
+        set clipboard^=unnamed
         set mouse=nvc
+        if has('mouse_sgr')
+            set ttymouse=sgr
+        else
+            set ttymouse=xterm2
+        end
+        set updatetime=300
     " Text Editor Settings
+        set sessionoptions=blank,curdir,help,options,tabpages,winsize,terminal
         set report=0
-        " set virtualedit
+        set virtualedit=block
         " set whichwrap=b,s,<,>,[,]
         " set winminheight
         " set winminwidth
@@ -194,7 +320,7 @@ endif
         " set ttyscroll
         " set timeout
         " set ttimeout
-        
+
         " set selectmode 'include mouse or something?'
 
         " set matchpairs+=<:> " use % to jump between pairs
@@ -206,7 +332,7 @@ endif
         set ignorecase
         set smartcase
         set wrapscan
-        set gdefault
+        " set gdefault
         set tabstop=4
         set expandtab
         set softtabstop=-1
@@ -214,11 +340,11 @@ endif
         set shiftround
         set backspace=indent,eol,start
         set autoindent
-        set smartindent
+        " set smartindent
         set smarttab
         set foldenable
         set foldmethod=indent
-        set foldlevelstart=5
+        set foldlevelstart=3
         set foldminlines=3
         set wrap
         set linebreak
@@ -255,9 +381,19 @@ endif
         set splitright
         " set infercase
     " Appearance
-        set fillchars=fold:\ ,
-        set listchars+=tab:<->,eol:?
+        " set fillchars=stlnc:_,vert:│,fold:\ ,
+        set fillchars=stl:-,stlnc:-,vert:│,fold:\ ,
+        set fillchars=vert:│,fold:\ ,
+        " hi clear StatusLineNC
+        " hi StatusLineNC ctermfg=23
+        " set listchars=eol:$,tab:‖→,space:·,extends:›,precedes:‹
+        set listchars=tab:«\ »,trail:∙,extends:›,precedes:‹,nbsp:∅
+        set list
+
+            " hi NonText: eol,extends,precedes
+            " hi SpecialKey: nbsp,space,tab,trail
         " set fillchars=stl:^,stlnc:-,fold:''
+
         " set tabline
         " set statusline
         " set foldtext=
@@ -296,32 +432,47 @@ endif
 " augroups
     augroup format_stuff
         autocmd!
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=t
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=c
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=r
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions-=o
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=q
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=j
-        autocmd FileType,BufEnter,BufRead,BufNewFile * set formatoptions+=n
-        " Default when I set this was croql
-        " set formatoptions+=q
+        autocmd FileType * setlocal formatoptions-=t
+        autocmd FileType * setlocal formatoptions-=c
+        autocmd FileType * setlocal formatoptions-=o
+        autocmd FileType * setlocal formatoptions-=a
+        autocmd FileType * setlocal formatoptions+=r
+        autocmd FileType * setlocal formatoptions+=q
+        autocmd FileType * setlocal formatoptions+=j
+        autocmd FileType * setlocal formatoptions+=n
+        autocmd FileType * setlocal formatoptions+=w
+        autocmd FileType * setlocal formatoptions-=2
+        autocmd FileType * setlocal formatoptions-=v
+        autocmd FileType * setlocal formatoptions-=b
+        autocmd FileType * setlocal formatoptions+=l
         " set formatoptions-=2vb
         " set formatoptions+=qwanl
         " Neither?=j
     augroup END
 
-    source ~/myvimfiles/highlight.vim
-    source ~/myvimfiles/status.vim
-    source ~/myvimfiles/foldtext.vim
-    source ~/myvimfiles/tab.vim
+    source ~/mvimfiles/highlight.vim
+    source ~/mvimfiles/status.vim
+    source ~/mvimfiles/foldtext.vim
+    source ~/mvimfiles/tab.vim
 
-    set foldtext=GetFoldText() 
+    augroup SourceVimrc
+        autocmd!
+        autocmd VimEnter,SessionLoadPost * source ~/.vim/vimrc
+    augroup END
+
+    augroup FiletypeStuff
+        autocmd!
+        autocmd Filetype help,qf setlocal nonumber
+    augroup END
+
+    set foldtext=GetFoldText()
     set tabline=%!SetTabLine()
 
     augroup SetStatusLines
         autocmd!
-        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter * call SetStatusLineActive()
-        autocmd Filetype netrw call SetStatusLineActive()
+        " call Filetype,SessionLoadPost,CursorMoved,BufUnload
+        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
+        " autocmd Filetype netrw call SetStatusLineActive()
         autocmd BufLeave,WinLeave * call SetStatusLineInactive()
         " autocmd CmdwinEnter
         " autocmd CmdwinLeave
@@ -329,8 +480,8 @@ endif
 
     augroup SetTabLines
         autocmd!
-        " autocmd WinEnter,BufEnter * call SetTabLine()
-        " autocmd WinLeave,BufLeave * call SetTabLine()
+        autocmd WinEnter,BufEnter * call SetTabLine()
+        autocmd WinLeave,BufLeave * call SetTabLine()
     augroup END
 
     augroup SetNumberColumns
@@ -339,9 +490,56 @@ endif
         autocmd WinLeave * call SetNumberColumnInactive()
     augroup END
 
-" TODO
-    " Separate statusline augroup into two groups. Statuslines should be its own thing. Also do not turn on numbers for help files
+    augroup SetListChars
+        autocmd!
+        autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
+        autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
+        " autocmd OptionSet listchars,virtualedit call
+                    " \ EchoOptionSet('<amatch>', 'v:option_old', 'v:option_new')
+    augroup END
 
+    augroup SetForVirtualReplace
+        autocmd!
+        " autocmd InsertEnter * call SetModeChanges(v:insertmode)
+        " autocmd InsertChange * call SetModeChanges(v:insertmode)
+        " autocmd InsertLeave * call UnsetModeChanges()
+    augroup END
+
+    " augroup SetForVirtualEdit
+    "     autocmd!
+    "     autocmd OptionSet * call SetList(expand('<amatch>'))
+    " augroup END
+
+    fun! EchoOptionSet(name, old, new) abort
+        let l:msg = 'ATTN: Option ' . a:name
+        let l:msg.= ' has been reset from: ' . a:old
+        let l:msg.= ' to: ' . a:new
+        echomsg l:msg
+    endfun
+
+    " fun! SetListCharsVisual() abort
+    "     if mode(1) ==#
+    " endfun
+
+    function! SetModeChanges(mode)
+        if a:mode ==# 'v'
+            setlocal list
+        elseif a:mode =~# 'i\|r'
+            setlocal nolist
+        endif
+    endfunction
+
+    function! UnsetModeChanges()
+        setlocal nolist
+    endfunction
+
+    function! SetList(option)
+        if a:option ==# 'virtualedit'
+            echo 'it worked'
+        endif
+    endfunction
+
+" TODO
     " augroup to set virtualedit when in virtual-replace mode? Maybe also set invisible characters to be seen
         " reference set list, listchars
 
