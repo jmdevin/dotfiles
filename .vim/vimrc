@@ -35,8 +35,8 @@ scriptencoding utf-8
 set runtimepath+=~/zotes/learning/plugin/mpc/
 runtime ftplugin/man.vim
 
-filetype plugin indent on
-syntax on
+" filetype plugin indent on
+" syntax on
 set background=dark
 
 " Cursor Settings
@@ -88,6 +88,8 @@ set background=dark
         " Plug 'tpope/vim-dadbod'
         " Plug 'tpope/vim-repeat'
         " Plug 'tpope/vim-eunuch'
+        " Plug 'tpope/vim-abolish'
+        " Plug 'tpope/vim-tbone'
     " Current
         Plug 'junegunn/vim-plug'
         Plug 'w0rp/ale'
@@ -97,6 +99,10 @@ set background=dark
         Plug 'junegunn/vim-easy-align'
         Plug 'yggdroot/indentline'
     " Probable or Unsure or Toggled
+        " Plug 'junegunn/goyo.vim'
+        " Plug 'google/vim-searchindex'
+        " Plug 'osyo-manga/vim-over'
+        " Plug 'AndrewRadev/splitjoin.vim'
         " Plug 'ervandew/supertab'
         Plug 'tmux-plugins/vim-tmux'            " Filetype plugin
         Plug 'zah/nim.vim'
@@ -106,7 +112,7 @@ set background=dark
         Plug 'vimwiki/vimwiki'
         Plug 'mhinz/vim-startify'
         Plug 'thosakwe/vim-flutter'
-        " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
         " Plug 'junegunn/fzf'
         " Plug 'wincent/command-t'
             " Plug 'scrooloose/nerdcommenter'
@@ -114,6 +120,8 @@ set background=dark
         " Plug 'justinmk/vid-dirvish'
         " Plug 'andymass/vim-matchup'
     " Possible
+        " Plug 'neomake/neomake'
+        " Plug 'skywind3000/asyncrun.vim'
         " Plug 'ajh17/VimCompletesMe'
         " Plug 'rbong/vim-crystalline'
         " Plug 'machakann/vim-sandwich'
@@ -387,7 +395,7 @@ set background=dark
         " hi clear StatusLineNC
         " hi StatusLineNC ctermfg=23
         " set listchars=eol:$,tab:‖→,space:·,extends:›,precedes:‹
-        set listchars=tab:«\ »,trail:∙,extends:›,precedes:‹,nbsp:∅
+        set listchars=tab:‹\ ›,trail:∙,extends:›,precedes:‹,nbsp:∅
         set list
 
             " hi NonText: eol,extends,precedes
@@ -428,6 +436,14 @@ set background=dark
     nnoremap g# g#zz
     " nnoremap j gj
     " nnoremap k gk
+
+    augroup helpfile_navigation
+        autocmd!
+        autocmd Filetype help nnoremap <buffer><nowait> d 
+        autocmd Filetype help nnoremap <buffer><nowait> u 
+        autocmd Filetype help nnoremap <buffer><nowait> e 
+        autocmd Filetype help nnoremap <buffer><nowait> y 
+    augroup END
 
 " augroups
     augroup format_stuff
