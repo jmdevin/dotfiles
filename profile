@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-date >> mystartup.log
+date >> ~/mystartup.log
 echo 'executing ~/.profile' >> ~/mystartup.log
 
 if [ "$(uname)" == "Darwin" ]; then
-    export 'CLICOLOR=1'
+    # TODO: are these only supposed to be used in bash
+    export CLICOLOR=1
+    export LSCOLORS='ExFxCxDxBxEGEDaBaGaCaD'
 fi
 
 export EDITOR='vim'
@@ -19,6 +21,7 @@ export EDITOR='vim'
     # android
         export PATH="$HOME/Library/Android/sdk/emulator/:$PATH"
         export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
+        export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 
     # Java
         JAVA_HOME=$(/usr/libexec/java_home -v 1.8)

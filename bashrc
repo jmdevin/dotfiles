@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-date >> mystartup.log
+date >> ~/mystartup.log
 printf 'executing ~/.bashrc...\n\n' >> ~/mystartup.log
 
 # reminders
@@ -30,8 +30,10 @@ if [ -n "$TMUX" ]; then
     neofetch
 fi
 
-# shellcheck source=.bash_aliases
-source "$HOME/.bash_aliases"
+# if [ -f ~/.bash_aliases ]; then
+#     # shellcheck source=.bash_aliases
+#     source "$HOME/.bash_aliases"
+# fi
 
 # if [ -n "$TMUX" ]; then
 #     neofetch

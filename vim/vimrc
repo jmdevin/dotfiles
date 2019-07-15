@@ -14,6 +14,26 @@ scriptencoding utf-8
     " autocmd to clear matchparen when leaving a window
     " autocmd to remove trail from listchars in insert mode
     " g:netrw_dirhistmax
+    " Formatting
+        " :h :left,:right,:center
+        " :h gq,gqq,gw
+        " :h 30.6
+        " :h insert.txt
+        " :h change.txt
+        " :h formatting
+        " :h format
+        " :h formatoptions
+        " :h formatprg
+        " :h autoindent
+        " :h smartindent
+        " :h autoformat
+        " :h joinspaces
+        " :h 'textwidth'
+        " :h 'comments'
+        " :h cindent
+        " :h indentexpr
+        " :h formatexpr
+        " :h sort
 
 " Notes
     " set keywordprg
@@ -31,6 +51,15 @@ scriptencoding utf-8
     " set highlight+=
     " set formatoptions+=r
     " command-line mode ^F
+    " Changing Indents
+        " :h :retab
+        " :h :tabstop
+        " :h :expandtab
+        " :h :softtabstop
+    " Pasting
+        " :h p,P,gp,gP
+        " :h :put
+        " :h ]p,[p
 
 set runtimepath+=~/zotes/learning/plugin/mpc/
 runtime ftplugin/man.vim
@@ -78,6 +107,7 @@ set background=dark
 " Call Plugins
     call plug#begin('~/.vim/plugged')
     " tpope
+        " Plug 'tpope/vim-sleuth'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-vinegar'
         Plug 'tpope/vim-surround'
@@ -109,7 +139,7 @@ set background=dark
         " Plug 'easymotion/vim-easymotion'
         " Plug 'justinmk/vim-sneak'
         " Plug 'jiangmiao/auto-pairs'
-        Plug 'vimwiki/vimwiki'
+        " Plug 'vimwiki/vimwiki'
         Plug 'mhinz/vim-startify'
         Plug 'thosakwe/vim-flutter'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -257,6 +287,12 @@ set background=dark
         let g:dart_html_in_string = v:true
         let g:dart_corelib_highlight = v:true
 
+    " Flutter
+        " let g:flutter_command = flutter
+        " let g:flutter_hot_reload_on_save = 1
+        " let g:flutter_hot_restart_on_save = 0
+        " let g:flutter_show_log_on_run
+
     " Indent-Line
         let g:indentLine_char='|'
 
@@ -315,10 +351,13 @@ set background=dark
         set sessionoptions=blank,curdir,help,options,tabpages,winsize,terminal
         set report=0
         set virtualedit=block
+        " set highlight+=~:Todo
+        " set highlight+=@:Todo
         " set whichwrap=b,s,<,>,[,]
         " set winminheight
         " set winminwidth
         " set autochdir
+
 
         " set belloff=all
         " set errorbells
@@ -326,8 +365,10 @@ set background=dark
         set t_vb=
         " set ttyfast
         " set ttyscroll
-        " set timeout
-        " set ttimeout
+        set timeout
+        set ttimeout
+        set timeoutlen=3000
+        set ttimeoutlen=100
 
         " set selectmode 'include mouse or something?'
 
@@ -357,8 +398,8 @@ set background=dark
         set wrap
         set linebreak
         set breakindent
-        set breakindentopt=shift:2,sbr
-        set cpoptions+=n
+        set breakindentopt=
+        " set cpoptions+=n
         set showbreak=>>\ 
         set selection=old
         set noshowmode
@@ -422,7 +463,8 @@ set background=dark
                 "           \ '<Bar>diffupdate':''<CR><CR><C-L>
             " endif
     " Completion
-        set completeopt=menuone,preview
+        set completeopt=menuone,preview,noinsert
+        set pumheight=10
         " :h popupmenu-key,wildmenu,ins-completion,ins-completion-menu
 
 " Remappings
@@ -437,12 +479,67 @@ set background=dark
     " nnoremap j gj
     " nnoremap k gk
 
+" Leader mappings
+    " nnoremap <leader>O O<CR><CR><CR><CR><CR><Esc>j
+    let g:mapleader = ';'
+    nnoremap <nowait> , ;
+
+    " Vim mappings
+
+    " Plugin mappings
+        " ALE
+            nnoremap <leader>ai :ALEInfo<CR>
+            nnoremap <leader>ad <Plug>(ale_detail)
+            nnoremap <leader>ah <Plug>(ale_hover)
+            nnoremap <leader>ar <Plug>(ale_find_references)
+
+            nnoremap <leader>agdd <Plug>(ale_go_to_definition)
+            nnoremap <leader>agdt <Plug>(ale_go_to_definition_in_tab)
+            nnoremap <leader>agds <Plug>(ale_go_to_definition_in_split)
+            nnoremap <leader>agdv <Plug>(ale_go_to_definition_in_vsplit)
+
+            nnoremap <leader>agtd <Plug>(ale_go_to_type_definition)
+            nnoremap <leader>agtt <Plug>(ale_go_to_type_definition_in_tab)
+            nnoremap <leader>agts <Plug>(ale_go_to_type_definition_in_split)
+            nnoremap <leader>agtv <Plug>(ale_go_to_type_definition_in_vsplit)
+
+            nnoremap <leader>al <Plug>(ale_lint)
+            nnoremap <leader>af <Plug>(ale_fix)
+
+            nnoremap <leader>aqn <Plug>(ale_next_wrap)
+            nnoremap <leader>aqp <Plug>(ale_previous_wrap)
+            nnoremap <leader>aqf <Plug>(ale_first)
+            nnoremap <leader>aql <Plug>(ale_last)
+        " CoC
+        " EasyAlign
+            nnoremap <leader>ea <Plug>(EasyAlign)
+            xnoremap <leader>ea <Plug>(EasyAlign)
+            nnoremap <leader>el <Plug>(LiveEasyAlign)
+            xnoremap <leader>el <Plug>(LiveEasyAlign)
+        " Flutter
+            nnoremap <leader>fru :FlutterRun<CR>
+            nnoremap <leader>frl :FlutterHotReload<CR>
+            nnoremap <leader>frs :FlutterHotRestart<CR>
+            nnoremap <leader>fq :FlutterQuit<CR>
+
+            nnoremap <leader>fdv :FlutterDevices<CR>
+            nnoremap <leader>fem :FlutterEmulators<CR>
+            nnoremap <leader>fel :FlutterEmulatorsLaunch 
+            nnoremap <leader>fdb :FlutterVisualDebug<CR>
+
+            nnoremap <leader>fs :FlutterSplit<CR>
+            nnoremap <leader>fv :FlutterVSplit<CR>
+            nnoremap <leader>ft :FlutterTab<CR>
+        " Surround
+            " turn S into an operator. In normal mode, I want to do "Siw'"
+            " instead of "viwS'". See :h map-operator
+
     augroup helpfile_navigation
         autocmd!
-        autocmd Filetype help nnoremap <buffer><nowait> d 
-        autocmd Filetype help nnoremap <buffer><nowait> u 
-        autocmd Filetype help nnoremap <buffer><nowait> e 
-        autocmd Filetype help nnoremap <buffer><nowait> y 
+        autocmd Filetype help,man,nofile nnoremap <buffer><nowait> d 
+        autocmd Filetype help,man,nofile nnoremap <buffer><nowait> u 
+        autocmd Filetype help,man,nofile nnoremap <buffer><nowait> e 
+        autocmd Filetype help,man,nofile nnoremap <buffer><nowait> y 
     augroup END
 
 " augroups
@@ -479,6 +576,7 @@ set background=dark
     augroup FiletypeStuff
         autocmd!
         autocmd Filetype help,qf setlocal nonumber
+        autocmd Filetype help,qf,man,startify setlocal nolist
     augroup END
 
     set foldtext=GetFoldText()
@@ -556,6 +654,7 @@ set background=dark
     endfunction
 
 " TODO
-    " augroup to set virtualedit when in virtual-replace mode? Maybe also set invisible characters to be seen
+    " augroup to set virtualedit when in virtual-replace mode? Maybe also set
+    " invisible characters to be seen
         " reference set list, listchars
 

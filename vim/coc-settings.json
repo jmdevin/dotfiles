@@ -1,0 +1,49 @@
+{
+    "languageserver": {
+        "dart": {
+            "command": "~/.pub-cache/bin/dart_language_server",
+            "args": ["--lsp"],
+            "filetypes": ["dart"],
+            "initializationOptions": {
+                "onlyAnalyzeProjectsWithOpenFiles": "true"
+            },
+            "settings": {
+                "dart": {
+                    "validation": {},
+                    "completion": {}
+                }
+            }
+        }
+    },
+    "suggest.detailMaxLength": 100,
+    "suggest.detailField": "preview",
+    "suggest.disableKind": false,
+    "suggest.disableMenu": false,
+    "suggest.completionItemKindLabels": {
+        "keyword": "Q",
+        "variable": "Q",
+        "value": "Q",
+        "operator": "Q",
+        "function": "Q",
+        "reference": "Q",
+        "constant": "Q",
+        "method": "Q",
+        "struct": "Q",
+        "class": "Q",
+        "interface": "Q",
+        "text": "Q",
+        "enum": "Q",
+        "enumMember": "Q",
+        "module": "Q",
+        "color": "Q",
+        "property": "Q",
+        "field": "Q",
+        "unit": "Q",
+        "event": "Q",
+        "file": "Q",
+        "folder": "Q",
+        "snippet": "Q",
+        "typeParameter": "Q",
+        "default": "Q"
+    }
+}
