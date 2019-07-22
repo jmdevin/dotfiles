@@ -13,8 +13,3 @@ if [ -f ~/.bashrc ]; then
     source "$HOME/.bashrc"
 fi
 
-if [ -f ~/.bash_aliases ]; then
-    # shellcheck source=.bash_aliases
-    source "$HOME/.bash_aliases"
-fi
-

@@ -26,14 +26,15 @@ printf 'executing ~/.bashrc...\n\n' >> ~/mystartup.log
 export PS1=' \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$\[\e[m\] '
 # export EDITOR='vim'
 
+# TODO: Run neofetch only when the first terminal of a login shell opens
 if [ -n "$TMUX" ]; then
     neofetch
 fi
 
-# if [ -f ~/.bash_aliases ]; then
-#     # shellcheck source=.bash_aliases
-#     source "$HOME/.bash_aliases"
-# fi
+if [ -f ~/.bash_aliases ]; then
+    # shellcheck source=.bash_aliases
+    source "$HOME/.bash_aliases"
+fi
 
 # if [ -n "$TMUX" ]; then
 #     neofetch
