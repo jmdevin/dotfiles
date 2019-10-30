@@ -1,78 +1,76 @@
 {
-    //"suggest.maxPreviewWidth": 80,
-    //"suggest.labelMaxLength": 80,
-    //"suggest.floatEnable": true,
-    //"suggest.detailMaxLength": 80,
-    //"suggest.detailField": "menu",
-    //"suggest.autoTrigger": "always",
-    //"suggest.languageSourcePriority": 99,
-    //"suggest.numberSelect": false,
-    //"suggest.disableKind": false,
-    //"suggest.disableMenu": false,
-    //"suggest.snippetIndicator": "~",
-    //"suggest.maxCompleteItemCount": 200,
-    //"suggest.preferCompleteThanJumpPlaceholder": false,
+    //"list.source.symbols.defaultOptions": ["--interactive", "--number-select"],
+    "suggest.labelMaxLength": 80,
+    "suggest.detailMaxLength": 80,
+    "suggest.maxCompleteItemCount": 200,
+    "suggest.preferCompleteThanJumpPlaceholder": true,
     "suggest.fixInsertedWord": false,
-    //"suggest.localityBonus": true,
-    //"suggest.triggerAfterInsertEnter": true,
-    "suggest.timeout": 2500,
-    //"suggest.acceptSuggestionOnCommitCharacter": false,
-    //"suggest.keepCompleteopt": false,
-    "suggest.completionItemKindLabels": {
-        "keyword": "key",
-        "variable": "var",
-        "value": "value",
-        "operator": "operator",
-        "function": "func",
-        "reference": "reference",
-        "constant": "constant",
-        "method": "method",
-        "struct": "struct",
-        "class": "class",
-        "interface": "interface",
-        "text": "text",
-        "enum": "enum",
-        "enumMember": "enumMember",
-        "module": "module",
-        "color": "color",
-        "property": "property",
-        "field": "field",
-        "unit": "unit",
-        "event": "event",
-        "file": "file",
-        "folder": "dir",
-        "snippet": "snip",
-        "typeParameter": "typeParam",
-        "default": "default"
-    },
-    "diagnostic.enable": true,
-    "diagnostic.level": "hint",
+    "suggest.localityBonus": false,
+    "coc.source.file.priority": 10,
+    "coc.source.around.priority": 5,
+    "coc.source.buffer.priority": 1,
+    //"suggest.completionItemKindLabels": {
+    //    "keyword": "key",
+    //    "variable": "var",
+    //    "value": "val",
+    //    "operator": "oprtr",
+    //    "function": "func",
+    //    "reference": "ref",
+    //    "constant": "const",
+    //    "method": "methd",
+    //    "struct": "strct",
+    //    "class": "class",
+    //    "interface": "intfc",
+    //    "text": "text",
+    //    "enum": "enum",
+    //    "enumMember": "membr",
+    //    "module": "mdule",
+    //    "color": "color",
+    //    "property": "prop",
+    //    "field": "field",
+    //    "unit": "unit",
+    //    "event": "event",
+    //    "file": "file",
+    //    "folder": "dir",
+    //    "snippet": "snip",
+    //    "typeParameter": "param",
+    //    "default": "deflt"
+    //},
     "diagnostic.checkCurrentLine": true,
-    "diagnostic.messageTarget": "float",
-    //"diagnostic.joinMessageLines": false,
-    //"diagnostic.refreshOnInsertMode": false,
-    //"diagnostic.refreshAfterSave": false,
-    //"diagnostic.displayByAle": false,
-    //"diagnostic.virtualText": false,
     "diagnostic.enableSign": false,
-    "diagnostic.enableMessage": "always",
     "diagnostic.locationlist": false,
-    "diagnostic.maxWindowHeight": 15,
-    "signature.enable": true,
-    "signature.target": "float",
-    "signature.preferShownAbove": true,
-    "signature.hideOnTextChange": false,
-    "signature.maxWindowHeight": 15,
-    "coc.preferences.hoverTarget": "float",
-    //"coc.preferences.colorSupport": true,
-    //"coc.preferences.enableFloatHighlight": true,
-    "languageserver": {
-        "dart": {
-            "command": "dart_language_server",
-            "args": [],
-            "filetypes": ["dart"],
-            "initializationOptions": {},
-            "settings": {}
-        }
-    }
+    "signature.triggerSignatureWait": 200,
+    "coc.preferences.previewAutoClose": false,
+    "coc.preferences.bracketEnterImprove": false,
+    "coc.preferences.snippets.enable": true,
+    //"languageserver": {
+    //    "dart": {
+    //        "command": "dart_language_server",
+    //        "args": [],
+    //        "filetypes": ["dart"],
+    //        "initializationOptions": {},
+    //        "settings": {
+    //            "dart": {
+    //                "validation": {},
+    //                "completion": {}
+    //            }
+    //        }
+    //    }
+    //}
+    //"languageserver": {
+    //    "dart": {
+    //        "command": "dart",
+    //        "args": [
+    //            "/home/john/development/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot",
+    //            "--lsp",
+    //            "--enable-completion-model"
+    //        ],
+    //        "filetypes": ["dart"],
+    //        //"initializationOptions": {
+    //        //    "onlyAnalyzeProjectsWithOpenFiles": false
+    //        //},
+    //        "disableDynamicRegister": true,
+    //        "trace.server": "verbose"
+    //    }
+    //}
 }

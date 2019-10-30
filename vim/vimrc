@@ -1,17 +1,34 @@
 scriptencoding utf-8
 
-set runtimepath+=~/zotes/learning/plugin/mpc/
-runtime ftplugin/man.vim
+" Style
+    " plugin-names-like-this
+    " FunctionNamesLikeThis
+    " CommandNamesLikeThis
+    " augroup_names_like_this
+    " variable_names_like_this
 
-" filetype plugin indent on
-" syntax on
+" install vim-plug if it is not already
+    " if empty(glob('~/.vim/autoload/plug.vim'))
+    "   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    "       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    "   augroup InstallVimPlug
+    "       autocmd!
+    "       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    "   augroup END
+    " endif
+
+" set runtimepath+=~/zotes/learning/plugin/mpc/
+runtime! ftplugin/man.vim
+packadd! matchit
+packadd! cfilter
+
 set background=dark
 
 " Cursor Settings
-    " Set as the following:
-        " &t_SI (Insert mode)       Blinking vertical bar
-        " &t_SR (Replace mode)      Blinking underscore
-        " &t_EI (Normal mode)       Blinking block
+    " This      Means this
+    " &t_SI     Insert mode
+    " &t_SR     Replace mode
+    " &t_EI     Normal mode
 
     if $TERM_PROGRAM =~? 'Apple_Terminal'
         let &t_SI = "\e[5 q"
@@ -21,7 +38,7 @@ set background=dark
         let &t_SI = "\<Esc>]50;CursorShape=1\x7"
         let &t_SR = "\<Esc>]50;CursorShape=2\x7"
         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    elseif $TERM_PROGRAM =~? 'iTerm' || 'xterm' && exists('$TMUX')
+    elseif $TERM_PROGRAM =~? 'iTerm\|xterm' && exists('$TMUX')
         let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
         let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
         let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -35,114 +52,69 @@ set background=dark
         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     endif
 
-    " Mac Terminal ($TERM_PROGRAM =~? 'Apple_Terminal')
-        " 1 -> blinking block
-        " 2 -> solid block
-        " 3 -> blinking underscore
-        " 4 -> solid underscore
-        " 5 -> blinking vertical bar
-        " 6 -> solid vertical bar
-
 call plug#begin('~/.vim/plugged')
-    " tpope
-        " Plug 'tpope/vim-sleuth'
-        Plug 'tpope/vim-endwise'
-        Plug 'tpope/vim-vinegar'
-        Plug 'tpope/vim-surround'
-        " Plug 'tpope/vim-fugitive'
-        Plug 'tpope/vim-unimpaired'
-        Plug 'tpope/vim-commentary'
-        " Plug 'tpope/vim-rsi'
-        " Plug 'tpope/vim-dadbod'
-        " Plug 'tpope/vim-repeat'
-        " Plug 'tpope/vim-eunuch'
-        " Plug 'tpope/vim-abolish'
-        " Plug 'tpope/vim-tbone'
+    " junegunn
+        Plug 'junegunn/vim-plug'
+        Plug 'junegunn/vim-easy-align'
     " romainl
         Plug 'romainl/vim-cool'
         " Plug 'romainl/vim-qf'
-    " Current
-        Plug 'junegunn/vim-plug'
-        Plug 'w0rp/ale'
-        " Plug 'natebosch/vim-lsc'
-        " Plug 'natebosch/vim-lsc-dart'
-        Plug 'dart-lang/dart-vim-plugin'
-        Plug 'junegunn/vim-easy-align'
+    " tpope
+        Plug 'tpope/vim-vinegar'
+        Plug 'tpope/vim-surround'
+        Plug 'tpope/vim-unimpaired'
+        Plug 'tpope/vim-commentary'
+        Plug 'tpope/vim-repeat'
+        " Plug 'tpope/vim-fugitive'
+        " Plug 'tpope/vim-abolish'
+    " Appearance
         Plug 'yggdroot/indentline'
-    " Probable or Unsure or Toggled
-        " Plug 'junegunn/goyo.vim'
-        " Plug 'google/vim-searchindex'
-        " Plug 'osyo-manga/vim-over'
-        " Plug 'AndrewRadev/splitjoin.vim'
-        " Plug 'ervandew/supertab'
-        Plug 'tmux-plugins/vim-tmux'            " Filetype plugin
-        Plug 'zah/nim.vim'
-        " Plug 'easymotion/vim-easymotion'
-        " Plug 'justinmk/vim-sneak'
-        " Plug 'jiangmiao/auto-pairs'
-        " Plug 'vimwiki/vimwiki'
-        Plug 'mhinz/vim-startify'
-        Plug 'thosakwe/vim-flutter'
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
-        " Plug 'junegunn/fzf'
-        " Plug 'wincent/command-t'
-            " Plug 'scrooloose/nerdcommenter'
-            " Plug 'tomtom/tcomment_vim'
-        " Plug 'justinmk/vid-dirvish'
-        " Plug 'andymass/vim-matchup'
-    " Possible
-        " Plug 'neomake/neomake'
-        " Plug 'skywind3000/asyncrun.vim'
-        " Plug 'ajh17/VimCompletesMe'
-        " Plug 'rbong/vim-crystalline'
-        " Plug 'machakann/vim-sandwich'
-        " Plug 'wellle/targets.vim"
-        " Plug 'mbbill/undotree'
-            " Undo history visualizer
-        " Plug 'markonm/traces.vim'
+        " Plug 'majutsushi/tagbar'
         " Plug 'airblade/vim-gitgutter'
         " Plug 'mhinz/vim-signify'
-        " Plug 'purcell/sqlint'
-            " Only Supports PostgreSQL syntax right now
-        " Plug 'jackc/sqlfmt'
-            " Not sure, maybe it's good?
-        " Plug 'bling/vim-bufferline'
-        " Plug 'python-mode/python-mode'
-        " Plug 'ctrlpvim/ctrlp.vim'
-        " Plug 'christoomey/vim-tmux-navigator'
-        " Plug 'ryanoasis/vim-devicons'
-        " Plug 'edkolev/tmuxline.vim'
-        " Plug 'svermeulen/vim-yoink'
-        " Plug 'svermeulen/vim-subversive'
-        " Plug 'majutsushi/tagbar'
-        " Plug 'xolox/vim-easytags'
+    " Editing
+        " Plug 'osyo-manga/vim-over'
+        " Plug 'markonm/traces.vim'
+        " Plug 'haya14busa/incsearch.vim'
         " Plug 'AndrewRadev/splitjoin.vim'
-        " Plug 'guns/vim-sexp'
+        " Plug 'jiangmiao/auto-pairs'
+        " Plug 'tomtom/tcomment_vim'
+        " Plug 'andymass/vim-matchup'
+        " Plug 'svermeulen/vim-subversive'
+    " Linting/completion
+        Plug 'dense-analysis/ale'
+        if executable('node') || executable('npm')
+            Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        endif
+        " Plug 'natebosch/vim-lsc'
+        " Plug 'natebosch/vim-lsc-dart'
+    " Language/framework/filetype
+        Plug 'dart-lang/dart-vim-plugin'
+        Plug 'thosakwe/vim-flutter'
+        Plug 'tmux-plugins/vim-tmux'
+        " Plug 'python-mode/python-mode'
+    " Other
+        " Plug 'xolox/vim-easytags'
         " Plug 'jlanzarotta/bufexplorer'
-        " Plug 'garbas/vim-snipmate'
     " Colorschemes
-        " Using industry
-        " Plug 'NLKNguyen/papercolor-theme'
-        "     " papercolor
+        " Actually might use
         Plug 'romainl/Apprentice'
+        Plug 'nanotech/jellybeans.vim'
         Plug 'aonemd/kuroi.vim'
         Plug 'dikiaap/minimalist'
-        " Plug 'challenger-deep-theme/vim'
-        "     " challenger_deep
-        " Plug 'rakr/vim-two-firewatch'
-        "     " two-firewatch
-        Plug 'nanotech/jellybeans.vim'
-        " Plug 'kristijanhusak/vim-hybrid-material'
-        " Plug 'altercation/vim-colors-solarized'
+        Plug 'NLKNguyen/papercolor-theme' " Papercolor
+        " Probably not
+        Plug 'challenger-deep-theme/vim' " challenger_deep
+        Plug 'rakr/vim-two-firewatch' " two-firewatch
+        Plug 'kristijanhusak/vim-hybrid-material'
+        Plug 'altercation/vim-colors-solarized'
         Plug 'chriskempson/base16-vim'
-        " Plug 'nightsense/cosmic_latte'
-        "     " cosmic_latte
-        "     " Very nice
-        " Plug 'flrnprz/candid.vim'
-        " Plug 'flrnprz/plastic.vim'
-        " Plug 'liuchengxu/space-vim-theme'
-        " Plug 'sainnhe/vim-color-forest-night'
-        " Plug 'caksoylar/vim-mysticaltutor'
+        Plug 'nightsense/cosmic_latte' " cosmic_latte
+        Plug 'flrnprz/candid.vim'
+        Plug 'flrnprz/plastic.vim'
+        Plug 'liuchengxu/space-vim-theme'
+        Plug 'sainnhe/vim-color-forest-night'
+        Plug 'caksoylar/vim-mysticaltutor'
 call plug#end()
 
 " Plugin Settings
@@ -153,61 +125,14 @@ call plug#end()
             " install mypu with 'python -m pip install -U mypy'
             " install bandit with 'pip install bandit'
             " install autopep8 with 'pip install --upgrade autopep8'
-        " let g:ale_change_sign_column_color
-        " let g:ale_close_preview_on_insert = 0
-        " let g:ale_completion_delay
-        " let g:ale_completion_enabled = 0
-        " let g:ale_completion_max_suggestions = 50
-        " let g:ale_cursor_detail = 0
-        " let g:ale_disable_lsp = 0
 
-        " let g:ale_echo_cursor = 1
         let g:ale_echo_delay = 50
-        " let g:ale_echo_msg_error_str = 'Error'
         let g:ale_echo_msg_format = '[%severity%] %code: %%s [%linter%]'
-        " let g:ale_enabled = 1
-        " let g:ale_fix_on_save = 0
+        let g:ale_fix_on_save = 1
         let g:ale_keep_list_window_open = 1
         let g:ale_list_window_size = 5
-        " let g:ale_lint_delay = 200
-        " let g:ale_lint_on_enter = 1
-        " let g:ale_lint_on_filetype_changed = 1
-        " let g:ale_lint_on_save = 1
-        " let g:ale_lint_on_text_changed = 'normal'
-        let g:ale_lint_on_insert_leave = 1
-        " let g:ale_linter_aliases
-        " let g:ale_linters_explicit = 0
-        " let g:ale_linters_ignore
-        " let g:ale_list_vertical
         let g:ale_loclist_msg_format = '[%severity%] %code: %%s [%linter%]'
-        " g:ale_lsp_root
-        " let g:ale_max_sings = -1
-        " let g:ale_open_list = 0
-        " let g:ale_set_balloons = 1
-        " let g:ale_set_balloons_legacy_echo = 1
-        let g:ale_set_highlights = 0
-        " let g:ale_set_loclist = 1
-        " let g:ale_set_quickfix = 0
-        " let g:ale_set_signs = 1
-        " Sign column signs
-            let g:ale_sign_error = '>>'
-            let g:ale_sign_warning = '>>'
-            let g:ale_sign_info = '>>'
-            let g:ale_sign_style_error = '>>'
-            let g:ale_sign_style_warning = '>>'
-        " g:ale_shell
-        " g:ale_shell_arguments
-        let g:ale_sign_column_always = 1
-        " g:ale_update_tagstack = 1
-        " let g:ale_type_map = 
-        " g:ale_use_global_executables
-        let g:ale_virtualtext_cursor = 1
-        " let g:ale_virtualtext_delay = 10
-        " g:ale_virtualtext_prefix = '> '
-        " g:ale_virtualenv_dir_names
-        " let g:ale_warn_about_trailing_blank_lines = 1
-        " let g:ale_warn_about_trailing_whitespace = 1
-        " g:ale_windows_node_executable_path
+        let g:ale_set_signs = 0
 
         let g:ale_fixers = {
             \   'dart'      : ['dartfmt'],
@@ -219,47 +144,72 @@ call plug#end()
             \   'python'    : ['flake8', 'mypy', 'pylint', 'bandit']
         \}
 
-    " Autopairs
-        " let g:AutoPairsMapBS=0
-        " let g:AutoPairsMapCh=0
-        " let g:AutoPairsMapCR=1
-        " let g:AutoPairsCenterLine=0
-        " let g:AutoPairsMapSpace=1
-        " let g:AutoPairsFlyMode=0
-        " let g:AutoPairsMultilineClose=0
+    " Coc
+        " Use this for autocmd mappings
+            let s:coc_filetypes = [
+                \ 'dart',
+            \ ]
+
 
     " Cool
         let g:CoolTotalMatches = 1
 
     " Dart
+        " TODO: fix issues with dart plugin
+            " sets indentexpr and cindent. expr overrides cindent anyway
+            " use of cindent() seems to mess up. Check vs indent() and with
+            " tabs and spaces
+            " indentexpr defaulting to cindent seems to cause problems. It
+            " returned a four-space indent when I tried it on this code at 
+            " line ten (it returns 8 instead of 6) and line 13 (it returns 12
+            " instead of 10). It also failed to work after running dartfmt. I
+            " think the cinoptions set in the dart plugin might be off. (2s 
+            " does not seem right. Same for u1s:
+
+                " import 'package:flutter/material.dart';
+
+                " void main() => runApp(MyApp());
+
+                " class MyApp extends StatelessWidget {
+
+                "     @override
+                "     Widget build(BuildContext context) {
+                "         return MaterialApp(
+                "         home: Scaffold(
+                "             appBar: AppBar(),
+                "             body: Center(
+                "             child: Text('Hello World'),
+                "             ),
+                "         ),
+                "         );
+                "     }
+                " }
+
         let g:dart_html_in_string = v:true
-        let g:dart_corelib_highlight = v:true
+        let g:dart_style_guide = 2
 
     " Flutter
-        " let g:flutter_command = flutter
-        " let g:flutter_hot_reload_on_save = 1
-        " let g:flutter_hot_restart_on_save = 0
-        " let g:flutter_show_log_on_run
+        let s:flutter_filetypes = [
+            \ 'dart',
+            \ 'yaml',
+        \ ]
 
     " Indentline
-        " let g:indentLine_char='|'
-        " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-        let g:indentLine_char_list = [' ', '|']
-        " let g:indentLine_char_list = []
-        " let g:indentLine_setColors = 1
-        " let g:indentLine_first_char
+        " TODO: set indentLine to use the final character of char_list for all
+        " remaining indent levels on that line
+        " https://github.com/Yggdroot/indentLine/blob/47648734706fb2cd0e4d4350f12157d1e5f4c465/after/plugin/indentLine.vim
+        " let g:indentLine_char = '|'
+        let g:indentLine_char_list = [' ', '|', ' ', '¦', ' ', '┊', ' ', '┊',
+            \ ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊',
+        \]
         let g:indentLine_indentLevel = 20
-        let g:indentLine_showFirstIndentLevel = 0
-        " let g:indentLinefileType = []
-        let g:indentLine_fileTypeExclude = ['help', 'startify', 'quickfix', 'text', ]
+        let g:indentLine_fileTypeExclude = ['help', 'quickfix', 'text', ]
         let g:indentLine_bufTypeExclude = ['help', 'quickfix',]
         " let g:indentLine_bufNameExclude = []
-        " let g:indentLine_setConceal = 1
-        let g:indentLine_concealcursor = ''
-        " let g:vim_json_syntax_conceal = 0
 
     " Lsc
         " let g:lsc_server_commands = {'dart': 'dart_language_server'}
+        " let g:lsc_auto_map = v:true
 
     " Netrw
         " let g:netrw_altfile
@@ -283,302 +233,495 @@ call plug#end()
             "     autocmd VimEnter * :Vexplore
             " augroup END
 
-    " Nim
-        function! JumpToDef()
-            if exists('*GotoDefinition_' . &filetype)
-                call GotoDefinition_{&filetype}()
-            else
-                exe "norm! \<C-]>"
-            endif
-        endfunction
-
-    " Startify
-        let g:startify_files_number = 15
-        let g:startify_update_oldfiles = 1
-        let g:startify_session_autoload = 0
-        let g:startify_session_persistence = 0
-        " let g:startify_session_delete_buffers = 1
-        let g:startify_change_to_dir = 0
-        " let g:startify_custom_header
-        " let g:startify_custom_footer
+    " Tmux
+        " TODO: tmux plugin's indent file, line 41 should probably just return 
+        " -1 instead of 0
 
 " Vim Options
-
-    " cpoptions
-
-    " Disable flashing/beeping
-        set visualbell
-        set t_vb=
-
-    " Formatting and typing
-        set autoindent
-        set backspace=indent,eol,start
-        " :h :left,:right,:center
-        " :h gq,gqq,gw
-        " :h 30.6
-        " :h insert.txt
-        " :h change.txt
-        " :h formatting
-        " :h format
-        " :h formatoptions
-        " :h formatprg
-        " :h autoindent
-        " :h smartindent
-        " :h autoformat
-        " :h joinspaces
-        " :h 'textwidth'
-        " :h 'comments'
-        " :h cindent
-        " :h indentexpr
-        " :h formatexpr
-        " :h sort
-
-    " Other
-        set autoread
-
     " System integration settings
         set clipboard^=unnamed
-        set mouse=nvc
         if has('mouse_sgr')
             set ttymouse=sgr
         else
             set ttymouse=xterm2
         end
-        set updatetime=300
-    " Text Editor Settings
-        set sessionoptions=blank,curdir,help,options,tabpages,winsize,terminal
-        set report=0
-        set virtualedit=block
-        " set highlight+=~:Todo
-        " set highlight+=@:Todo
-        " set whichwrap=b,s,<,>,[,]
-        " set winminheight
-        " set winminwidth
-        " set autochdir
+        set updatetime=2000
 
-        " set ttyfast
-        " set ttyscroll
-        set timeout
-        set ttimeout
-        set timeoutlen=3000
-        set ttimeoutlen=100
+    " Mouse settings
+        set mouse=nvc
 
-        " set selectmode 'include mouse or something?'
+    " Disable flashing/beeping
+        set belloff=all
+        set noerrorbells
 
-        " set matchpairs+=<:> " use % to jump between pairs
-        " runtime! macros/matchit.vim
+    " Text-editing settings
+        " cpoptions (aABceFs default)
 
-        set display=lastline
-        set incsearch
-        set hlsearch
-        set ignorecase
-        set smartcase
-        set wrapscan
-        " set gdefault
-        set tabstop=4
-        set expandtab
-        set softtabstop=-1
-        set shiftwidth=0
-        set shiftround
-        " set backspace=indent,eol,start
-        " set autoindent
-        " set smartindent
-        set smarttab
-        set foldenable
-        set foldmethod=indent
-        set foldlevelstart=3
-        set foldminlines=3
-        set wrap
-        set linebreak
-        set breakindent
-        set breakindentopt=
-        " set cpoptions+=n
-        set showbreak=>>\ 
-        set selection=old
-        set noshowmode
-        set showcmd
-        set number
-        set wildmenu
-        set scrolloff=3
-        set sidescroll=1
-        set sidescrolloff=3
-        set noequalalways
-        " set eadirection=both
-        " set winheight
-        " set winminheight
-        " set winfixheight
-        " set winfixwidth
-        " set winwidth
-        " set winminwidth
-        " set autoread
-        set cmdheight=2
-        set cmdwinheight=12
-        set laststatus=2
-        set showtabline=2
-        set winminheight=0
-        " set winminwidth=0
-        set splitbelow
-        set splitright
-        " set infercase
-    " Appearance
-        " set fillchars=stlnc:_,vert:│,fold:\ ,
-        " set fillchars=stl:-,stlnc:-,vert:│,fold:\ ,
-        set fillchars=vert:│,fold:\ ,
-        " hi clear StatusLineNC
-        " hi StatusLineNC ctermfg=23
-        " set listchars=eol:$,tab:‖→,space:·,extends:›,precedes:‹
-        set listchars=tab:‹\ ›,trail:∙,extends:›,precedes:‹,nbsp:∅
-        " set list
+        " formatoptions (tcq default)
+            set formatoptions-=t
+            set formatoptions+=r
+            " set formatoptions+=w
+            " set formatoptions+=a
+            " set formatoptions+=n
+            set formatoptions+=j
 
-            " hi NonText: eol,extends,precedes
-            " hi SpecialKey: nbsp,space,tab,trail
-        " set fillchars=stl:^,stlnc:-,fold:''
+        " Formatting and typing
+            set autoindent
+            set backspace=indent,eol,start
+            set nojoinspaces
 
-        " set tabline
-        " set statusline
-        " set foldtext=
-    " tpope's sensible
-        " set ttimeout
-        " set ttimeoutlen=100
-        " set complete-=i
-        " set nrformats-=octal
-        " set display+=lastline
-        " set formatoptions+=j
-        " set sessionoptions-=options
-        " also the matchit thing
-        " also the tags thing
-        " also the set viminfo thing
-        " Use <C-L> to clear the highlighting of :set hlsearch.
-            " if maparg('<C-L>', 'n') ==# ''
-                " nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?
-                "           \ '<Bar>diffupdate':''<CR><CR><C-L>
-            " endif
-    " Completion
-        " set completeopt=menuone,preview,noinsert
-        set completeopt=noselect,menuone
-        set pumheight=8
-        " :h popupmenu-key,wildmenu,ins-completion,ins-completion-menu
+        " Tab/indent settings
+            set tabstop=4
+            set expandtab
+            set softtabstop=-1
+            set shiftwidth=0
+            set shiftround
+            set smarttab
 
-" Remappings
-    " :nmap <Leader>ss <Plug>VimwikiSplitLink
-    " :nmap <Leader>vv <Plug>VimwikiVSplitLink
-    nnoremap n nzz
-    nnoremap N Nzz
-    nnoremap * *zz
-    nnoremap # #zz
-    nnoremap g* g*zz
-    nnoremap g# g#zz
-    " nnoremap j gj
-    " nnoremap k gk
+        " Completion settings
+            set completeopt=menuone,popup,noinsert,noselect
 
-    inoremap <silent><expr> <TAB> pumvisible() ? coc#_select_confirm() : "\<TAB>"
+    " Editor Settings
+        " Search options
+            set ignorecase
+            set smartcase
+            set wrapscan
 
-" Leader mappings
-    " nnoremap <leader>O O<CR><CR><CR><CR><CR><Esc>j
-    let g:mapleader = ','
-    " nnoremap <nowait> , ;
+        " Folding
+            set foldenable
+            set foldmethod=indent
+            set foldlevelstart=99
+            set foldminlines=3
 
-    " Vim mappings
+        " Wrapping
+            set wrap
+            set linebreak
+            set breakindent
+            set breakindentopt=
+            set showbreak=>>\ 
+
+        " Scrolling behavior
+            set scrolloff=3
+            set sidescroll=1
+            set sidescrolloff=3
+
+        " Sessions and views
+            set sessionoptions=blank,curdir,help,resize,tabpages,winpos,winsize
+            set sessionoptions+=winsize
+            set viewoptions-=options
+
+        " Window settings
+            set previewpopup=height:12,width:60,highlight:Pmenu
+            set noequalalways
+            set cmdheight=2
+            set cmdwinheight=12
+            set laststatus=2
+            set showtabline=2
+            set winminheight=0
+            set winminwidth=0
+            set splitbelow
+            set splitright
+            set fillchars=vert:│,fold:\ ,
+            set listchars=tab:‹\ ›,trail:∙,extends:›,precedes:‹,nbsp:∅
+            set pumheight=8
+
+        " Mappings timeout
+            set timeout
+            set ttimeout
+            set timeoutlen=3000
+            set ttimeoutlen=100
+            " TODO: check this vs matchit vs matchup
+            " set matchpairs+=<:> " use % to jump between pairs
+
+        " Display options
+            set report=0
+            set display=lastline
+            set incsearch
+            set hlsearch
+            set noshowmode
+            set showcmd
+            set shortmess-=f
+            set shortmess-=l
+            set shortmess-=n
+            set shortmess-=x
+            set shortmess-=O
+            set shortmess-=t
+            set shortmess-=T
+            set shortmess+=c
+            set shortmess-=S
+
+        " Other
+            set virtualedit=block
+            set selection=old
+            set wildmenu
+            set autoread
+            set nrformats-=octal
+            set history=1000
+            set tabpagemax=50
+            set viminfo='50,<1000
+
+" Commands
+    command! Mvim edit $MYVIMRC
+    command! Svim split $MYVIMRC
+    command! Vvim vsplit $MYVIMRC
+
+    command! StyleVim echo s:vim_style_names
+    " command! StyleDart echo s:dart_style_names
+    " command! Style (takes an argument here, gets list of style to echo from
+    " a dictionary of styles
+
+    " command to set window to height of its lines
+    " command to set window to width of its columns
+    " command to switch to window N
+    " command to switch this window's buffer with another
+
+    let s:vim_style_names = "plugin-names-like-this
+        \ \nFunctionNamesLikeThis
+        \ \nCommandNamesLikeThis
+        \ \naugroup_names_like_this
+        \ \nvariable_names_like_this"
+
+    " TODO: create a buffer where you can write vimscript and execute it 
+    " easily. See :h scratch for the buffer settings to use
+    " command! Scratch call OpenVimScratch()
+    " TODO: write a vertical scratch
+    " command! Vscratch call OpenVimScratch(1)
+
+    " function! OpenVimScratch() abort
+        " if a:arg is 0, new, else vnew
+        " if 'vim scratch' already exists, switch to it. Or still open a split
+        " and switch to it
+        " new
+        " file [vim scratch]
+        " setlocal buftype=nofile
+        " setlocal nobuflisted
+        " setlocal filetype=vim
+        " setlocal bufhidden=hide
+        " setlocal noswapfile
+    " endfunction
+
+" Mappings
+    " Leader mappings
+        nmap <Space> <leader>
+        xmap <Space> <leader>
+
+    " Vim default remappings
+        " TODO: remap square brackets to find nearest unmatched brackets
+        nnoremap [[ ?{<CR>w99[{
+        nnoremap ][ /}<CR>b99]}
+        nnoremap ]] j0[[%/{<CR>
+        nnoremap [] k$][%?}<CR>
+
+        nnoremap Y y$
+
+        xnoremap > >gv
+        xnoremap < <gv
+
+        " TODO: remap ;<cr> to add a semicolon to the end of the line and then
+        " press enter
+
+        " TODO: remap <cr><cr> to go to end of line and enter
+
+        " TODO: maybe remap ',",),],} to <right arrow> if that character is
+        " already to the right of the cursor? GetCursorChar() gets that
+        " character
+
+        " TODO: map auto-closing or find one to use
+
+        " TODO: remap brackets to move to indent levels?
+            " [[ move to beginning of current or previous (higher or lower,
+            " either one) indent
+            " [] move to end of previous indent
+            " ]] move to end of current or following indent
+            " ][ move to beginning of following indent
+
+            " next unmatched bracket
+            " prev unmatched bracket
+
+            " start of current indent
+            " end of current indent
+            " start of prev indent
+            " end of prev indent " line before current indent
+            " start of next indent " line after current indent
+            " end of next indent
+
+        " TODO: remap c and d to not affect yank history. Maybe have yd or dy
+        " yank a whole line and delete it? d<motion> could delete into empty
+        " register and yd<motion> could delete but with the deleted text
+        " yanked. Same for c<motion> and yc<motion>.
+
+        " Remap arrow keys? To :cnext, :lnext
+
+        let s:pairs = ['.', ':', ',', ';', '<bar>', '/', '<bslash>', '*',]
+        for s:key in s:pairs
+            execute 'nnoremap ci' . s:key . ' T' . s:key . 'ct' . s:key
+            execute 'nnoremap di' . s:key . ' T' . s:key . 'dt' . s:key
+            execute 'nnoremap yi' . s:key . ' T' . s:key . 'yt' . s:key
+            execute 'nnoremap vi' . s:key . ' T' . s:key . 'vt' . s:key
+            execute 'nnoremap ca' . s:key . ' F' . s:key . 'cf' . s:key
+            execute 'nnoremap da' . s:key . ' F' . s:key . 'df' . s:key
+            execute 'nnoremap ya' . s:key . ' F' . s:key . 'yf' . s:key
+            execute 'nnoremap va' . s:key . ' F' . s:key . 'vf' . s:key
+        endfor
+
+        augroup helpfile_navigation
+            autocmd!
+            " It seems there is no terminal filetype set
+            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> d <c-d>
+            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> u <c-u>
+            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> e <c-e>
+            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> y <c-y>
+        augroup END
+
+    " Basic editor mappings
+        inoremap (;<CR> (<CR>);<C-c>O
+        inoremap (,<CR> (<CR>),<C-c>O
+        inoremap (<Space><CR> (<CR>)<C-c>O
+
+        inoremap {;<CR> {<CR>};<C-c>O
+        inoremap {,<CR> {<CR>},<C-c>O
+        inoremap {<Space><CR> {<CR>}<C-c>O
+
+        inoremap [;<CR> [<CR>];<C-c>O
+        inoremap [,<CR> [<CR>],<C-c>O
+        inoremap [<Space><CR> [<CR>]<C-c>O
+
+        inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+        " inoremap <expr> ;<CR> pumvisible() ? "\<C-y>;<CR>" : ";\<CR>"
+
+    " Text-object mappings
+        " Line
+            " Inner line
+            xnoremap <silent> il :<c-u>normal! g_v^<cr>
+            onoremap <silent> il :<c-u>normal! g_v^<cr>
+
+            " All line
+            xnoremap <silent> al :<c-u>normal! $v0<cr>
+            onoremap <silent> al :<c-u>normal! $v0<cr>
+
+            " In indent
+            nnoremap <silent> vii :call SelectInnerIndent()<cr>
+
+        " Indent
+            function! SelectInnerIndent() abort
+                let l:start = FindStartOfIndent()
+                let l:end = FindEndOfIndent()
+
+                execute 'normal! ' . l:start . 'GV' . l:end . 'G'
+            endfunction
+
+            function! FindEndOfPreviousIndent() abort
+                let l:indent = indent('.')
+
+                for l:x in range(line('.') - 1, 1, -1)
+                    let l:xindent = indent(l:x)
+                    let l:blank = getline(l:x) =~# '^\s*$'
+
+                    if l:xindent < l:indent && !l:blank
+                        return l:x
+                    endif
+                endfor
+            endfunction
+
+            function! FindStartOfIndent() abort
+                let l:indent = indent('.')
+
+                for l:x in range(line('.') - 1, 1, -1)
+                    let l:xindent = indent(l:x)
+                    let l:blank = getline(l:x) =~# '^\s*$'
+
+                    if l:xindent < l:indent && !l:blank
+                        return l:x + 1
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! FindStartOfIndentContiguous() abort
+                let l:indent = indent('.')
+
+                for l:x in range(line('.') - 1, 1, -1)
+                    let l:xindent = indent(l:x)
+                    let l:blank = getline(l:x) =~# '^\s*$'
+
+                    if l:xindent != l:indent || l:blank
+                        return l:x + 1
+                    endif
+                endfor
+            endfunction
+
+            function! FindEndOfIndentContiguous() abort
+            endfunction
+
+            function! FindEndOfIndent() abort
+                let l:indent = indent('.')
+
+                for l:x in range(line('.') + 1, line('$'))
+                    let l:xindent = indent(l:x)
+                    let l:blank = getline(l:x) =~# '^\s*$'
+
+                    if l:xindent < l:indent && !l:blank
+                        return l:x - 1
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! FindStartOfNextIndent() abort
+            endfunction
+
+    " Complex/function mappings
+        " TODO: Turn this into a better function so it can just be one mapping
+        " nnoremap gs) a<BS><CR>)<ESC>O
+        " nnoremap gs] a<BS><CR>]<ESC>O
+        " nnoremap gs} a<BS><CR>}<ESC>O
+        nnoremap gs :call <SID>SplitBlock()<CR>O
 
     " Plugin mappings
         " ALE
-            nnoremap <leader>ai :ALEInfo<CR>
-            nmap <leader>ad <Plug>(ale_detail)
-            nmap <leader>ah <Plug>(ale_hover)
-            nmap <leader>ar <Plug>(ale_find_references)
+            augroup set_ale_mappings
+                autocmd!
+                autocmd! Filetype * call SetALEMappings(expand('<amatch>'))
+            augroup END
 
-            nmap <leader>agdd <Plug>(ale_go_to_definition)
-            nmap <leader>agdt <Plug>(ale_go_to_definition_in_tab)
-            nmap <leader>agds <Plug>(ale_go_to_definition_in_split)
-            nmap <leader>agdv <Plug>(ale_go_to_definition_in_vsplit)
+            function! SetALEMappings(filetype) abort
+                if exists(':ALEInfo') == 2 && (len(ale#linter#Get(a:filetype)) > 0)
+                    " nmap <buffer> <leader>ad <Plug>(ale_detail)
+                    " nmap <buffer> <leader>ah <Plug>(ale_hover)
+                    nmap <buffer> <leader>aqn <Plug>(ale_next_wrap)
+                    nmap <buffer> <leader>aqp <Plug>(ale_previous_wrap)
+                    nmap <buffer> <leader>aqf <Plug>(ale_first)
+                    nmap <buffer> <leader>aql <Plug>(ale_last)
+                endif
+            endfunction
 
-            nmap <leader>agtd <Plug>(ale_go_to_type_definition)
-            nmap <leader>agtt <Plug>(ale_go_to_type_definition_in_tab)
-            nmap <leader>agts <Plug>(ale_go_to_type_definition_in_split)
-            nmap <leader>agtv <Plug>(ale_go_to_type_definition_in_vsplit)
+        " Coc
+            inoremap <silent><expr> <TAB> exists(':CocInfo') == 2 ? 
+                \ pumvisible() ? coc#_select_confirm() : "\<TAB>" : "\<TAB>"
 
-            nmap <leader>al <Plug>(ale_lint)
-            nmap <leader>af <Plug>(ale_fix)
+            inoremap <silent><expr> <TAB>
+                \ exists(':CocInfo') == 2 ? pumvisible() ? coc#_select_confirm()
+                \ : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request(
+                \ 'doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<TAB>" : "\<TAB>"
+                
+                " coc#refresh() triggers completion
+                " <SID>check_back_space() ? "\<TAB>" : coc#refresh() : "\<TAB>"
 
-            nmap <leader>aqn <Plug>(ale_next_wrap)
-            nmap <leader>aqp <Plug>(ale_previous_wrap)
-            nmap <leader>aqf <Plug>(ale_first)
-            nmap <leader>aql <Plug>(ale_last)
-        " CoC
+            function! s:check_back_space() abort
+              let l:col = col('.') - 1
+              return !l:col || getline('.')[l:col - 1]  =~# '\s'
+            endfunction
+
+            augroup set_coc_mappings
+                autocmd!
+                autocmd! Filetype * call SetCocMappings(expand('<amatch>'))
+            augroup END
+
+            function! SetCocMappings(filetype) abort
+                if exists(':CocInfo') == 2 && index(s:coc_filetypes, a:filetype, '', v:true) != -1
+                    nnoremap <buffer><expr><leader>cs CocActionAsync('showSignatureHelp')
+                    nnoremap <buffer><expr><leader>ch CocActionAsync('doHover')
+
+                    nmap <buffer><leader>ca v<Plug>(coc-codeaction-selected)
+                    xmap <buffer><leader>ca <Plug>(coc-codeaction-selected)
+
+                    nmap <buffer><leader>crn <Plug>(coc-rename)
+
+                    nmap <buffer><leader>cqi <Plug>(coc-diagnostic-info)
+                    nmap <buffer><leader>cqn <Plug>(coc-diagnostic-next)
+                    nmap <buffer><leader>cqp <Plug>(coc-diagnostic-prev)
+                endif
+            endfunction
+
         " EasyAlign
-            nmap <leader>ea <Plug>(EasyAlign)
-            xmap <leader>ea <Plug>(EasyAlign)
-            nmap <leader>el <Plug>(LiveEasyAlign)
-            xmap <leader>el <Plug>(LiveEasyAlign)
+            augroup set_easyalign_mappings
+                autocmd!
+                autocmd VimEnter * call SetEasyAlignMappings()
+            augroup END
+
+            function! SetEasyAlignMappings() abort
+                if exists(':EasyAlign') == 2
+                    nmap <leader>ea <Plug>(EasyAlign)
+                    xmap <leader>ea <Plug>(EasyAlign)
+                    " xmap <CR> <Plug>(EasyAlign)
+                    nmap <leader>el <Plug>(LiveEasyAlign)
+                    xmap <leader>el <Plug>(LiveEasyAlign)
+                endif
+            endfunction
+
         " Flutter
-            nnoremap <leader>fru :FlutterRun<CR>
-            nnoremap <leader>frl :FlutterHotReload<CR>
-            nnoremap <leader>frs :FlutterHotRestart<CR>
-            nnoremap <leader>fq :FlutterQuit<CR>
+            augroup set_flutter_mappings
+                autocmd!
+                autocmd Filetype * call SetFlutterMappings(expand('<amatch>'))
+            augroup END
 
-            nnoremap <leader>fdv :FlutterDevices<CR>
-            nnoremap <leader>fem :FlutterEmulators<CR>
-            nnoremap <leader>fel :FlutterEmulatorsLaunch 
-            nnoremap <leader>fdb :FlutterVisualDebug<CR>
+            function! SetFlutterMappings(filetype) abort
+                if exists(':FlutterRun') == 2 && index(s:flutter_filetypes, a:filetype, '', v:true) != -1
+                    nnoremap <buffer><leader>frl :FlutterHotReload
+                    nnoremap <buffer><leader>frs :FlutterHotRestart
+                    nnoremap <buffer><leader>fvd :FlutterVisualDebug
+                endif
+            endfunction
 
-            nnoremap <leader>fs :FlutterSplit<CR>
-            nnoremap <leader>fv :FlutterVSplit<CR>
-            nnoremap <leader>ft :FlutterTab<CR>
         " Surround
-            " turn S into an operator. In normal mode, I want to do "Siw'"
-            " instead of "viwS'". See :h map-operator
+            " TODO: turn S into an operator. In normal mode, I want to do 
+            " "Siw'" instead of "viwS'". See :h map-operator
 
-    augroup helpfile_navigation
-        autocmd!
-        autocmd Filetype nofile,quickfix,help,terminal,man nnoremap <buffer><nowait> d 
-        autocmd Filetype nofile,quickfix,help,terminal,man nnoremap <buffer><nowait> u 
-        autocmd Filetype nofile,quickfix,help,terminal,man nnoremap <buffer><nowait> e 
-        autocmd Filetype nofile,quickfix,help,terminal,man nnoremap <buffer><nowait> y 
-    augroup END
+    " TODO: set these remaps:
+        " tab and s-tab to move up and down completion menu
+        " backspace to close menu if an entry is selected? backspace otherwise
+        " space to accept if an entry is selected, space otherwise?
+        " enter to accept and jump if an entry is selected, enter otherwise
+        " figure out snippets
+
+" Custom functions
+    let s:block_pairs = {
+        \ '(':    ')',
+        \ ')':    ')',
+        \ '[':    ']',
+        \ ']':    ']',
+        \ '{':    '}',
+        \ '}':    '}',
+    \ }
+
+    function! s:GetCursorChar()
+        let l:col = virtcol('.') - 1
+        let l:char = strcharpart(getline('.'), l:col, 1)
+        return l:char
+    endfunction
+
+    " TODO: improve the s:SplitBlock function
+    function! s:SplitBlock() abort
+        let l:char = s:GetCursorChar()
+
+        if l:char =~? '(\|[\|{'
+            execute "normal! la\<BS>\<CR>" . s:block_pairs[l:char]
+        elseif l:char =~? ')\|]\|}'
+            execute "normal! a\<BS>\<CR>" . s:block_pairs[l:char]
+        endif
+    endfunction
 
 " augroups
-    augroup format_stuff
+    augroup statusline_update
         autocmd!
-        autocmd FileType * setlocal formatoptions-=t
-        autocmd FileType * setlocal formatoptions-=c
-        autocmd FileType * setlocal formatoptions-=o
-        autocmd FileType * setlocal formatoptions-=a
-        autocmd FileType * setlocal formatoptions+=r
-        autocmd FileType * setlocal formatoptions+=q
-        autocmd FileType * setlocal formatoptions+=j
-        autocmd FileType * setlocal formatoptions+=n
-        autocmd FileType * setlocal formatoptions+=w
-        autocmd FileType * setlocal formatoptions-=2
-        autocmd FileType * setlocal formatoptions-=v
-        autocmd FileType * setlocal formatoptions-=b
-        autocmd FileType * setlocal formatoptions+=l
-        " set formatoptions-=2vb
-        " set formatoptions+=qwanl
-        " Neither?=j
+        autocmd TextChanged,CompleteChanged,CursorHold * let &l:statusline = &l:statusline
     augroup END
 
-    source ~/mvimfiles/highlight.vim
-    source ~/mvimfiles/status.vim
-    source ~/mvimfiles/foldtext.vim
-    source ~/mvimfiles/tab.vim
-
-    set foldtext=GetFoldText()
-    set tabline=%!SetTabLine()
-
-    augroup FiletypeStuff
-        autocmd!
-        autocmd Filetype help,qf setlocal nonumber
-        autocmd Filetype help,qf,man,startify setlocal nolist
-    augroup END
+    " window appearance
+        augroup nowrite_file_appearance
+            autocmd!
+            autocmd Filetype help,qf,man,startify setlocal nonumber
+            autocmd Filetype help,qf,man,startify setlocal nolist
+        augroup END
 
     augroup SetStatusLines
         autocmd!
         " call Filetype,SessionLoadPost,CursorMoved,BufUnload
         autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
-        " autocmd Filetype netrw call SetStatusLineActive()
+        autocmd Filetype netrw call SetStatusLineActive()
         autocmd BufLeave,WinLeave * call SetStatusLineInactive()
-        " autocmd CmdwinEnter
-        " autocmd CmdwinLeave
     augroup END
 
     augroup SetTabLines
@@ -595,71 +738,118 @@ call plug#end()
 
     augroup SetListChars
         autocmd!
-        autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
-        autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
+        " autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
+        " autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
         " autocmd OptionSet listchars,virtualedit call
                     " \ EchoOptionSet('<amatch>', 'v:option_old', 'v:option_new')
     augroup END
 
-    augroup SetForVirtualReplace
-        autocmd!
+    " TODO: add state() to the statusline
+
+    source ~/mvimfiles/highlight.vim
+    " TODO: set colorscheme minimalist
+        " change red (statement?) to 204
+        " change background to 235
+        " change yellow to 214
+    source ~/mvimfiles/status.vim
+    source ~/mvimfiles/foldtext.vim
+    source ~/mvimfiles/tab.vim
+
+    set foldtext=GetFoldText()
+    set tabline=%!SetTabLine()
+
+    " augroup virtualedit
+    "     autocmd!
+        " autocmd InsertEnter * echo v:insertmode
+        " autocmd CursorMovedI * echo ''
+        " autocmd InsertLeave * echo v:insertmode
+        " autocmd InsertEnter * call SetVirtualEdit(v:insertmode)
+        " autocmd InsertLeave * call UnsetVirtualEdit(v:insertmode)
+        " autocmd CursorMoved,CursorMovedI,CursorHold,CursorHoldI,TextChanged,TextChangedI,TextChangedP * echo mode(1)
+    " augroup END
+
+    " function! SetVirtualEdit(mode) abort
+    "     let b:normal_list = &l:list
+    "     let b:normal_listchars = &l:listchars
+    "     if a:mode =~# 'r\|v'
+    "         setlocal list
+    "         setlocal listchars=tab:«-»,space:∙,trail:∙,extends:›,precedes:‹,nbsp:∅,conceal:∙
+    "     endif
+    " endfunction
+
+    " function! UnsetVirtualEdit(mode) abort
+    "     if a:mode =~# 'r\|v'
+    "         let &l:list = b:normal_list
+    "         let &listchars = b:normal_listchars
+    "     endif
+    " endfunction
+
+    " function! StatuslineThing() abort
+    "     if mode(1) ==# "\<c-v>"
+    "         set listchars=tab:«-»,space:∙,trail:∙,extends:›,precedes:‹,nbsp:∅,conceal:∙
+    "     endif
+    "     return '%f %c %l'
+    " endfunction
+
+    " augroup SetForVirtualReplace
+    "     autocmd!
         " autocmd InsertEnter * call SetModeChanges(v:insertmode)
         " autocmd InsertChange * call SetModeChanges(v:insertmode)
         " autocmd InsertLeave * call UnsetModeChanges()
-    augroup END
+    " augroup END
 
     " augroup SetForVirtualEdit
     "     autocmd!
     "     autocmd OptionSet * call SetList(expand('<amatch>'))
     " augroup END
 
-    augroup ManPage
-        autocmd!
-        autocmd Filetype man set keywordprg=:Man
-    augroup END
+    " augroup ManPage
+    "     autocmd!
+    "     autocmd Filetype man set keywordprg=:Man
+    " augroup END
 
-    augroup ListOption
-        autocmd!
+    " augroup ListOption
+    "     autocmd!
         " autocmd &buftype nofile,quickfix,help,terminal,prompt,popup setlocal nolist
         " autocmd &buftype help echo 'Hello'
-        autocmd Filetype help,quickfix,terminal,prompt setlocal nolist
+        " autocmd Filetype help,quickfix,terminal,prompt setlocal nolist
         " autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetListOption()
-    augroup END
+    " augroup END
 
-    function! SetListOption() abort
-        if &buftype =~# 'nofile\|quickfix\|help\|terminal\|prompt\|popup'
-            echomsg 'Hello it worked this time'
-        endif
-    endfunction
+    " function! SetListOption() abort
+    "     if &buftype =~# 'nofile\|quickfix\|help\|terminal\|prompt\|popup'
+    "         echomsg 'Hello it worked this time'
+    "     endif
+    " endfunction
 
-    fun! EchoOptionSet(name, old, new) abort
-        let l:msg = 'ATTN: Option ' . a:name
-        let l:msg.= ' has been reset from: ' . a:old
-        let l:msg.= ' to: ' . a:new
-        echomsg l:msg
-    endfun
+    " fun! EchoOptionSet(name, old, new) abort
+    "     let l:msg = 'ATTN: Option ' . a:name
+    "     let l:msg.= ' has been reset from: ' . a:old
+    "     let l:msg.= ' to: ' . a:new
+    "     echomsg l:msg
+    " endfun
 
     " fun! SetListCharsVisual() abort
     "     if mode(1) ==#
     " endfun
 
-    function! SetModeChanges(mode)
-        if a:mode ==# 'v'
-            setlocal list
-        elseif a:mode =~# 'i\|r'
-            setlocal nolist
-        endif
-    endfunction
+    " function! SetModeChanges(mode)
+    "     if a:mode ==# 'v'
+    "         setlocal list
+    "     elseif a:mode =~# 'i\|r'
+    "         setlocal nolist
+    "     endif
+    " endfunction
 
-    function! UnsetModeChanges()
-        setlocal nolist
-    endfunction
+    " function! UnsetModeChanges()
+    "     setlocal nolist
+    " endfunction
 
-    function! SetList(option)
-        if a:option ==# 'virtualedit'
-            echo 'it worked'
-        endif
-    endfunction
+    " function! SetList(option)
+    "     if a:option ==# 'virtualedit'
+    "         echo 'it worked'
+    "     endif
+    " endfunction
 
 " TODO
     " augroup to set virtualedit when in virtual-replace mode? Maybe also set
@@ -667,7 +857,6 @@ call plug#end()
         " reference set list, listchars
 
 " Ideas
-    " Set keywodprg to internal Man command in man pages
     " Add something which shows invisible characters when you enter virtual-
         " edit mode or whatever
     " Add logic to only set plugin settings when the plugin is present? So when
@@ -682,30 +871,4 @@ call plug#end()
     " autocmd to clear matchparen when leaving a window
     " autocmd to remove trail from listchars in insert mode
     " g:netrw_dirhistmax
-
-" Notes
-    " set keywordprg
-    " set cedit
-    " :h hit-enter
-    " :h complete-functions
-    " :h completeopt
-    " :h cmdwin
-    " :h confirm
-    " :h set cptoptions+=I
-    " :h make and makeprg
-    " set menuitems
-    " set pumheight
-    " :h ins-completion-menu
-    " set highlight+=
-    " set formatoptions+=r
-    " command-line mode ^F
-    " Changing Indents
-        " :h :retab
-        " :h :tabstop
-        " :h :expandtab
-        " :h :softtabstop
-    " Pasting
-        " :h p,P,gp,gP
-        " :h :put
-        " :h ]p,[p
 

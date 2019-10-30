@@ -1,34 +1,73 @@
 #!/usr/bin/env bash
 
-date >> ~/mystartup.log
-echo 'executing ~/.profile' >> ~/mystartup.log
+# TODO: should the .profile file have a shebang? And actually, should bashrc
+# and bash_profile have them?
+
+printf 'Executing ~/.profile at:\n' >> ~/mystartup.log
+date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 
 if [ "$(uname)" == "Darwin" ]; then
-    # TODO: are these only supposed to be used in bash
+    # TODO: are these only supposed to be used in bash?
     export CLICOLOR=1
     export LSCOLORS='ExFxCxDxBxEGEDaBaGaCaD'
 fi
 
-export EDITOR='vim'
+# TODO: if linux, set LS_COLORS. Use dircolors output to plan that
+
+# if [ -x "$(command -v vim)" ]; then
+#     export MANPAGER="vim -M +MANPAGER -"
+# fi
+
+if [ -x "$(command -v vim)" ]; then
+    export EDITOR='vim'
+fi
+
+# TODO: set a separate script, untracked by git, which sets flutter_home and
+# other such variables for each system. Source it here, then add if statements
+# here which add flutter_home:/bin/ and such to the path
 
 # Path
-    # Dart and flutter
-        export FLUTTER_HOME="$HOME/flutter/"
-        export PATH="$FLUTTER_HOME/bin/:$PATH"
-        export PATH="$HOME/.pub-cache/bin/:$PATH"
-        export PATH="$FLUTTER_HOME/bin/cache/dart-sdk/bin/:$PATH"
+    # Set variables
+if [ -f ~/.profile_variables ]; then
+    # shellcheck source=.profile_variables
+    source ~/.profile_variables
+fi
+            # export FLUTTER_HOME=
+            # should this be flutter_location or something?
+            # export JAVA_HOME=
 
+
+# TODO: set these to check for the existence of the directories before adding
+# them to the path
     # android
-        export PATH="$HOME/Library/Android/sdk/emulator/:$PATH"
-        export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
-        export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
+        # export PATH="$PATH:$HOME/Library/Android/sdk/emulator/"
+        # export PATH="$PATH:$HOME/Library/Android/sdk/tools/bin/"
+        # export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools/"
+        export PATH="$PATH:$HOME/Android/Sdk/emulator/"
+        export PATH="$PATH:$HOME/Android/Sdk/tools/bin/"
+        export PATH="$PATH:$HOME/Android/Sdk/platform-tools/"
+
+    # Dart and flutter
+        # export FLUTTER_HOME="$HOME/flutter/"
+        # export FLUTTER_HOME="$HOME/development/flutter/"
+        export PATH="$PATH:$FLUTTER_HOME/bin/"
+        export PATH="$PATH:$HOME/.pub-cache/bin/"
+        export PATH="$PATH:$FLUTTER_HOME/bin/cache/dart-sdk/bin/"
 
     # Java
-        JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-        export JAVA_HOME
-        export PATH="$JAVA_HOME":$PATH
-        # export PATH="$JAVA_HOME/bin":$PATH
+        # JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+        # export JAVA_HOME
+        # export PATH="$PATH:$JAVA_HOME"
+        # export PATH="$PATH:$JAVA_HOME/bin"
 
     # Python
-        export PATH='/usr/local/opt/python/libexec/bin/':$PATH
+        # export PATH="$PATH:/usr/local/opt/python/libexec/bin/"
 
+    # qmk
+        export PATH="$PATH:$HOME/qmk_firmware/bin/"
+
+    # snap
+        # export PATH="$PATH:/var/lib/snapd/snap/bin/"
+
+    # ruby
+        export PATH="$PATH:$HOME/.rbenv/bin"

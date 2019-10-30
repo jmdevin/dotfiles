@@ -1,38 +1,53 @@
 #!/usr/bin/env bash
 
-# Aliases
-    # TODO: assign aliases only when the actual programs exist. eg 'if [ exists
-    # neofetch ]; then alias neo='neofetch'; fi
-    alias neo='neofetch'
-    alias tldr='tldr -t ocean'
+printf 'Executing ~/.bash_aliases at:\n' >> ~/mystartup.log
+date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 
-    alias lss='ls'
-    alias ls='ls -FG'
-    alias lsa='ls -AFG'
-    alias lsl='ls -FGhl'
-    alias lal='ls -AFGhl'
+# System
+    if [ "$(uname)" == "Darwin" ]; then
+        alias ls='ls -FG'
+        alias lsa='ls -AFG'
+        alias lsl='ls -FGhl'
+        alias lal='ls -AFGhl'
+    elif [ "$(uname)" == "Linux" ]; then
+        alias ls='ls -F --color=always --group-directories-first'
+        alias lsa='ls -AF --color=always --group-directories-first'
+        alias lsl='ls -Fhl --color=always --group-directories-first'
+        alias lal='ls -AFhl --color=always --group-directories-first'
+    fi
 
-    alias showColors='curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash'
-    # alias mnotes='vim ~/vimwiki/index.wiki'
-    # alias vimwiki='vim ~/vimwiki/index.wiki'
-    alias mvim='vim ~/.vim/vimrc'
-    eval "$(hub alias -s)"
+# Android/flutter
+    if [ -x "$(command -v avdmanager)" ]; then
+        alias avd='avdmanager'
+    fi
+    if [ -x "$(command -v sdkmanager)" ]; then
+        alias sdk='sdkmanager'
+    fi
 
-    alias gradle='~/gradle-4.4.1/bin/gradle'
-    alias gradle4='~/gradle-4.4.1/bin/gradle'
-    alias gradle5='/usr/local/Cellar/gradle/5.0/libexec/bin/gradle'
+# Git
+    if [ -x "$(command -v hub)" ]; then
+        eval "$(hub alias -s)"
+    fi
 
-    alias mysnap='snap_2019-04-26_11-05-03'
-    alias emustart='emulator @9.0apis -no-snapshot-save -no-boot-anim -snapshot '
-    alias emulistavds='emulator -list-avds'
-    alias emulistsnaps='emulator @9.0apis -snapshot-list'
-    alias avd='avdmanager'
+# Nice to haves
+    if [ -x "$(command -v neofetch)" ]; then
+        alias neo='neofetch'
+    fi
+    if [ -x "$(command -v tldr)" ]; then
+        alias tldr='tldr -t ocean'
+    fi
+    if [ -x "$(command -v curl)" ]; then
+        alias showColors='curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash'
+    fi
+    if [ -x "$(command -v vim)" ] && [ -f ~/.vim/vimrc ]; then
+        alias mvim='vim ~/.vim/vimrc'
+    fi
 
-    alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-    alias setJava11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
+    # alias mysnap='snap_2019-04-26_11-05-03'
+    # alias emustart='emulator @9.0apis -no-snapshot-save -no-boot-anim -snapshot '
+    # alias emulistavds='emulator -list-avds'
+    # alias emulistsnaps='emulator @9.0apis -snapshot-list'
 
-#     alias hey="printf 'there we "\
-# +"go\n'"
-    # alias now='printf ''there we ' #TODO: why does this not work?
-    # alias now='printf '\''there we go \n'\'
+    # alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
+    # alias setJava11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
 
