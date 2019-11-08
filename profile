@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: go through old profile and copy good ideas
+
 # TODO: should the .profile file have a shebang? And actually, should bashrc
 # and bash_profile have them?
 
@@ -39,6 +41,9 @@ fi
 
 # TODO: set these to check for the existence of the directories before adding
 # them to the path
+    # should be default
+        export PATH="$PATH:$HOME/.local/bin/"
+
     # android
         # export PATH="$PATH:$HOME/Library/Android/sdk/emulator/"
         # export PATH="$PATH:$HOME/Library/Android/sdk/tools/bin/"
@@ -49,7 +54,7 @@ fi
 
     # Dart and flutter
         # export FLUTTER_HOME="$HOME/flutter/"
-        # export FLUTTER_HOME="$HOME/development/flutter/"
+        export FLUTTER_HOME="$HOME/development/flutter/"
         export PATH="$PATH:$FLUTTER_HOME/bin/"
         export PATH="$PATH:$HOME/.pub-cache/bin/"
         export PATH="$PATH:$FLUTTER_HOME/bin/cache/dart-sdk/bin/"

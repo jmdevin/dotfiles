@@ -20,7 +20,6 @@
     //    "method": "methd",
     //    "struct": "strct",
     //    "class": "class",
-    //    "interface": "intfc",
     //    "text": "text",
     //    "enum": "enum",
     //    "enumMember": "membr",
@@ -43,6 +42,60 @@
     "coc.preferences.previewAutoClose": false,
     "coc.preferences.bracketEnterImprove": false,
     "coc.preferences.snippets.enable": true,
+    "languageserver": {
+        "bash": {
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"]
+            //"ignoredRootPaths": ["~"]
+        },
+        // "vimls": {
+        //     "command": "vim-language-server",
+        //     "args": ["--stdio"],
+        //     "initializationOptions": {
+        //         "iskeyword": "@,48-57,_,192-255,-#",
+        //         "vimruntime": "",
+        //         "runtimepath": "",
+        //         "diagnostic": {
+        //             "enable": true
+        //         },
+        //         "indexes": {
+        //             "runtimepath": true,
+        //             "gap": 100,
+        //             "count": 3,
+        //             "workDirPatterns": ["strange-root-pattern", ".git", "autoload", "plugin"]
+        //         },
+        //         "suggest": {
+        //             "fromVimruntime": true,
+        //             "fromRuntimepath": false
+        //         }
+        //     },
+        //     "filetypes": [ "vim" ]
+        // }
+        //"vimls": {
+        //    "module": "/home/john/.config/yarn/global/node_modules/vim-language-server/bin/index.js",
+        //    "args": ["--node-ipc"],
+        //    "initializationOptions": {
+        //        "iskeyword": "@,48-57,_,192-255,-#",
+        //        "vimruntime": "",
+        //        "runtimepath": "",
+        //        "diagnostic": {
+        //            "enable": true
+        //        },
+        //        "indexes": {
+        //            "runtimepath": true,
+        //            "gap": 100,
+        //            "count": 3,
+        //            "workDirPatterns": ["strange-root-pattern", ".git", "autoload", "plugin"]
+        //        },
+        //        "suggest": {
+        //            "fromVimruntime": true,
+        //            "fromRuntimepath": false
+        //        }
+        //    },
+        //    "filetypes": ["vim"],
+        //}
+    }
     //"languageserver": {
     //    "dart": {
     //        "command": "dart_language_server",

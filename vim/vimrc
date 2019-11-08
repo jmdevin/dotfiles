@@ -1,5 +1,13 @@
 scriptencoding utf-8
 
+" Stuff to do
+    " TODO: does fedora always load a file to the last opened position? And if
+    " so, why does this not happen in ubuntu? (This is currently being set by
+    " an autocmd in ubuntu)
+    " TODO: figure out 'path' (see tpope's apathy)
+    " TODO: fix problem with arrow keys in insert mode
+        " set term=builtin_ansi works for some reason
+
 " Style
     " plugin-names-like-this
     " FunctionNamesLikeThis
@@ -8,14 +16,32 @@ scriptencoding utf-8
     " variable_names_like_this
 
 " install vim-plug if it is not already
-    " if empty(glob('~/.vim/autoload/plug.vim'))
-    "   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    "       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "   augroup InstallVimPlug
-    "       autocmd!
-    "       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    "   augroup END
-    " endif
+    if has('unix') || has('mac') || has('macunix')
+        if empty(glob('~/.vim/autoload/plug.vim')) && executable('curl')
+            silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            augroup InstallVimPlug
+                autocmd!
+                autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+            augroup END
+        elseif empty(glob('~/.vim/autoload/plug.vim')) && !executable('curl')
+            unlet! skip_defaults_vim
+            source $VIMRUNTIME/defaults.vim
+            finish
+        endif
+    elseif has('win32') || has('win64')
+        unlet! skip_defaults_vim
+        source $VIMRUNTIME/defaults.vim
+        finish
+    elseif has('win32unix')
+        unlet! skip_defaults_vim
+        source $VIMRUNTIME/defaults.vim
+        finish
+    else
+        unlet! skip_defaults_vim
+        source $VIMRUNTIME/defaults.vim
+        finish
+    endif
 
 " set runtimepath+=~/zotes/learning/plugin/mpc/
 runtime! ftplugin/man.vim
@@ -24,16 +50,36 @@ packadd! cfilter
 
 set background=dark
 
+augroup go_to_last_edit
+    autocmd!
+    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
+
 " Cursor Settings
     " This      Means this
     " &t_SI     Insert mode
     " &t_SR     Replace mode
     " &t_EI     Normal mode
 
+    "  1 -> blinking block
+    "  2 -> solid block 
+    "  3 -> blinking underscore
+    "  4 -> solid underscore
+    "  5 -> blinking vertical bar
+    "  6 -> solid vertical bar
+
     if $TERM_PROGRAM =~? 'Apple_Terminal'
         let &t_SI = "\e[5 q"
         let &t_SR = "\e[3 q"
         let &t_EI = "\e[1 q"
+    elseif $TERM =~? 'xterm' && !exists('$TMUX')
+        let &t_SI = "\<Esc>[5 q"
+        let &t_SR = "\<Esc>[3 q"
+        let &t_EI = "\<Esc>[1 q"
+    elseif $TERM =~? 'xterm\|tmux' && exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[5 q\<Esc>\\"
+        let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[1 q\<Esc>\\"
     elseif $TERM_PROGRAM =~? 'iTerm\|xterm' && !exists('$TMUX')
         let &t_SI = "\<Esc>]50;CursorShape=1\x7"
         let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -54,19 +100,21 @@ set background=dark
 
 call plug#begin('~/.vim/plugged')
     " junegunn
-        Plug 'junegunn/vim-plug'
         Plug 'junegunn/vim-easy-align'
+        Plug 'junegunn/vim-plug'
     " romainl
         Plug 'romainl/vim-cool'
         " Plug 'romainl/vim-qf'
     " tpope
-        Plug 'tpope/vim-vinegar'
+        " Plug 'tpope/vim-abolish'
+        Plug 'tpope/vim-commentary'
+        if executable('git')
+            Plug 'tpope/vim-fugitive'
+        endif
+        Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-surround'
         Plug 'tpope/vim-unimpaired'
-        Plug 'tpope/vim-commentary'
-        Plug 'tpope/vim-repeat'
-        " Plug 'tpope/vim-fugitive'
-        " Plug 'tpope/vim-abolish'
+        Plug 'tpope/vim-vinegar'
     " Appearance
         Plug 'yggdroot/indentline'
         " Plug 'majutsushi/tagbar'
@@ -90,7 +138,9 @@ call plug#begin('~/.vim/plugged')
         " Plug 'natebosch/vim-lsc-dart'
     " Language/framework/filetype
         Plug 'dart-lang/dart-vim-plugin'
-        Plug 'thosakwe/vim-flutter'
+        if executable('flutter')
+            Plug 'thosakwe/vim-flutter'
+        endif
         Plug 'tmux-plugins/vim-tmux'
         " Plug 'python-mode/python-mode'
     " Other
@@ -117,6 +167,8 @@ call plug#begin('~/.vim/plugged')
         Plug 'caksoylar/vim-mysticaltutor'
 call plug#end()
 
+colorscheme cosmic_latte
+
 " Plugin Settings
     " Ale
         " Other things
@@ -141,13 +193,16 @@ call plug#end()
 
         let g:ale_linters = {
             \   'dart'      : ['language_server'],
-            \   'python'    : ['flake8', 'mypy', 'pylint', 'bandit']
+            \   'python'    : ['flake8', 'mypy', 'pylint', 'bandit'],
+            \   'sh'        : ['language_server'],
         \}
 
     " Coc
         " Use this for autocmd mappings
             let s:coc_filetypes = [
                 \ 'dart',
+                \ 'vim',
+                \ 'sh',
             \ ]
 
 
@@ -265,6 +320,11 @@ call plug#end()
             " set formatoptions+=n
             set formatoptions+=j
 
+        " comments formatting
+            set comments-=fb:-
+            set comments+=b:-
+            set comments+=b:+
+
         " Formatting and typing
             set autoindent
             set backspace=indent,eol,start
@@ -358,7 +418,7 @@ call plug#end()
             set nrformats-=octal
             set history=1000
             set tabpagemax=50
-            set viminfo='50,<1000
+            set viminfo='100,<1000
 
 " Commands
     command! Mvim edit $MYVIMRC
@@ -474,20 +534,50 @@ call plug#end()
         augroup END
 
     " Basic editor mappings
-        inoremap (;<CR> (<CR>);<C-c>O
-        inoremap (,<CR> (<CR>),<C-c>O
-        inoremap (<Space><CR> (<CR>)<C-c>O
+        " for l:c in ['(', '[', '{']
+        "     execute 'inoremap ' . l:c . ';<CR> ' . 
+        " endfor
+        inoremap (;<CR> (<CR>);<C-o>O
+        inoremap (,<CR> (<CR>),<C-o>O
+        inoremap (<Space><CR> (<CR>)<C-o>O
+        inoremap (<CR> (<CR>
 
-        inoremap {;<CR> {<CR>};<C-c>O
-        inoremap {,<CR> {<CR>},<C-c>O
-        inoremap {<Space><CR> {<CR>}<C-c>O
+        inoremap {;<CR> {<CR>};<C-o>O
+        inoremap {,<CR> {<CR>},<C-o>O
+        inoremap {<Space><CR> {<CR>}<C-o>O
+        inoremap {<CR> {<CR>
 
-        inoremap [;<CR> [<CR>];<C-c>O
-        inoremap [,<CR> [<CR>],<C-c>O
-        inoremap [<Space><CR> [<CR>]<C-c>O
+        inoremap [;<CR> [<CR>];<C-o>O
+        inoremap [,<CR> [<CR>],<C-o>O
+        inoremap [<Space><CR> [<CR>]<C-o>O
+        inoremap [<CR> [<CR>
+
+        inoremap )<CR><CR> <c-o>A)<CR>
+        inoremap );<CR><CR> <c-o>A);<CR>
+        inoremap ),<CR><CR> <c-o>A),<CR>
+
+        inoremap }<CR><CR> <c-o>A}<CR>
+        inoremap };<CR><CR> <c-o>A};<CR>
+        inoremap },<CR><CR> <c-o>A},<CR>
+
+        inoremap ]<CR><CR> <c-o>A]<CR>
+        inoremap ];<CR><CR> <c-o>A];<CR>
+        inoremap ],<CR><CR> <c-o>A],<CR>
+
+        " TODO: Map backspace to be <BS><Del> when between any of these pairs
+        " of characters and whitespace beyond that (eg \s+'[cursor]'\s+)
+
+        " TODO: Map characters not to auto-close when cursor is on the outside
+        " of an enclose (eg ')[cursor]')
+
+        inoremap ;<CR><CR> <c-o>A;<CR>
+        inoremap ,<CR><CR> <c-o>A,<CR>
 
         inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
         " inoremap <expr> ;<CR> pumvisible() ? "\<C-y>;<CR>" : ";\<CR>"
+
+        " TODO: figure out how to do this without remapping escape
+        " inoremap <expr> <Esc> pumvisible() ? "\<C-e>\<Esc>" : "\<Esc>"
 
     " Text-object mappings
         " Line
@@ -578,6 +668,83 @@ call plug#end()
         " nnoremap gs] a<BS><CR>]<ESC>O
         " nnoremap gs} a<BS><CR>}<ESC>O
         nnoremap gs :call <SID>SplitBlock()<CR>O
+
+        let s:char_pairs = {
+            \ '(':  ')',
+            \ '[':  ']',
+            \ '{':  '}',
+            \ '"':  '"',
+            \ "'":  "'",
+        \ }
+
+        let s:char_pairs_escaped = {
+            \ '(':  ')',
+            \ '\[':  '\]',
+            \ '{':  '}',
+            \ '"':  '"',
+            \ "'":  "'",
+        \ }
+
+        inoremap <silent><expr> ' MapQuote("'")
+        inoremap <silent><expr> " MapQuote('"')
+        inoremap <silent><expr> ( MapEnclosure('(')
+        inoremap <silent><expr> [ MapEnclosure('[')
+        inoremap <silent><expr> { MapEnclosure('{')
+        inoremap <silent><expr> ) MapEndEnclosure(')')
+        inoremap <silent><expr> ] MapEndEnclosure(']')
+        inoremap <silent><expr> } MapEndEnclosure('}')
+
+        inoremap <silent><expr> <BS> MapBackspace()
+
+        function! MapBackspace() abort
+            for l:k in keys(s:char_pairs_escaped)
+                if search('\m\(\s\|^\)\zs' . l:k . '\%#' . s:char_pairs_escaped[l:k] . '\ze\(\s\|$\)', 'n')
+                    return "\<BS>\<Del>"
+                endif
+            endfor
+
+            return "\<BS>"
+        endfunction
+
+        function! MapQuote(char) abort
+            let l:left_char = getline('.')[virtcol('.') - 2]
+            let l:right_char = getline('.')[virtcol('.') - 1]
+
+            if l:right_char ==# a:char
+                return "\<C-G>U\<Right>"
+            elseif l:left_char =~# "\\m\\w\\|'\\|\"\\|)\\|]\\|}\\|/\\|\\"
+                return a:char
+            elseif l:right_char =~# "\\m\\w\\|'\\|\"\\|(\\|[\\|{\\|/\\|\\"
+                return a:char
+            else
+                return a:char . a:char . "\<C-G>U\<Left>"
+            endif 
+        endfunction
+
+        function! MapEnclosure(char) abort
+            let l:left_char = getline('.')[virtcol('.') - 2]
+            let l:right_char = getline('.')[virtcol('.') - 1]
+
+            if l:right_char ==# a:char
+                return "\<C-G>U\<Right>"
+            elseif l:left_char =~# "\\m'\\|\"\\|/\\|\\"
+                return a:char
+            elseif l:right_char =~# "\\m\\w\\|'\\|\"\\|/\\|\\"
+                return a:char
+            else
+                return a:char . s:char_pairs[a:char] . "\<C-G>U\<Left>"
+            endif
+        endfunction
+
+        function! MapEndEnclosure(char) abort
+            let l:right_char = getline('.')[virtcol('.') - 1]
+            
+            if l:right_char ==# a:char
+                return "\<C-G>U\<Right>"
+            else
+                return a:char
+            endif
+        endfunction
 
     " Plugin mappings
         " ALE
@@ -719,15 +886,15 @@ call plug#end()
     augroup SetStatusLines
         autocmd!
         " call Filetype,SessionLoadPost,CursorMoved,BufUnload
-        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
-        autocmd Filetype netrw call SetStatusLineActive()
-        autocmd BufLeave,WinLeave * call SetStatusLineInactive()
+        " autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
+        " autocmd Filetype netrw call SetStatusLineActive()
+        " autocmd BufLeave,WinLeave * call SetStatusLineInactive()
     augroup END
 
     augroup SetTabLines
         autocmd!
-        autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
-        autocmd WinLeave,BufLeave * call SetTabLine()
+        " autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
+        " autocmd WinLeave,BufLeave * call SetTabLine()
     augroup END
 
     augroup SetNumberColumns
@@ -746,17 +913,19 @@ call plug#end()
 
     " TODO: add state() to the statusline
 
-    source ~/mvimfiles/highlight.vim
-    " TODO: set colorscheme minimalist
-        " change red (statement?) to 204
-        " change background to 235
-        " change yellow to 214
-    source ~/mvimfiles/status.vim
-    source ~/mvimfiles/foldtext.vim
-    source ~/mvimfiles/tab.vim
+    if isdirectory(expand('~/mvimfiles'))
+        source ~/mvimfiles/highlight.vim
+        " TODO: set colorscheme minimalist
+            " change red (statement?) to 204
+            " change background to 235
+            " change yellow to 214
+        source ~/mvimfiles/status.vim
+        source ~/mvimfiles/foldtext.vim
+        source ~/mvimfiles/tab.vim
 
-    set foldtext=GetFoldText()
-    set tabline=%!SetTabLine()
+        set foldtext=GetFoldText()
+        set tabline=%!SetTabLine()
+    endif
 
     " augroup virtualedit
     "     autocmd!

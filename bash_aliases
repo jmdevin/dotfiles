@@ -24,6 +24,11 @@ date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
         alias sdk='sdkmanager'
     fi
 
+# Emacs
+    if [ -x "$(command -v emacs)" ]; then
+        alias emacs='emacs -nw'
+    fi
+
 # Git
     if [ -x "$(command -v hub)" ]; then
         eval "$(hub alias -s)"
