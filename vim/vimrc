@@ -913,15 +913,15 @@ colorscheme cosmic_latte
 
     " TODO: add state() to the statusline
 
-    if isdirectory(expand('~/mvimfiles'))
-        source ~/mvimfiles/highlight.vim
+    if isdirectory(expand('~/.dotfiles'))
+        source ~/.dotfiles/mvimfiles/highlight.vim
         " TODO: set colorscheme minimalist
             " change red (statement?) to 204
             " change background to 235
             " change yellow to 214
-        source ~/mvimfiles/status.vim
-        source ~/mvimfiles/foldtext.vim
-        source ~/mvimfiles/tab.vim
+        source ~/.dotfiles/mvimfiles/status.vim
+        source ~/.dotfiles/mvimfiles/foldtext.vim
+        source ~/.dotfiles/mvimfiles/tab.vim
 
         set foldtext=GetFoldText()
         set tabline=%!SetTabLine()
