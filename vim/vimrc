@@ -746,14 +746,14 @@ call plug#end()
 
     " TODO: add state() to the statusline
 
-    source ~/mvimfiles/highlight.vim
+    source ~/.dotfiles/mvimfiles/highlight.vim
     " TODO: set colorscheme minimalist
         " change red (statement?) to 204
         " change background to 235
         " change yellow to 214
-    source ~/mvimfiles/status.vim
-    source ~/mvimfiles/foldtext.vim
-    source ~/mvimfiles/tab.vim
+    source ~/.dotfiles/mvimfiles/status.vim
+    source ~/.dotfiles/mvimfiles/foldtext.vim
+    source ~/.dotfiles/mvimfiles/tab.vim
 
     set foldtext=GetFoldText()
     set tabline=%!SetTabLine()
