@@ -6,7 +6,7 @@ printf 'Executing ~/.bashrc at:\n' >> ~/mystartup.log
 date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 
 # export PS1='\[\e[1;32m\]| \A - \d - J:\j |\[\e[m\] \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$ \[\e[m\]'
-export PS1=' \[\e[1;34m\]\w/\[\e[m\] \[\e[1;32m\]\$\[\e[m\] '
+export PS1=' \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] '
 
 # if col, vim, and vim's :Man exist. (bash exists since this is the bashrc)
 # export MANPAGER="/usr/bin/env bash -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""

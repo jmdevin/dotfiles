@@ -29,10 +29,10 @@ policies:
     ProhibitUnnecessaryDoubleQuote:
         enabled: true
     ProhibitUnusedVariable:
-        enabled: true
+        enabled: false
     ProhibitUsingUndeclaredVariable:
         enabled: true
     ProhibitAbbreviationOption:
         enabled: true
     ProhibitImplicitScopeVariable:
-        enabled: true
+        enabled: false

@@ -102,6 +102,7 @@ call plug#begin('~/.vim/plugged')
     " junegunn
         Plug 'junegunn/vim-easy-align'
         Plug 'junegunn/vim-plug'
+        " Plug 'junegunn/vim-slash'
     " romainl
         Plug 'romainl/vim-cool'
         " Plug 'romainl/vim-qf'
@@ -669,21 +670,23 @@ colorscheme cosmic_latte
         " nnoremap gs} a<BS><CR>}<ESC>O
         nnoremap gs :call <SID>SplitBlock()<CR>O
 
-        let s:char_pairs = {
-            \ '(':  ')',
-            \ '[':  ']',
-            \ '{':  '}',
-            \ '"':  '"',
-            \ "'":  "'",
+        let s:char_pairs_asymmetric = {
+            \ '(': ')',
+            \ '[': ']',
+            \ '{': '}',
         \ }
 
-        let s:char_pairs_escaped = {
-            \ '(':  ')',
-            \ '\[':  '\]',
-            \ '{':  '}',
-            \ '"':  '"',
-            \ "'":  "'",
+        let s:char_pairs_symmetric = {
+            \ '"': '"',
+            \ "'": "'",
         \ }
+
+        let s:char_pairs = deepcopy(s:char_pairs_asymmetric)
+        call extend(s:char_pairs, s:char_pairs_symmetric)
+
+        let s:char_pairs_escaped = deepcopy(s:char_pairs)
+        unlet s:char_pairs_escaped['[']
+        let s:char_pairs_escaped['\['] = '\]'
 
         inoremap <silent><expr> ' MapQuote("'")
         inoremap <silent><expr> " MapQuote('"')
@@ -693,12 +696,19 @@ colorscheme cosmic_latte
         inoremap <silent><expr> ) MapEndEnclosure(')')
         inoremap <silent><expr> ] MapEndEnclosure(']')
         inoremap <silent><expr> } MapEndEnclosure('}')
+        augroup unmap_quote_vimscript
+            autocmd!
+            autocmd FileType vim iunmap "
+        augroup END
 
         inoremap <silent><expr> <BS> MapBackspace()
 
         function! MapBackspace() abort
             for l:k in keys(s:char_pairs_escaped)
-                if search('\m\(\s\|^\)\zs' . l:k . '\%#' . s:char_pairs_escaped[l:k] . '\ze\(\s\|$\)', 'n')
+                if search('\m[A-Za-z](\%#)\(\s\|$\)')
+                    return "\<BS>\<Del>"
+                elseif search('\m\(\s\|^\)' . l:k . '\%#' .
+                    \ s:char_pairs_escaped[l:k] . '[,;]\?\(\s\|$\)', 'n')
                     return "\<BS>\<Del>"
                 endif
             endfor
@@ -707,14 +717,20 @@ colorscheme cosmic_latte
         endfunction
 
         function! MapQuote(char) abort
+            " TODO: don't double the char if it is a comment character, such
+            " as double quotes in vimscript
             let l:left_char = getline('.')[virtcol('.') - 2]
             let l:right_char = getline('.')[virtcol('.') - 1]
 
+            " if &l:comments =~# a:char
+            "     return 'hello there'
+            " TODO: this would need to be set per buffer to avoid using
+            " comment characters
             if l:right_char ==# a:char
                 return "\<C-G>U\<Right>"
-            elseif l:left_char =~# "\\m\\w\\|'\\|\"\\|)\\|]\\|}\\|/\\|\\"
+            elseif l:left_char =~# '\m\w\|''\|"\|)\|]\|}\|/\|\\'
                 return a:char
-            elseif l:right_char =~# "\\m\\w\\|'\\|\"\\|(\\|[\\|{\\|/\\|\\"
+            elseif l:right_char =~# '\m\w\|''\|"\|(\|[\|{\|/\|\\'
                 return a:char
             else
                 return a:char . a:char . "\<C-G>U\<Left>"
@@ -727,9 +743,12 @@ colorscheme cosmic_latte
 
             if l:right_char ==# a:char
                 return "\<C-G>U\<Right>"
-            elseif l:left_char =~# "\\m'\\|\"\\|/\\|\\"
+            elseif l:left_char =~# '\m''\|"\|/\|\\'
+                " TODO: account for all other symbols (!@#$% etc)
                 return a:char
-            elseif l:right_char =~# "\\m\\w\\|'\\|\"\\|/\\|\\"
+            elseif l:right_char =~# '\m\w\|''\|"\|/\|\\'
+            " TODO: should this just check for right char being non
+            " whitespace?
                 return a:char
             else
                 return a:char . s:char_pairs[a:char] . "\<C-G>U\<Left>"
@@ -886,15 +905,15 @@ colorscheme cosmic_latte
     augroup SetStatusLines
         autocmd!
         " call Filetype,SessionLoadPost,CursorMoved,BufUnload
-        " autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
-        " autocmd Filetype netrw call SetStatusLineActive()
-        " autocmd BufLeave,WinLeave * call SetStatusLineInactive()
+        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
+        autocmd Filetype netrw call SetStatusLineActive()
+        autocmd BufLeave,WinLeave * call SetStatusLineInactive()
     augroup END
 
     augroup SetTabLines
         autocmd!
-        " autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
-        " autocmd WinLeave,BufLeave * call SetTabLine()
+        autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
+        autocmd WinLeave,BufLeave * call SetTabLine()
     augroup END
 
     augroup SetNumberColumns
@@ -905,15 +924,15 @@ colorscheme cosmic_latte
 
     augroup SetListChars
         autocmd!
-        " autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
-        " autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
+        autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
+        autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
         " autocmd OptionSet listchars,virtualedit call
                     " \ EchoOptionSet('<amatch>', 'v:option_old', 'v:option_new')
     augroup END
 
     " TODO: add state() to the statusline
 
-    if isdirectory(expand('~/.dotfiles'))
+    if isdirectory(expand('~/.dotfiles/mvimfiles'))
         source ~/.dotfiles/mvimfiles/highlight.vim
         " TODO: set colorscheme minimalist
             " change red (statement?) to 204
