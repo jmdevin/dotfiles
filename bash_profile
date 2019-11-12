@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 printf 'Executing ~/.bash_profile at:\n' >> ~/mystartup.log
 date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 

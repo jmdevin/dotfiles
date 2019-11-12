@@ -1,10 +1,3 @@
-#!/usr/bin/env bash
-
-# TODO: go through old profile and copy good ideas
-
-# TODO: should the .profile file have a shebang? And actually, should bashrc
-# and bash_profile have them?
-
 printf 'Executing ~/.profile at:\n' >> ~/mystartup.log
 date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 

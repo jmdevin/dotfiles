@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-# TODO: go through old bashrc and copy good ideas
-
 printf 'Executing ~/.bashrc at:\n' >> ~/mystartup.log
 date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 
