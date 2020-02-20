@@ -9,7 +9,8 @@ apport.log.1
 # vim
 .netrwhist
 /vim/plugged/
-/vim/autoload/plug.vim[.old]
+/vim/autoload/plug.vim
+/vim/autoload/plug.vim.old
 /vim/spell/
 
 /node_modules/

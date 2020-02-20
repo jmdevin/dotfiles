@@ -2,12 +2,12 @@ scriptencoding utf-8
 
 " from sgon00's dart.vim
 
-    syn match dartFunction "\zs\(\k\w*\)*\s*\ze("
-    hi! link dartFunction Function
+    " syn match dartFunction "\zs\(\k\w*\)*\s*\ze("
+    " hi! link dartFunction Function
 
-    syn match myCamelCase '\v(<_*\u\i*>)+'
-    hi! link myCamelCase Type
-    hi! link myCamelCase Structure
+    " syn match myCamelCase '\v(<_*\u\i*>)+'
+    " hi! link myCamelCase Type
+    " hi! link myCamelCase Structure
 
 " if !exists("b:current_syntax")
 "     finish
