@@ -186,10 +186,11 @@
     hi link EndOfBuffer NonText
 
     hi clear Comment
-    hi Comment                  ctermfg=109
+    " hi Comment                  ctermfg=109
+    hi Comment                  ctermfg=66
     hi clear Constant
     " hi Constant                 ctermfg=173
-    hi Constant                 ctermfg=197
+    hi Constant                 ctermfg=173
     hi clear String
     hi String                   ctermfg=37
     hi clear Character
@@ -323,16 +324,16 @@
     " hi clear CocHintLine
     " hi CocHintLine
 
-    hi clear CocFloating
-    hi CocFloating                  ctermfg=44  ctermbg=238
-    hi clear CocErrorFloat
-    hi CocErrorFloat                ctermfg=9   ctermbg=238
-    hi clear CocWarningFloat
-    hi CocWarningFloat              ctermfg=220 ctermbg=238
-    hi clear CocInfoFloat
-    hi link CocInfoFloat CocFloating
-    hi clear CocHintFloat
-    hi link CocHintFloat CocFloating
+    " hi clear CocFloating
+    " hi CocFloating                  ctermfg=44  ctermbg=238
+    " hi clear CocErrorFloat
+    " hi CocErrorFloat                ctermfg=9   ctermbg=238
+    " hi clear CocWarningFloat
+    " hi CocWarningFloat              ctermfg=220 ctermbg=238
+    " hi clear CocInfoFloat
+    " hi link CocInfoFloat CocFloating
+    " hi clear CocHintFloat
+    " hi link CocHintFloat CocFloating
     " hi clear CocUnderline
 
 " To be implemented
@@ -374,7 +375,8 @@
     hi link PmenuSbar Normal
     hi clear PmenuThumb
     hi PmenuThumb               cterm=reverse
-    " hi Conceal
+    hi clear Conceal
+    hi Conceal                  ctermfg=238
     hi clear MatchParen
     hi MatchParen               cterm=underline
     " hi ToolbarLine

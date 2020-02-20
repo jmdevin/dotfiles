@@ -1,24 +1,16 @@
 scriptencoding utf-8
-" Notes and TODO
-    " TODO
-            " Add errors and warnings status
-            " Remove changed file indicator and have the filename display as green or red depending on its savestate
-            " Add paste and spell indicators. Maybe keymap or whatever greek thing too.
-        " mode(1)
-            " Needs a non-zero-arg to return the longer version of the mode name,
-            " otherwise it will only return a one-character string. I don't think
-            " operator-pending modes are ever returned.
-        " g:actual_curbuf
-            " Beware that an expression is evaluated each and every time the statusline is displayed.  The current buffer and current window will be set temporarily to that of the window (and buffer) whose statusline is currently being drawn.  The expression will evaluate in this context. The variable 'g:actual_curbuf' is set to the 'bufnr()' number of the real current buffer.
-    " Model Active StatusLine
-        " mode filename modded filetype
-        " encoding paste column percentage ale dimensions win/buf nrs
-    " Redo this
-        " :h cmdline-special
-        " path relative to home :~
-        " path relative to pwd :.
-    " Notes
-        " strchars(getline('.')) gets the length of the current line
+
+" Notes and todo's
+    " TODO: add state of g/b:doubling to statusline
+
+    " TODO: Add paste and spell indicators. Maybe keymap or whatever greek thing too.
+
+    " TODO: make a model statusline
+        " Left Side:
+        " mode filename modded? [filetype]
+        " Right Side:
+        " encoding(if_not_utf8)? paste? spell? column L:total_lines [ale/coc?]
+        " widthxheight |winnr.bufnr|
 
 " Utility Data
     " Highlight Colors
@@ -206,6 +198,7 @@ scriptencoding utf-8
             " let l:status.= ' %#User8#%{nr2char(11208, 1)}%{nr2char(9654, 1)}%*%#VertSplit#'
             " u25b6 is right-pointing triangle
             " u25c0 is left-pointing triangle
+            " let l:status.= g:coc_status
 
         let l:status.= '%='
 
