@@ -1,5 +1,16 @@
 .DS_store
 
+apport.log.1
+
+# emacs
+*~
+\#*\#
+
+# vim
 .netrwhist
 /vim/plugged/
-/vim/autoload/
+/vim/autoload/plug.vim[.old]
+/vim/spell/
+
+/node_modules/
+yarn.lock
