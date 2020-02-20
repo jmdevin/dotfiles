@@ -7,6 +7,8 @@ apport.log.1
 \#*\#
 
 # vim
+[._]*.swp
+[._]*.swap
 .netrwhist
 /vim/plugged/
 /vim/autoload/plug.vim
