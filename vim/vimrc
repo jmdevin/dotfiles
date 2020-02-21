@@ -11,12 +11,6 @@ scriptencoding utf-8
     " TODO: does fedora always load a file to the last opened position? And if
     " so, why does this not happen in ubuntu? (This is currently being set by
     " an autocmd in ubuntu)
-" set runtimepath+=~/zotes/learning/plugin/mpc/
-runtime! ftplugin/man.vim
-packadd! matchit
-packadd! cfilter
-
-set background=dark
 
     " TODO: move alt-key mappings to mappings section of file
 
@@ -28,6 +22,33 @@ set background=dark
     " TODO: look into using the 'undofile'/'undodir' feature. Maybe a
     " gitignored directory under .vim?
 
+" Source defaults, do `runtime` for vim's standard included plugins
+    unlet! skip_defaults_vim
+    runtime defaults.vim
+    silent! unmap Q
+    silent! iunmap <C-U>
+
+    filetype plugin indent on
+    syntax on
+    set background=dark
+
+    runtime ftplugin/man.vim
+    packadd! matchit
+    packadd! cfilter
+
+" Alt keys and cursor settings. These need work
+    if system('env') =~? 'gnome_terminal_service'
+        let s:key='a'
+        while s:key <=? 'z'
+            execute 'set <M-' . toupper(s:key) . '>=' . s:key
+            let s:key = nr2char(1 + char2nr(s:key))
+        endwhile
+
+        " execute ':set <M-Right>=[1;3C'
+        " execute ':set <M-Left>=[1;3D'
+        " execute ':set <M-Up>=[1;3A'
+        " execute ':set <M-Down>=[1;3B'
+    endif
 
     " This      Means this
     " &t_SI     Insert mode
@@ -315,6 +336,9 @@ set background=dark
             \ 'dart',
             \ 'yaml',
         \ ]
+
+    " Jedi
+        let g:jedi#show_call_signatures = 0
 
     " Indentline
         " TODO: set indentLine to use the final character of char_list for all
