@@ -1,0 +1,5 @@
+[user]
+	email = john.m.devin@gmail.com
+	name = John Devin
+[diff]
+	indentHeuristic = true
