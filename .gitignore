@@ -1,15 +1,3 @@
-.DS_store
-
-apport.log.1
-
-# emacs
-*~
-\#*\#
-
-# vim
-[._]*.swp
-[._]*.swap
-.netrwhist
 /vim/plugged/
 /vim/autoload/plug.vim
 /vim/autoload/plug.vim.old

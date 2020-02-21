@@ -1,0 +1,7 @@
+[user]
+	email = john.m.devin@gmail.com
+	name = John Devin
+[diff]
+	indentHeuristic = true
+[core]
+	excludesfile = /home/john/.gitignore_global
