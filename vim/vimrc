@@ -1,48 +1,16 @@
 scriptencoding utf-8
 
-" Stuff to do
+" TODOs
+
+    " TODO: set diffopt
+
+    " TODO: Change ale and coc to have highlights on, but set those highlights
+    " to none by default. Have easy way to switch them on/off. Maybe have ale
+    " display coc highlights?
+
     " TODO: does fedora always load a file to the last opened position? And if
     " so, why does this not happen in ubuntu? (This is currently being set by
     " an autocmd in ubuntu)
-    " TODO: figure out 'path' (see tpope's apathy)
-    " TODO: fix problem with arrow keys in insert mode
-        " set term=builtin_ansi works for some reason
-
-" Style
-    " plugin-names-like-this
-    " FunctionNamesLikeThis
-    " CommandNamesLikeThis
-    " augroup_names_like_this
-    " variable_names_like_this
-
-" install vim-plug if it is not already
-    if has('unix') || has('mac') || has('macunix')
-        if empty(glob('~/.vim/autoload/plug.vim')) && executable('curl')
-            silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            augroup InstallVimPlug
-                autocmd!
-                autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-            augroup END
-        elseif empty(glob('~/.vim/autoload/plug.vim')) && !executable('curl')
-            unlet! skip_defaults_vim
-            source $VIMRUNTIME/defaults.vim
-            finish
-        endif
-    elseif has('win32') || has('win64')
-        unlet! skip_defaults_vim
-        source $VIMRUNTIME/defaults.vim
-        finish
-    elseif has('win32unix')
-        unlet! skip_defaults_vim
-        source $VIMRUNTIME/defaults.vim
-        finish
-    else
-        unlet! skip_defaults_vim
-        source $VIMRUNTIME/defaults.vim
-        finish
-    endif
-
 " set runtimepath+=~/zotes/learning/plugin/mpc/
 runtime! ftplugin/man.vim
 packadd! matchit
@@ -50,12 +18,17 @@ packadd! cfilter
 
 set background=dark
 
-augroup go_to_last_edit
-    autocmd!
-    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup END
+    " TODO: move alt-key mappings to mappings section of file
 
-" Cursor Settings
+    " TODO: look at feasibility of creating indentline plugin replacement
+    " using text-properties and popup windows. Text can't be added from what
+    " it looks like, so it may look more like that other indent coloring
+    " plugin which had colorcolumns or something.
+
+    " TODO: look into using the 'undofile'/'undodir' feature. Maybe a
+    " gitignored directory under .vim?
+
+
     " This      Means this
     " &t_SI     Insert mode
     " &t_SR     Replace mode
@@ -98,93 +71,168 @@ augroup END
         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     endif
 
-call plug#begin('~/.vim/plugged')
-    " junegunn
-        Plug 'junegunn/vim-easy-align'
-        Plug 'junegunn/vim-plug'
-        " Plug 'junegunn/vim-slash'
-    " romainl
-        Plug 'romainl/vim-cool'
-        " Plug 'romainl/vim-qf'
-    " tpope
-        " Plug 'tpope/vim-abolish'
-        Plug 'tpope/vim-commentary'
-        if executable('git')
-            Plug 'tpope/vim-fugitive'
-        endif
-        Plug 'tpope/vim-repeat'
-        Plug 'tpope/vim-surround'
-        Plug 'tpope/vim-unimpaired'
-        Plug 'tpope/vim-vinegar'
-    " Appearance
-        Plug 'yggdroot/indentline'
-        " Plug 'majutsushi/tagbar'
-        " Plug 'airblade/vim-gitgutter'
-        " Plug 'mhinz/vim-signify'
-    " Editing
-        " Plug 'osyo-manga/vim-over'
-        " Plug 'markonm/traces.vim'
-        " Plug 'haya14busa/incsearch.vim'
-        " Plug 'AndrewRadev/splitjoin.vim'
-        " Plug 'jiangmiao/auto-pairs'
-        " Plug 'tomtom/tcomment_vim'
-        " Plug 'andymass/vim-matchup'
-        " Plug 'svermeulen/vim-subversive'
-    " Linting/completion
-        Plug 'dense-analysis/ale'
-        if executable('node') || executable('npm')
-            Plug 'neoclide/coc.nvim', {'branch': 'release'}
-        endif
-        " Plug 'natebosch/vim-lsc'
-        " Plug 'natebosch/vim-lsc-dart'
-    " Language/framework/filetype
-        Plug 'dart-lang/dart-vim-plugin'
-        if executable('flutter')
-            Plug 'thosakwe/vim-flutter'
-        endif
-        Plug 'tmux-plugins/vim-tmux'
-        " Plug 'python-mode/python-mode'
-    " Other
-        " Plug 'xolox/vim-easytags'
-        " Plug 'jlanzarotta/bufexplorer'
-    " Colorschemes
-        " Actually might use
-        Plug 'romainl/Apprentice'
-        Plug 'nanotech/jellybeans.vim'
-        Plug 'aonemd/kuroi.vim'
-        Plug 'dikiaap/minimalist'
-        Plug 'NLKNguyen/papercolor-theme' " Papercolor
-        " Probably not
-        Plug 'challenger-deep-theme/vim' " challenger_deep
-        Plug 'rakr/vim-two-firewatch' " two-firewatch
-        Plug 'kristijanhusak/vim-hybrid-material'
-        Plug 'altercation/vim-colors-solarized'
-        Plug 'chriskempson/base16-vim'
-        Plug 'nightsense/cosmic_latte' " cosmic_latte
-        Plug 'flrnprz/candid.vim'
-        Plug 'flrnprz/plastic.vim'
-        Plug 'liuchengxu/space-vim-theme'
-        Plug 'sainnhe/vim-color-forest-night'
-        Plug 'caksoylar/vim-mysticaltutor'
-call plug#end()
-
-colorscheme cosmic_latte
+" Add plugins
+    call plug#begin('~/.vim/plugged')
+        " vim
+            Plug 'vim/killersheep'
+        " junegunn
+            Plug 'junegunn/vim-easy-align'
+            " Plug 'junegunn/gv.vim'
+            " Plug 'junegunn/vim-peekaboo'
+            Plug 'junegunn/vim-plug'
+            " Plug 'junegunn/vim-slash'
+        " romainl
+            Plug 'romainl/vim-cool'
+            " Plug 'romainl/vim-devdocs'
+            " Plug 'romainl/vim-qf'
+            " Plug 'romainl/vim-qlist'
+            " Plug 'romainl/vim-quicklist'
+            " Plug 'romainl/vim-tinyMRU'
+        " tpope
+            " Plug 'tpope/vim-abolish'
+            " Plug 'tpope/vim-apathy'
+            " Plug 'tpope/vim-capslock'
+            " Plug 'tpope/vim-characterize'
+            " Plug 'tpope/vim-classpath'
+            Plug 'tpope/vim-commentary'
+            " Plug 'tpope/vim-endwise'
+            " Plug 'tpope/vim-flagship'
+            if executable('git')
+                Plug 'tpope/vim-fugitive'
+            endif
+            " Plug 'tpope/vim-git'
+            " Plug 'tpope/vim-jdaddy'
+            " Plug 'tpope/vim-obsession'
+            " Plug 'tpope/vim-projectionist'
+            Plug 'tpope/vim-repeat'
+            " Plug 'tpope/vim-rhubarb'
+            " Plug 'tpope/vim-rsi'
+            " Plug 'tpope/vim-scriptease'
+            " Plug 'tpope/vim-sensible
+            " Plug 'tpope/vim-sexp-mappings-for-regular-people'
+            " Plug 'tpope/vim-sleuth'
+            Plug 'tpope/vim-surround'
+            " Plug 'tpope/vim-tbone'
+            Plug 'tpope/vim-unimpaired'
+            Plug 'tpope/vim-vinegar'
+        " Appearance
+            " Plug 'gko/vim-coloresque'
+            " Plug 'chrisbra/vim-colorizer'
+            " TODO: Plug 'wellle/context.vim'
+            " Plug 'octol/vim-cpp-enhanced-highlight'
+            Plug 'bfrg/vim-cpp-modern'
+            " Plug 'airblade/vim-gitgutter'
+            " Plug 'machakann/vim-highlightedyank'
+            Plug 'yggdroot/indentline'
+            " Plug 'Yilin-Yang/vim-markbar'
+            " Plug 'severin-lemaignan/vim-minimap'
+            " TODO: Plug 'skywind3000/vim-quickui'
+            " Plug 'jaxbot/semantic-highlight.vim'
+            " Plug 'mpjuers/showcontext'
+            " Plug 'kshenoy/vim-signature'
+            " Plug 'mhinz/vim-signify'
+            " Plug 'majutsushi/tagbar'
+            " Plug 'liuchengxu/vista.vim'
+            " Plug 'emilyst/vim-xray'
+        " Editing
+            " Plug 'jiangmiao/auto-pairs'
+            " Plug 'editorconfig/editorconfig-vim'
+            " Plug 'haya14busa/incsearch.vim'
+            " Plug 'andymass/vim-matchup'
+            " Plug 'osyo-manga/vim-over'
+            " Plug 'AndrewRadev/splitjoin.vim'
+            " Plug 'svermeulen/vim-subversive'
+            " Plug 'wellle/targets.vim'
+            " Plug 'tomtom/tcomment_vim'
+            " Plug 'markonm/traces.vim'
+        " Linting/completion
+            Plug 'dense-analysis/ale'
+            if executable('node') || executable('npm')
+                Plug 'neoclide/coc.nvim', {'branch': 'release'}
+            endif
+            " if has('python') || has('python3')
+                " Plug 'davidhalter/jedi-vim'
+            " endif
+            " Plug 'natebosch/vim-lsc'
+            " Plug 'natebosch/vim-lsc-dart'
+            " Plug 'prabirshrestha/vim-lsp'
+        " Language/framework/filetype
+            " Plug 'cohama/agit.vim'
+            Plug 'dart-lang/dart-vim-plugin'
+            " Plug 'kkoomen/vim-doge'
+            if executable('flutter')
+                Plug 'thosakwe/vim-flutter'
+            endif
+            " Plug zivyangll/git-blame.vim
+            " Plug 'rhysd/git-messenger.vim'
+            " Plug 'idanarye/vim-merginal'
+            " Plug 'vim-pandoc/vim-pandoc'
+            " Plug 'sheerun/vim-polyglot'
+            " Plug 'python-mode/python-mode'
+            Plug 'Vimjas/vim-python-pep8-indent'
+            " Plug 'jeetsukumaran/vim-pythonsense'
+            Plug 'vim-python/python-syntax'
+            Plug 'tmux-plugins/vim-tmux'
+            " Plug 'jreybert/vimagit'
+            " Plug 'jmcantrell/vim-virtualenv'
+        " Other
+            " Plug 'haya14busa/vim-asterisk'
+            " Plug 'skywind3000/asyncrun.vim'
+            " Plug 'chrisbra/vim-autoread'
+            " Plug 'jlanzarotta/bufexplorer'
+            " Plug 'metakirby5/codi.vim'
+            " Plug 'chrisbra/vim-diff-enhanced'
+            " Plug 'justinmk/vim-dirvish'
+            " Plug 'chrisbra/DynamicSigns'
+            " Plug 'xolox/vim-easytags'
+            " Plug 'tweekmonster/helpful.vim'
+            Plug 'marczych/vim-lose'
+            " Plug 'bfrg/vim-qf-preview'
+            " Plug 'ryvnf/readline.vim'
+            " Plug 'chrisbra/Recover.vim'
+            " Plug 'guns/vim-sexp'
+            " Plug 'janko/vim-test'
+            " Plug 'mbbill/undotree'
+            " Plug 'chrisbra/unicode.vim'
+            " Plug 'puremourning/vimspector'
+        " Vim extension
+            " TODO: Plug 'kizza/actionmenu.nvim'
+            " Plug 'prabirshrestha/async.vim'
+            " Plug 'prabirshrestha/asyncomplete.vim'
+            " Plug 'prabirshrestha/asyncomplete-file.vim'
+            " TODO: Plug 'prabirshrestha/quickpick.vim'
+            " TODO: Plug 'vim-jp/vital.vim'
+        " Colorschemes
+            " Actually might use
+            Plug 'romainl/Apprentice'
+            Plug 'nanotech/jellybeans.vim'
+            Plug 'aonemd/kuroi.vim'
+            Plug 'jonathanfilip/vim-lucius'
+            Plug 'dikiaap/minimalist'
+            Plug 'NLKNguyen/papercolor-theme' " Papercolor
+            Plug 'junegunn/seoul256.vim'
+            " Probably not
+            Plug 'challenger-deep-theme/vim' " challenger_deep
+            Plug 'rakr/vim-two-firewatch' " two-firewatch
+            Plug 'kristijanhusak/vim-hybrid-material'
+            Plug 'altercation/vim-colors-solarized'
+            Plug 'chriskempson/base16-vim'
+            Plug 'nightsense/cosmic_latte' " cosmic_latte
+            Plug 'flrnprz/candid.vim'
+            Plug 'flrnprz/plastic.vim'
+            Plug 'liuchengxu/space-vim-theme'
+            Plug 'sainnhe/vim-color-forest-night'
+            Plug 'caksoylar/vim-mysticaltutor'
+    call plug#end()
 
 " Plugin Settings
     " Ale
-        " Other things
-            " install flake8 with 'python -m pip install flake8'
-            " install pylint with 'pip install pylint'
-            " install mypu with 'python -m pip install -U mypy'
-            " install bandit with 'pip install bandit'
-            " install autopep8 with 'pip install --upgrade autopep8'
-
         let g:ale_echo_delay = 50
         let g:ale_echo_msg_format = '[%severity%] %code: %%s [%linter%]'
         let g:ale_fix_on_save = 1
         let g:ale_keep_list_window_open = 1
         let g:ale_list_window_size = 5
-        let g:ale_loclist_msg_format = '[%severity%] %code: %%s [%linter%]'
+        " let g:ale_loclist_msg_format = '[%severity%] %code: %%s [%linter%]'
         let g:ale_set_signs = 0
 
         let g:ale_fixers = {
@@ -192,20 +240,38 @@ colorscheme cosmic_latte
             \   'python'    : ['autopep8'],
         \}
 
+        " yapf for python?
+
         let g:ale_linters = {
             \   'dart'      : ['language_server'],
-            \   'python'    : ['flake8', 'mypy', 'pylint', 'bandit'],
+            \   'python'    : ['bandit', 'flake8', 'mypy'],
             \   'sh'        : ['language_server'],
         \}
+            "   'python'    : ['flake8', 'mypy', 'pylint', 'bandit'],
 
     " Coc
+        " Extensions
+            " coc-json
+            " coc-snippets
+            " coc-flutter
+            " coc-python
+            " coc-vimlsp
+            " Maybe?
+                " coc-yaml
+                " coc-html
+                " coc-git
+                " coc-lists
+                " coc-template
+                " coc-texlab
         " Use this for autocmd mappings
             let s:coc_filetypes = [
+                \ 'c',
+                \ 'cpp',
                 \ 'dart',
-                \ 'vim',
+                \ 'python',
                 \ 'sh',
+                \ 'vim',
             \ ]
-
 
     " Cool
         let g:CoolTotalMatches = 1
@@ -258,14 +324,13 @@ colorscheme cosmic_latte
         let g:indentLine_char_list = [' ', '|', ' ', '¦', ' ', '┊', ' ', '┊',
             \ ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊', ' ', '┊',
         \]
+        let g:indentLine_setColors = 0
+        " let g:indentLine_first_char = ' '
         let g:indentLine_indentLevel = 20
+        " let g:indentLine_showFirstIndentLevel = 0
         let g:indentLine_fileTypeExclude = ['help', 'quickfix', 'text', ]
         let g:indentLine_bufTypeExclude = ['help', 'quickfix',]
         " let g:indentLine_bufNameExclude = []
-
-    " Lsc
-        " let g:lsc_server_commands = {'dart': 'dart_language_server'}
-        " let g:lsc_auto_map = v:true
 
     " Netrw
         " let g:netrw_altfile
@@ -288,6 +353,11 @@ colorscheme cosmic_latte
             "     autocmd!
             "     autocmd VimEnter * :Vexplore
             " augroup END
+
+    " Python Syntax
+        let g:python_highlight_all = 1
+        let g:python_highlight_indent_errors = 1
+        let g:python_highlight_space_errors = 0
 
     " Tmux
         " TODO: tmux plugin's indent file, line 41 should probably just return 
@@ -312,6 +382,7 @@ colorscheme cosmic_latte
 
     " Text-editing settings
         " cpoptions (aABceFs default)
+            " TODO: check these
 
         " formatoptions (tcq default)
             set formatoptions-=t
@@ -334,13 +405,14 @@ colorscheme cosmic_latte
         " Tab/indent settings
             set tabstop=4
             set expandtab
-            set softtabstop=-1
+            set softtabstop=0
             set shiftwidth=0
             set shiftround
             set smarttab
 
         " Completion settings
             set completeopt=menuone,popup,noinsert,noselect
+            set completepopup=height:15,width:60,highlight:Pmenu,border:off
 
     " Editor Settings
         " Search options
@@ -351,7 +423,7 @@ colorscheme cosmic_latte
         " Folding
             set foldenable
             set foldmethod=indent
-            set foldlevelstart=99
+            set foldlevelstart=8
             set foldminlines=3
 
         " Wrapping
@@ -359,10 +431,10 @@ colorscheme cosmic_latte
             set linebreak
             set breakindent
             set breakindentopt=
-            set showbreak=>>\ 
+            set showbreak=>\ 
 
         " Scrolling behavior
-            set scrolloff=3
+            set scrolloff=2
             set sidescroll=1
             set sidescrolloff=3
 
@@ -383,18 +455,19 @@ colorscheme cosmic_latte
             set splitbelow
             set splitright
             set fillchars=vert:│,fold:\ ,
-            set listchars=tab:‹\ ›,trail:∙,extends:›,precedes:‹,nbsp:∅
+            set listchars=tab:‹-›,trail:∙,extends:›,precedes:‹,nbsp:∅
             set pumheight=8
 
         " Mappings timeout
             set timeout
             set ttimeout
             set timeoutlen=3000
-            set ttimeoutlen=100
+            set ttimeoutlen=10
             " TODO: check this vs matchit vs matchup
             " set matchpairs+=<:> " use % to jump between pairs
 
         " Display options
+            " set noruler
             set report=0
             set display=lastline
             set incsearch
@@ -421,520 +494,11 @@ colorscheme cosmic_latte
             set tabpagemax=50
             set viminfo='100,<1000
 
-" Commands
-    command! Mvim edit $MYVIMRC
-    command! Svim split $MYVIMRC
-    command! Vvim vsplit $MYVIMRC
-
-    command! StyleVim echo s:vim_style_names
-    " command! StyleDart echo s:dart_style_names
-    " command! Style (takes an argument here, gets list of style to echo from
-    " a dictionary of styles
-
-    " command to set window to height of its lines
-    " command to set window to width of its columns
-    " command to switch to window N
-    " command to switch this window's buffer with another
-
-    let s:vim_style_names = "plugin-names-like-this
-        \ \nFunctionNamesLikeThis
-        \ \nCommandNamesLikeThis
-        \ \naugroup_names_like_this
-        \ \nvariable_names_like_this"
-
-    " TODO: create a buffer where you can write vimscript and execute it 
-    " easily. See :h scratch for the buffer settings to use
-    " command! Scratch call OpenVimScratch()
-    " TODO: write a vertical scratch
-    " command! Vscratch call OpenVimScratch(1)
-
-    " function! OpenVimScratch() abort
-        " if a:arg is 0, new, else vnew
-        " if 'vim scratch' already exists, switch to it. Or still open a split
-        " and switch to it
-        " new
-        " file [vim scratch]
-        " setlocal buftype=nofile
-        " setlocal nobuflisted
-        " setlocal filetype=vim
-        " setlocal bufhidden=hide
-        " setlocal noswapfile
-    " endfunction
-
-" Mappings
-    " Leader mappings
-        nmap <Space> <leader>
-        xmap <Space> <leader>
-
-    " Vim default remappings
-        " TODO: remap square brackets to find nearest unmatched brackets
-        nnoremap [[ ?{<CR>w99[{
-        nnoremap ][ /}<CR>b99]}
-        nnoremap ]] j0[[%/{<CR>
-        nnoremap [] k$][%?}<CR>
-
-        nnoremap Y y$
-
-        xnoremap > >gv
-        xnoremap < <gv
-
-        " TODO: remap ;<cr> to add a semicolon to the end of the line and then
-        " press enter
-
-        " TODO: remap <cr><cr> to go to end of line and enter
-
-        " TODO: maybe remap ',",),],} to <right arrow> if that character is
-        " already to the right of the cursor? GetCursorChar() gets that
-        " character
-
-        " TODO: map auto-closing or find one to use
-
-        " TODO: remap brackets to move to indent levels?
-            " [[ move to beginning of current or previous (higher or lower,
-            " either one) indent
-            " [] move to end of previous indent
-            " ]] move to end of current or following indent
-            " ][ move to beginning of following indent
-
-            " next unmatched bracket
-            " prev unmatched bracket
-
-            " start of current indent
-            " end of current indent
-            " start of prev indent
-            " end of prev indent " line before current indent
-            " start of next indent " line after current indent
-            " end of next indent
-
-        " TODO: remap c and d to not affect yank history. Maybe have yd or dy
-        " yank a whole line and delete it? d<motion> could delete into empty
-        " register and yd<motion> could delete but with the deleted text
-        " yanked. Same for c<motion> and yc<motion>.
-
-        " Remap arrow keys? To :cnext, :lnext
-
-        let s:pairs = ['.', ':', ',', ';', '<bar>', '/', '<bslash>', '*',]
-        for s:key in s:pairs
-            execute 'nnoremap ci' . s:key . ' T' . s:key . 'ct' . s:key
-            execute 'nnoremap di' . s:key . ' T' . s:key . 'dt' . s:key
-            execute 'nnoremap yi' . s:key . ' T' . s:key . 'yt' . s:key
-            execute 'nnoremap vi' . s:key . ' T' . s:key . 'vt' . s:key
-            execute 'nnoremap ca' . s:key . ' F' . s:key . 'cf' . s:key
-            execute 'nnoremap da' . s:key . ' F' . s:key . 'df' . s:key
-            execute 'nnoremap ya' . s:key . ' F' . s:key . 'yf' . s:key
-            execute 'nnoremap va' . s:key . ' F' . s:key . 'vf' . s:key
-        endfor
-
-        augroup helpfile_navigation
-            autocmd!
-            " It seems there is no terminal filetype set
-            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> d <c-d>
-            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> u <c-u>
-            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> e <c-e>
-            autocmd Filetype quickfix,help,terminal,man nnoremap <buffer><nowait> y <c-y>
-        augroup END
-
-    " Basic editor mappings
-        " for l:c in ['(', '[', '{']
-        "     execute 'inoremap ' . l:c . ';<CR> ' . 
-        " endfor
-        inoremap (;<CR> (<CR>);<C-o>O
-        inoremap (,<CR> (<CR>),<C-o>O
-        inoremap (<Space><CR> (<CR>)<C-o>O
-        inoremap (<CR> (<CR>
-
-        inoremap {;<CR> {<CR>};<C-o>O
-        inoremap {,<CR> {<CR>},<C-o>O
-        inoremap {<Space><CR> {<CR>}<C-o>O
-        inoremap {<CR> {<CR>
-
-        inoremap [;<CR> [<CR>];<C-o>O
-        inoremap [,<CR> [<CR>],<C-o>O
-        inoremap [<Space><CR> [<CR>]<C-o>O
-        inoremap [<CR> [<CR>
-
-        inoremap )<CR><CR> <c-o>A)<CR>
-        inoremap );<CR><CR> <c-o>A);<CR>
-        inoremap ),<CR><CR> <c-o>A),<CR>
-
-        inoremap }<CR><CR> <c-o>A}<CR>
-        inoremap };<CR><CR> <c-o>A};<CR>
-        inoremap },<CR><CR> <c-o>A},<CR>
-
-        inoremap ]<CR><CR> <c-o>A]<CR>
-        inoremap ];<CR><CR> <c-o>A];<CR>
-        inoremap ],<CR><CR> <c-o>A],<CR>
-
-        " TODO: Map backspace to be <BS><Del> when between any of these pairs
-        " of characters and whitespace beyond that (eg \s+'[cursor]'\s+)
-
-        " TODO: Map characters not to auto-close when cursor is on the outside
-        " of an enclose (eg ')[cursor]')
-
-        inoremap ;<CR><CR> <c-o>A;<CR>
-        inoremap ,<CR><CR> <c-o>A,<CR>
-
-        inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
-        " inoremap <expr> ;<CR> pumvisible() ? "\<C-y>;<CR>" : ";\<CR>"
-
-        " TODO: figure out how to do this without remapping escape
-        " inoremap <expr> <Esc> pumvisible() ? "\<C-e>\<Esc>" : "\<Esc>"
-
-    " Text-object mappings
-        " Line
-            " Inner line
-            xnoremap <silent> il :<c-u>normal! g_v^<cr>
-            onoremap <silent> il :<c-u>normal! g_v^<cr>
-
-            " All line
-            xnoremap <silent> al :<c-u>normal! $v0<cr>
-            onoremap <silent> al :<c-u>normal! $v0<cr>
-
-            " In indent
-            nnoremap <silent> vii :call SelectInnerIndent()<cr>
-
-        " Indent
-            function! SelectInnerIndent() abort
-                let l:start = FindStartOfIndent()
-                let l:end = FindEndOfIndent()
-
-                execute 'normal! ' . l:start . 'GV' . l:end . 'G'
-            endfunction
-
-            function! FindEndOfPreviousIndent() abort
-                let l:indent = indent('.')
-
-                for l:x in range(line('.') - 1, 1, -1)
-                    let l:xindent = indent(l:x)
-                    let l:blank = getline(l:x) =~# '^\s*$'
-
-                    if l:xindent < l:indent && !l:blank
-                        return l:x
-                    endif
-                endfor
-            endfunction
-
-            function! FindStartOfIndent() abort
-                let l:indent = indent('.')
-
-                for l:x in range(line('.') - 1, 1, -1)
-                    let l:xindent = indent(l:x)
-                    let l:blank = getline(l:x) =~# '^\s*$'
-
-                    if l:xindent < l:indent && !l:blank
-                        return l:x + 1
-                    endif
-                endfor
-
-                return line('.')
-            endfunction
-
-            function! FindStartOfIndentContiguous() abort
-                let l:indent = indent('.')
-
-                for l:x in range(line('.') - 1, 1, -1)
-                    let l:xindent = indent(l:x)
-                    let l:blank = getline(l:x) =~# '^\s*$'
-
-                    if l:xindent != l:indent || l:blank
-                        return l:x + 1
-                    endif
-                endfor
-            endfunction
-
-            function! FindEndOfIndentContiguous() abort
-            endfunction
-
-            function! FindEndOfIndent() abort
-                let l:indent = indent('.')
-
-                for l:x in range(line('.') + 1, line('$'))
-                    let l:xindent = indent(l:x)
-                    let l:blank = getline(l:x) =~# '^\s*$'
-
-                    if l:xindent < l:indent && !l:blank
-                        return l:x - 1
-                    endif
-                endfor
-
-                return line('.')
-            endfunction
-
-            function! FindStartOfNextIndent() abort
-            endfunction
-
-    " Complex/function mappings
-        " TODO: Turn this into a better function so it can just be one mapping
-        " nnoremap gs) a<BS><CR>)<ESC>O
-        " nnoremap gs] a<BS><CR>]<ESC>O
-        " nnoremap gs} a<BS><CR>}<ESC>O
-        nnoremap gs :call <SID>SplitBlock()<CR>O
-
-        let s:char_pairs_asymmetric = {
-            \ '(': ')',
-            \ '[': ']',
-            \ '{': '}',
-        \ }
-
-        let s:char_pairs_symmetric = {
-            \ '"': '"',
-            \ "'": "'",
-        \ }
-
-        let s:char_pairs = deepcopy(s:char_pairs_asymmetric)
-        call extend(s:char_pairs, s:char_pairs_symmetric)
-
-        let s:char_pairs_escaped = deepcopy(s:char_pairs)
-        unlet s:char_pairs_escaped['[']
-        let s:char_pairs_escaped['\['] = '\]'
-
-        inoremap <silent><expr> ' MapQuote("'")
-        inoremap <silent><expr> " MapQuote('"')
-        inoremap <silent><expr> ( MapEnclosure('(')
-        inoremap <silent><expr> [ MapEnclosure('[')
-        inoremap <silent><expr> { MapEnclosure('{')
-        inoremap <silent><expr> ) MapEndEnclosure(')')
-        inoremap <silent><expr> ] MapEndEnclosure(']')
-        inoremap <silent><expr> } MapEndEnclosure('}')
-        augroup unmap_quote_vimscript
-            autocmd!
-            autocmd FileType vim iunmap "
-        augroup END
-
-        inoremap <silent><expr> <BS> MapBackspace()
-
-        function! MapBackspace() abort
-            for l:k in keys(s:char_pairs_escaped)
-                if search('\m[A-Za-z](\%#)\(\s\|$\)')
-                    return "\<BS>\<Del>"
-                elseif search('\m\(\s\|^\)' . l:k . '\%#' .
-                    \ s:char_pairs_escaped[l:k] . '[,;]\?\(\s\|$\)', 'n')
-                    return "\<BS>\<Del>"
-                endif
-            endfor
-
-            return "\<BS>"
-        endfunction
-
-        function! MapQuote(char) abort
-            " TODO: don't double the char if it is a comment character, such
-            " as double quotes in vimscript
-            let l:left_char = getline('.')[virtcol('.') - 2]
-            let l:right_char = getline('.')[virtcol('.') - 1]
-
-            " if &l:comments =~# a:char
-            "     return 'hello there'
-            " TODO: this would need to be set per buffer to avoid using
-            " comment characters
-            if l:right_char ==# a:char
-                return "\<C-G>U\<Right>"
-            elseif l:left_char =~# '\m\w\|''\|"\|)\|]\|}\|/\|\\'
-                return a:char
-            elseif l:right_char =~# '\m\w\|''\|"\|(\|[\|{\|/\|\\'
-                return a:char
-            else
-                return a:char . a:char . "\<C-G>U\<Left>"
-            endif 
-        endfunction
-
-        function! MapEnclosure(char) abort
-            let l:left_char = getline('.')[virtcol('.') - 2]
-            let l:right_char = getline('.')[virtcol('.') - 1]
-
-            if l:right_char ==# a:char
-                return "\<C-G>U\<Right>"
-            elseif l:left_char =~# '\m''\|"\|/\|\\'
-                " TODO: account for all other symbols (!@#$% etc)
-                return a:char
-            elseif l:right_char =~# '\m\w\|''\|"\|/\|\\'
-            " TODO: should this just check for right char being non
-            " whitespace?
-                return a:char
-            else
-                return a:char . s:char_pairs[a:char] . "\<C-G>U\<Left>"
-            endif
-        endfunction
-
-        function! MapEndEnclosure(char) abort
-            let l:right_char = getline('.')[virtcol('.') - 1]
-            
-            if l:right_char ==# a:char
-                return "\<C-G>U\<Right>"
-            else
-                return a:char
-            endif
-        endfunction
-
-    " Plugin mappings
-        " ALE
-            augroup set_ale_mappings
-                autocmd!
-                autocmd! Filetype * call SetALEMappings(expand('<amatch>'))
-            augroup END
-
-            function! SetALEMappings(filetype) abort
-                if exists(':ALEInfo') == 2 && (len(ale#linter#Get(a:filetype)) > 0)
-                    " nmap <buffer> <leader>ad <Plug>(ale_detail)
-                    " nmap <buffer> <leader>ah <Plug>(ale_hover)
-                    nmap <buffer> <leader>aqn <Plug>(ale_next_wrap)
-                    nmap <buffer> <leader>aqp <Plug>(ale_previous_wrap)
-                    nmap <buffer> <leader>aqf <Plug>(ale_first)
-                    nmap <buffer> <leader>aql <Plug>(ale_last)
-                endif
-            endfunction
-
-        " Coc
-            inoremap <silent><expr> <TAB> exists(':CocInfo') == 2 ? 
-                \ pumvisible() ? coc#_select_confirm() : "\<TAB>" : "\<TAB>"
-
-            inoremap <silent><expr> <TAB>
-                \ exists(':CocInfo') == 2 ? pumvisible() ? coc#_select_confirm()
-                \ : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request(
-                \ 'doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<TAB>" : "\<TAB>"
-                
-                " coc#refresh() triggers completion
-                " <SID>check_back_space() ? "\<TAB>" : coc#refresh() : "\<TAB>"
-
-            function! s:check_back_space() abort
-              let l:col = col('.') - 1
-              return !l:col || getline('.')[l:col - 1]  =~# '\s'
-            endfunction
-
-            augroup set_coc_mappings
-                autocmd!
-                autocmd! Filetype * call SetCocMappings(expand('<amatch>'))
-            augroup END
-
-            function! SetCocMappings(filetype) abort
-                if exists(':CocInfo') == 2 && index(s:coc_filetypes, a:filetype, '', v:true) != -1
-                    nnoremap <buffer><expr><leader>cs CocActionAsync('showSignatureHelp')
-                    nnoremap <buffer><expr><leader>ch CocActionAsync('doHover')
-
-                    nmap <buffer><leader>ca v<Plug>(coc-codeaction-selected)
-                    xmap <buffer><leader>ca <Plug>(coc-codeaction-selected)
-
-                    nmap <buffer><leader>crn <Plug>(coc-rename)
-
-                    nmap <buffer><leader>cqi <Plug>(coc-diagnostic-info)
-                    nmap <buffer><leader>cqn <Plug>(coc-diagnostic-next)
-                    nmap <buffer><leader>cqp <Plug>(coc-diagnostic-prev)
-                endif
-            endfunction
-
-        " EasyAlign
-            augroup set_easyalign_mappings
-                autocmd!
-                autocmd VimEnter * call SetEasyAlignMappings()
-            augroup END
-
-            function! SetEasyAlignMappings() abort
-                if exists(':EasyAlign') == 2
-                    nmap <leader>ea <Plug>(EasyAlign)
-                    xmap <leader>ea <Plug>(EasyAlign)
-                    " xmap <CR> <Plug>(EasyAlign)
-                    nmap <leader>el <Plug>(LiveEasyAlign)
-                    xmap <leader>el <Plug>(LiveEasyAlign)
-                endif
-            endfunction
-
-        " Flutter
-            augroup set_flutter_mappings
-                autocmd!
-                autocmd Filetype * call SetFlutterMappings(expand('<amatch>'))
-            augroup END
-
-            function! SetFlutterMappings(filetype) abort
-                if exists(':FlutterRun') == 2 && index(s:flutter_filetypes, a:filetype, '', v:true) != -1
-                    nnoremap <buffer><leader>frl :FlutterHotReload
-                    nnoremap <buffer><leader>frs :FlutterHotRestart
-                    nnoremap <buffer><leader>fvd :FlutterVisualDebug
-                endif
-            endfunction
-
-        " Surround
-            " TODO: turn S into an operator. In normal mode, I want to do 
-            " "Siw'" instead of "viwS'". See :h map-operator
-
-    " TODO: set these remaps:
-        " tab and s-tab to move up and down completion menu
-        " backspace to close menu if an entry is selected? backspace otherwise
-        " space to accept if an entry is selected, space otherwise?
-        " enter to accept and jump if an entry is selected, enter otherwise
-        " figure out snippets
-
-" Custom functions
-    let s:block_pairs = {
-        \ '(':    ')',
-        \ ')':    ')',
-        \ '[':    ']',
-        \ ']':    ']',
-        \ '{':    '}',
-        \ '}':    '}',
-    \ }
-
-    function! s:GetCursorChar()
-        let l:col = virtcol('.') - 1
-        let l:char = strcharpart(getline('.'), l:col, 1)
-        return l:char
-    endfunction
-
-    " TODO: improve the s:SplitBlock function
-    function! s:SplitBlock() abort
-        let l:char = s:GetCursorChar()
-
-        if l:char =~? '(\|[\|{'
-            execute "normal! la\<BS>\<CR>" . s:block_pairs[l:char]
-        elseif l:char =~? ')\|]\|}'
-            execute "normal! a\<BS>\<CR>" . s:block_pairs[l:char]
-        endif
-    endfunction
-
-" augroups
-    augroup statusline_update
-        autocmd!
-        autocmd TextChanged,CompleteChanged,CursorHold * let &l:statusline = &l:statusline
-    augroup END
-
-    " window appearance
-        augroup nowrite_file_appearance
-            autocmd!
-            autocmd Filetype help,qf,man,startify setlocal nonumber
-            autocmd Filetype help,qf,man,startify setlocal nolist
-        augroup END
-
-    augroup SetStatusLines
-        autocmd!
-        " call Filetype,SessionLoadPost,CursorMoved,BufUnload
-        autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
-        autocmd Filetype netrw call SetStatusLineActive()
-        autocmd BufLeave,WinLeave * call SetStatusLineInactive()
-    augroup END
-
-    augroup SetTabLines
-        autocmd!
-        autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
-        autocmd WinLeave,BufLeave * call SetTabLine()
-    augroup END
-
-    augroup SetNumberColumns
-        autocmd!
-        " autocmd BufEnter,VimEnter,WinEnter * call SetNumberColumnActive()
-        " autocmd WinLeave * call SetNumberColumnInactive()
-    augroup END
-
-    augroup SetListChars
-        autocmd!
-        autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
-        autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
-        " autocmd OptionSet listchars,virtualedit call
-                    " \ EchoOptionSet('<amatch>', 'v:option_old', 'v:option_new')
-    augroup END
-
-    " TODO: add state() to the statusline
-
+" Source additional shitty personal vim files
+    " TODO: refactor/reorganize additional personal vim files
     if isdirectory(expand('~/.dotfiles/mvimfiles'))
         source ~/.dotfiles/mvimfiles/highlight.vim
-        " TODO: set colorscheme minimalist
+        " If colorscheme minimalist:
             " change red (statement?) to 204
             " change background to 235
             " change yellow to 214
@@ -946,117 +510,846 @@ colorscheme cosmic_latte
         set tabline=%!SetTabLine()
     endif
 
-    " augroup virtualedit
-    "     autocmd!
-        " autocmd InsertEnter * echo v:insertmode
-        " autocmd CursorMovedI * echo ''
-        " autocmd InsertLeave * echo v:insertmode
-        " autocmd InsertEnter * call SetVirtualEdit(v:insertmode)
-        " autocmd InsertLeave * call UnsetVirtualEdit(v:insertmode)
-        " autocmd CursorMoved,CursorMovedI,CursorHold,CursorHoldI,TextChanged,TextChangedI,TextChangedP * echo mode(1)
-    " augroup END
+" Abbreviations
+    " Command-mode
+        cnoreabbrev vh vert :h
+        cnoreabbrev vman vert :Man
+        cnoreabbrev vt vert :ter
 
-    " function! SetVirtualEdit(mode) abort
-    "     let b:normal_list = &l:list
-    "     let b:normal_listchars = &l:listchars
-    "     if a:mode =~# 'r\|v'
-    "         setlocal list
-    "         setlocal listchars=tab:«-»,space:∙,trail:∙,extends:›,precedes:‹,nbsp:∅,conceal:∙
-    "     endif
-    " endfunction
+        cnoreabbrev %%p <C-R>=expand('%:p:h')<CR>
+        cnoreabbrev %%h <C-R>=expand('%:p')<CR>
+        " cnoreabbrev seh e <C-R>=expand('%:p:h')<CR>/
+        " cnoreabbrev veh e <C-R>=expand('%:p:h')<CR>/
 
-    " function! UnsetVirtualEdit(mode) abort
-    "     if a:mode =~# 'r\|v'
-    "         let &l:list = b:normal_list
-    "         let &listchars = b:normal_listchars
-    "     endif
-    " endfunction
+        cnoreabbrev vrt*/ $VIMRUNTIME/**
+        " cnoreabbrev vrt/ $VIMRUNTIME
+        cnoreabbrev mv*/ <C-R>=substitute($MYVIMRC, '\m/vimrc$', '/**', '')<CR>
+        " cnoreabbrev mv/ <C-R>=substitute($MYVIMRC, '\m/vimrc$', '', '')<CR>
 
-    " function! StatuslineThing() abort
-    "     if mode(1) ==# "\<c-v>"
-    "         set listchars=tab:«-»,space:∙,trail:∙,extends:›,precedes:‹,nbsp:∅,conceal:∙
-    "     endif
-    "     return '%f %c %l'
-    " endfunction
+" Commands
+    command! Mvim edit $MYVIMRC
+    command! Svim split $MYVIMRC
+    command! Vvim vsplit $MYVIMRC
 
-    " augroup SetForVirtualReplace
-    "     autocmd!
-        " autocmd InsertEnter * call SetModeChanges(v:insertmode)
-        " autocmd InsertChange * call SetModeChanges(v:insertmode)
-        " autocmd InsertLeave * call UnsetModeChanges()
-    " augroup END
+    command! HL call HL()
 
-    " augroup SetForVirtualEdit
-    "     autocmd!
-    "     autocmd OptionSet * call SetList(expand('<amatch>'))
-    " augroup END
+    command! MakeMinHeight call MakeMinHeight()
+    command! MakeAppropriateHeight call MakeWindowAppropriateHeight()
 
-    " augroup ManPage
-    "     autocmd!
-    "     autocmd Filetype man set keywordprg=:Man
-    " augroup END
+    command! EchoStyleVim echo s:vim_style_names
 
-    " augroup ListOption
-    "     autocmd!
-        " autocmd &buftype nofile,quickfix,help,terminal,prompt,popup setlocal nolist
-        " autocmd &buftype help echo 'Hello'
-        " autocmd Filetype help,quickfix,terminal,prompt setlocal nolist
-        " autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetListOption()
-    " augroup END
+" Mappings
+    " Leader key
+        nmap <Space> <leader>
+        xmap <Space> <leader>
+        omap <Space> <leader>
+        " imap <M-F> <leader>
 
-    " function! SetListOption() abort
-    "     if &buftype =~# 'nofile\|quickfix\|help\|terminal\|prompt\|popup'
-    "         echomsg 'Hello it worked this time'
-    "     endif
-    " endfunction
+    " General remappings
+        " Comma will be used to initiate a lot of normal-mode mappings
+        nnoremap ,, ,
 
-    " fun! EchoOptionSet(name, old, new) abort
-    "     let l:msg = 'ATTN: Option ' . a:name
-    "     let l:msg.= ' has been reset from: ' . a:old
-    "     let l:msg.= ' to: ' . a:new
-    "     echomsg l:msg
-    " endfun
+        nnoremap Y y$
 
-    " fun! SetListCharsVisual() abort
-    "     if mode(1) ==#
-    " endfun
+        " True deleting
+        nnoremap ,c "_c
+        xnoremap ,c "_c
+        nnoremap ,C "_C
+        xnoremap ,C "_C
 
-    " function! SetModeChanges(mode)
-    "     if a:mode ==# 'v'
-    "         setlocal list
-    "     elseif a:mode =~# 'i\|r'
-    "         setlocal nolist
-    "     endif
-    " endfunction
+        nnoremap ,d "_d
+        xnoremap ,d "_d
+        nnoremap ,D "_D
+        xnoremap ,D "_D
 
-    " function! UnsetModeChanges()
-    "     setlocal nolist
-    " endfunction
+        nnoremap ,x "_x
+        xnoremap ,x "_x
+        nnoremap ,X "_X
+        xnoremap ,X "_X
 
-    " function! SetList(option)
-    "     if a:option ==# 'virtualedit'
-    "         echo 'it worked'
-    "     endif
-    " endfunction
+        xnoremap > >gv
+        xnoremap < <gv
 
-" TODO
-    " augroup to set virtualedit when in virtual-replace mode? Maybe also set
-    " invisible characters to be seen
-        " reference set list, listchars
+        " nnoremap Q gq
+        " xnoremap Q gq
 
-" Ideas
-    " Add something which shows invisible characters when you enter virtual-
-        " edit mode or whatever
-    " Add logic to only set plugin settings when the plugin is present? So when
-        " I toggle them off they don't get set
-    " Fix the git branch thing
-    " Add shortmess settings
-    " Add something to deal with "DIR" when the file is new or a terminal or
-        " anything else
-    " Add sessions settings
-    " Add vim-plug automatic installation
-    " Deal with statusline not updating if the cursor doesn't move
-    " autocmd to clear matchparen when leaving a window
-    " autocmd to remove trail from listchars in insert mode
-    " g:netrw_dirhistmax
+        " Insert-mode mappings
+        inoremap <C-U> <C-G>u<C-U>
 
+        inoremap <C-A> <C-O>0
+        inoremap <expr> <C-E> pumvisible() ? "\<C-E>" : "\<C-O>$"
+        inoremap <C-X>a <C-A>
+        inoremap <C-X>e <C-E>
+
+        " TODO: set this only on terminals that need it
+        imap <Nul> <C-Space>
+        smap <Nul> <C-Space>
+
+    " Pair-matching navigation mappings
+        " TODO: remap square brackets to find nearest unmatched brackets
+        " nnoremap [[ ?{<CR>w99[{
+        " nnoremap ][ /}<CR>b99]}
+        " nnoremap ]] j0[[%/{<CR>
+        " nnoremap [] k$][%?}<CR>
+
+    " Auto-pairing/auto-closing mappings
+        let g:char_doubling = get(g:, 'char_doubling', 1)
+        inoremap <silent><expr><C-G><C-G> ToggleCharDoubling()
+
+        inoremap <silent><expr>( DoubledChar('(')
+        inoremap <silent><expr>[ DoubledChar('[')
+        inoremap <silent><expr>{ DoubledChar('{')
+        inoremap <silent><expr> ' DoubledQuote("'")
+        inoremap <silent><expr> " DoubledQuote('"')
+
+        inoremap <C-G>3' ''''''<C-G>U<Left><C-G>U<Left><C-G>U<Left>
+        inoremap <C-G>3" """"""<C-G>U<Left><C-G>U<Left><C-G>U<Left>
+
+        inoremap <C-G>( (
+        inoremap <C-G>[ [
+        inoremap <C-G>{ {
+        inoremap <C-G>" "
+        inoremap <C-G>' '
+
+        inoremap <silent><expr>) NextClosingChar(')')
+        inoremap <silent><expr>] NextClosingChar(']')
+        inoremap <silent><expr>} NextClosingChar('}')
+
+        inoremap <C-G>) )
+        inoremap <C-G>] ]
+        inoremap <C-G>} }
+
+        inoremap <silent><expr> <M-D> DoubleChar()
+
+    " Expansion mappings
+        " Parentheses
+        inoremap <silent><expr> (;<CR> DoubledCharExpanded('(', ';')
+        inoremap <silent><expr> (; DoubledChar('(', ';')
+
+        inoremap <silent><expr> (,<CR> DoubledCharExpanded('(', ',')
+        inoremap <silent><expr> (, DoubledChar('(', ',')
+
+        inoremap <silent><expr> (<CR> DoubledCharExpanded('(')
+
+        " Curly braces
+        inoremap <silent><expr> {;<CR> DoubledCharExpanded('{', ';')
+        inoremap <silent><expr> {; DoubledChar('{', ';')
+
+        inoremap <silent><expr> {,<CR> DoubledCharExpanded('{', ',')
+        inoremap <silent><expr> {, DoubledChar('{', ',')
+
+        inoremap <silent><expr> {<CR> DoubledCharExpanded('{')
+
+        " Brackets
+        inoremap <silent><expr> [;<CR> DoubledCharExpanded('[', ';')
+        inoremap <silent><expr> [; DoubledChar('[', ';')
+
+        inoremap <silent><expr> [,<CR> DoubledCharExpanded('[', ',')
+        inoremap <silent><expr> [, DoubledChar('[', ',')
+
+        inoremap <silent><expr> [<CR> DoubledCharExpanded('[')
+
+        " Just expand
+        inoremap <C-G>gs <CR><C-C>O
+
+        " TODO: Turn this into a better function so it can just be one mapping
+        "       gsb = split on parens | gs( | gs)
+        "       gsB = split on curly | gs{ | gs}
+        "       gs[ = split on brackets | gs[ | gs]
+        nnoremap gs :call <SID>SplitBlock()<CR>O
+
+    " Indentation mappings
+        " TODO: sort through indentation mappings/functions. Get rid of
+        " unnecessary ones, improve others. Implement functions which can take
+        " a count
+        nnoremap <silent><expr> [e FirstLineOfIndent(1, 0) . 'G'
+        xnoremap <silent><expr> [e FirstLineOfIndent(1, 0) . 'G'
+        onoremap <silent><expr> [e FirstLineOfIndent(1, 0) . 'G'
+
+        nnoremap <silent><expr> ]e LastLineOfIndent(1, 0) . 'G'
+        xnoremap <silent><expr> ]e LastLineOfIndent(1, 0) . 'G'
+        onoremap <silent><expr> ]e LastLineOfIndent(1, 0) . 'G'
+
+        nnoremap <silent><expr> [E FirstLineOfStrictIndent() . 'G'
+        xnoremap <silent><expr> [E FirstLineOfStrictIndent() . 'G'
+        onoremap <silent><expr> [E FirstLineOfStrictIndent() . 'G'
+
+        nnoremap <silent><expr> ]E LastLineOfStrictIndent() . 'G'
+        xnoremap <silent><expr> ]E LastLineOfStrictIndent() . 'G'
+        onoremap <silent><expr> ]E LastLineOfStrictIndent() . 'G'
+
+        nnoremap <silent><expr> <leader>ki FirstLineOfIndent(0, 0) . 'G'
+        xnoremap <silent><expr> <leader>ki FirstLineOfIndent(0, 0) . 'G'
+        onoremap <silent><expr> <leader>ki FirstLineOfIndent(0, 0) . 'G'
+
+        nnoremap <silent><expr> <leader>ji LastLineOfIndent(0, 0) . 'G'
+        xnoremap <silent><expr> <leader>ji LastLineOfIndent(0, 0) . 'G'
+        onoremap <silent><expr> <leader>ji LastLineOfIndent(0, 0) . 'G'
+
+        nnoremap <silent><expr> ]= LineOfEqualIndent(1) . 'G'
+        xnoremap <silent><expr> ]= LineOfEqualIndent(1) . 'G'
+        onoremap <silent><expr> ]= LineOfEqualIndent(1) . 'G'
+
+        nnoremap <silent><expr> [= LineOfEqualIndent(0) . 'G'
+        xnoremap <silent><expr> [= LineOfEqualIndent(0) . 'G'
+        onoremap <silent><expr> [= LineOfEqualIndent(0) . 'G'
+
+        nnoremap <silent><expr> ]- LineOfLessIndent(1) . 'G'
+        xnoremap <silent><expr> ]- LineOfLessIndent(1) . 'G'
+        onoremap <silent><expr> ]- LineOfLessIndent(1) . 'G'
+
+        nnoremap <silent><expr> [- LineOfLessIndent(0) . 'G'
+        xnoremap <silent><expr> [- LineOfLessIndent(0) . 'G'
+        onoremap <silent><expr> [- LineOfLessIndent(0) . 'G'
+
+        nnoremap <silent><expr> ]+ LineOfMoreIndent(1) . 'G'
+        xnoremap <silent><expr> ]+ LineOfMoreIndent(1) . 'G'
+        onoremap <silent><expr> ]+ LineOfMoreIndent(1) . 'G'
+
+        nnoremap <silent><expr> [+ LineOfMoreIndent(0) . 'G'
+        xnoremap <silent><expr> [+ LineOfMoreIndent(0) . 'G'
+        onoremap <silent><expr> [+ LineOfMoreIndent(0) . 'G'
+
+        xnoremap <silent> ii :<C-U>call SelectInIndent(1, 1)<CR>
+        onoremap <silent> ii :<C-U>call SelectInIndent(1, 1)<CR>
+
+        xnoremap <silent> ai :<C-U>call SelectAroundIndent(1)<CR>
+        onoremap <silent> ai :<C-U>call SelectAroundIndent(1)<CR>
+
+        xnoremap <silent> iI :<C-U>call SelectStrictIndent()<CR>
+        onoremap <silent> iI :<C-U>call SelectStrictIndent()<CR>
+
+        xnoremap <silent> aI :<C-U>call SelectAroundIndent(0)<CR>
+        onoremap <silent> aI :<C-U>call SelectAroundIndent(0)<CR>
+
+        " TODO: implement these bracket-indent mappings maybe
+            " map ]] and [[ to match next unmatched brackets
+
+            " map ][ does not include blanks
+            " map [] does include blanks
+
+            " map ][= and []= to select all lines of same indent not
+            " including more-indented lines
+            " map ][- and []- to select all lines of the same indent and
+            " more-indented lines
+            " map ][+ and []+ to select all lines of the same indent
+            " including more-indented liens and one less-indented line on
+            " each side
+            " map ][[+ and [][+ to select the same but only the
+            " less-indented line above
+            " map ][]+ and []]+ to select the same but only the
+            " less-indented line below
+
+    " Line-object mappings
+        xnoremap <silent> il :<C-U>normal! g_v^<CR>
+        onoremap <silent> il :<C-U>normal! g_v^<CR>
+
+        xnoremap <silent> al :<C-U>normal! $v0<CR>
+        onoremap <silent> al :<C-U>normal! $v0<CR>
+
+    " Tab/enter/backspace/space key mappings
+        " Tab
+            inoremap <silent><expr> <TAB>
+                \ exists(':CocInfo') == 2 ?
+                    \ pumvisible() ?
+                        \ coc#_select_confirm()
+                        \ : MapTab()
+                    \ : MapTab()
+            imap <C-G><Tab> <Tab>
+
+        " Enter
+            " inoremap <expr> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
+            " TODO: make these ovey g:char_doubling or something similar
+            " inoremap ;<CR> <C-C>A;<CR>
+            " inoremap <C-G>; ;
+            " inoremap ,<CR> <C-C>A,<CR>
+            " inoremap <C-G>, ,
+            " inoremap <CR> <C-C>A<CR>
+            inoremap <C-G><CR> <CR>
+            " inoremap <C-G>s<CR> <CR><C-C>O
+            inoremap <C-G>gs <CR><C-C>O
+            inoremap <silent><expr> <CR> MapEnter()
+
+        " Backspace
+            " inoremap <silent><expr> <BS> pumvisible()
+            "     \ ? "\<C-E>"
+            "     \ : MapBackspace()
+            inoremap <silent><expr> <BS> MapBackspace()
+
+        " Space
+            inoremap <C-G><Space> <Space><Space><C-G>U<Left>
+
+    " Plugin mappings
+        " Ale
+            function! SetALEMappings(filetype) abort
+                if exists(':ALEInfo') == 2 && (len(ale#linter#Get(a:filetype)) > 0)
+                    " nmap <buffer> <leader>ad <Plug>(ale_detail)
+                    " nmap <buffer> <leader>ah <Plug>(ale_hover)
+                    nmap <silent><buffer> <leader>aqn <Plug>(ale_next_wrap)
+                    nmap <silent><buffer> <leader>aqp <Plug>(ale_previous_wrap)
+                    nmap <silent><buffer> <leader>aqf <Plug>(ale_first)
+                    nmap <silent><buffer> <leader>aql <Plug>(ale_last)
+                endif
+            endfunction
+
+        " Coc
+            function! SetCocMappings(filetype) abort
+                if exists(':CocInfo') == 2 && index(s:coc_filetypes, a:filetype, '', v:true) != -1
+                    nnoremap <silent><buffer><expr><leader>cs CocActionAsync('showSignatureHelp')
+                    nnoremap <silent><buffer><expr><leader>ch CocActionAsync('doHover')
+
+                    nmap <silent><buffer><leader>ca v<Plug>(coc-codeaction-selected)
+                    xmap <silent><buffer><leader>ca <Plug>(coc-codeaction-selected)
+
+                    nmap <silent><buffer><leader>crn <Plug>(coc-rename)
+
+                    nmap <silent><buffer><leader>cqi <Plug>(coc-diagnostic-info)
+                    nmap <silent><buffer><leader>cqn <Plug>(coc-diagnostic-next)
+                    nmap <silent><buffer><leader>cqp <Plug>(coc-diagnostic-prev)
+                endif
+            endfunction
+
+        " EasyAlign
+            function! SetEasyAlignMappings() abort
+                if exists(':EasyAlign') == 2
+                    nmap <leader>ea <Plug>(EasyAlign)
+                    xmap <leader>ea <Plug>(EasyAlign)
+                    " xmap <CR> <Plug>(EasyAlign)
+                    nmap <leader>el <Plug>(LiveEasyAlign)
+                    xmap <leader>el <Plug>(LiveEasyAlign)
+                endif
+            endfunction
+
+        " Flutter
+            function! SetFlutterMappings(filetype) abort
+                if exists(':FlutterRun') == 2 && index(s:flutter_filetypes, a:filetype, '', v:true) != -1
+                    nnoremap <buffer><leader>frl :FlutterHotReload
+                    nnoremap <buffer><leader>frs :FlutterHotRestart
+                    nnoremap <buffer><leader>fvd :FlutterVisualDebug
+                endif
+            endfunction
+
+" augroups
+    " General
+        " augroup go_to_last_edit
+        "     autocmd!
+
+            " Found online
+                " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+            " Found in defaults.vim
+                " autocmd BufReadPost *
+                    " \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+                    " \ |   exe "normal! g`\""
+                    " \ | endif
+        " augroup END
+
+    " Statusline/tabline
+        augroup statusline_update
+            autocmd!
+            autocmd TextChanged,CompleteChanged,CursorHold,InsertChange * let &l:statusline = &l:statusline
+        augroup END
+
+        augroup set_statuslines
+            autocmd!
+            " call Filetype,SessionLoadPost,CursorMoved,BufUnload
+            autocmd TerminalOpen,BufWinEnter,BufEnter,WinEnter,Filetype * call SetStatusLineActive()
+            autocmd Filetype netrw call SetStatusLineActive()
+            autocmd BufLeave,WinLeave * call SetStatusLineInactive()
+        augroup END
+
+        augroup set_tab_line
+            autocmd!
+            autocmd VimEnter,BufEnter,BufWinEnter,WinEnter,WinNew * call SetTabLine()
+            autocmd WinLeave,BufLeave * call SetTabLine()
+        augroup END
+
+    augroup set_list_chars
+        autocmd!
+        autocmd InsertEnter * set listchars=tab:«-»,extends:›,precedes:‹,nbsp:∅
+        autocmd InsertLeave * set listchars=tab:«-»,trail:∙,extends:›,precedes:‹,nbsp:∅
+    augroup END
+
+" Functions and Variables
+    " Command functions/variables
+        function! MakeWindowMinHeight() abort
+            let height = winheight('.')
+            let length = line('$')
+
+            if length < height
+                execute "normal! \<C-W>" . length . '_'
+            endif
+        endfunction
+
+        function! MakeWindowAppropriateHeight(max = 0) abort
+            let length = line('$')
+
+            let full = a:max == 0
+                        \ ? length
+                        \ : a:max <= length
+                            \ ? a:max
+                            \ : length
+
+            execute "normal! \<C-W>" . full . '_'
+        endfunction
+
+        let s:vim_style_names = "Names:
+            \\n    plugin-names-like-this
+            \\n    FunctionNamesLikeThis
+            \\n    CommandNamesLikeThis
+            \\n    augroup_names_like_this
+            \\n    variable_names_like_this
+            \\nReserved variables: (unless scriptversion 3)
+            \\n    count
+            \\n    errmsg
+            \\n    shell_error
+            \\n    this_session
+            \\n    version"
+
+    " Mapping functions/variables
+        " Pairing dictionaries
+            " TODO: go through functions and ensure they all use the proper
+            " dictionary. A few might be able to be simplified.
+
+            let s:char_pairs_asymmetric = {
+                \ '(': ')',
+                \ '[': ']',
+                \ '{': '}',
+            \ }
+
+            let s:char_pairs_symmetric = {
+                \ '"': '"',
+                \ "'": "'",
+            \ }
+
+            let s:char_pairs_asymmetric_escaped = 
+                \ deepcopy(s:char_pairs_asymmetric)
+            " unlet s:char_pairs_asymmetric_escaped['[']
+            let s:char_pairs_asymmetric_escaped['['] = '\]'
+            let s:char_pairs_asymmetric_escaped['\['] = '\]'
+
+            let s:char_pairs = deepcopy(s:char_pairs_asymmetric)
+            call extend(s:char_pairs, s:char_pairs_symmetric)
+
+            let s:char_pairs_escaped = deepcopy(s:char_pairs_asymmetric_escaped)
+            call extend(s:char_pairs_escaped, s:char_pairs_symmetric)
+
+        " Auto-pairing/auto-closing functions and variables
+            function! NextClosingChar(char) abort
+                let doubling = exists('b:char_doubling') ?
+                    \ b:char_doubling
+                    \ : g:char_doubling
+
+                if doubling && search('\m\%#.\{-,}' . a:char)
+                    return "\<C-C>f" . a:char . "a"
+                else
+                    return a:char
+                endif
+            endfunction
+
+            function! DoubleChar() abort
+                let key = GetCharBeforeCursor()
+
+                if has_key(s:char_pairs, key)
+                    return s:char_pairs[key] . "\<C-G>U\<Left>"
+                elseif key == '<'
+                    return ">\<C-G>U\<Left>"
+                else
+                    return ''
+                endif
+            endfunction
+
+            function! MapBackspace() abort
+                let doubling = get(b:, 'char_doubling', g:char_doubling)
+                if !doubling
+                    return "\<BS>"
+                endif
+
+                let bs_delete = "\<BS>\<Del>"
+
+                for k in keys(s:char_pairs_escaped)
+                    if search('\m' . k . '\%#' . s:char_pairs_escaped[k])
+                        return bs_delete
+                    elseif search('\m' . k . ' \%# ' . s:char_pairs_escaped[k])
+                        return bs_delete
+                    endif
+                endfor
+
+                " TODO: make this return multiple backspaces when softtabstop
+                " is off and the cursor is after multiple spaces
+
+                return "\<BS>"
+            endfunction
+
+            function! MapTab() abort
+                " let doubling = get(b:, 'char_doubling', g:char_doubling)
+                let smart_tab = InsertSmartTab()
+
+                if &l:expandtab
+                    return "\<Tab>"
+                " elseif !doubling
+                "     return smart_tab
+                elseif search('\m\(^\|\s\)\%#\(\s\|$\)')
+                    return smart_tab
+                elseif search('\m\%#\s*$')
+                    return smart_tab
+                elseif search('\m^\s*\%#')
+                    return smart_tab
+                else
+                    return "\<C-O>:call NextDelimiter()\<CR>"
+                endif
+            endfunction
+
+            function! MapEnter() abort
+                let doubling = get(b:, 'char_doubling', g:char_doubling)
+
+                if !doubling
+                    return "\<CR>"
+                elseif search('\m\%#$')
+                    return "\<CR>"
+                elseif search('\m\%#.\+$')
+                    return "\<C-C>A"
+                else
+                    return "\<CR>"
+            endfunction
+
+            function! NextDelimiter() abort
+                call search('\m\%#.\{-,}\((\|)\|{\|}\|\[\|]\|''\|"\|,\|;\|<\|>\|$\)\zs', 'e')
+            endfunction
+
+            function! ToggleCharDoubling() abort
+                if exists('b:char_doubling')
+                    let b:char_doubling = !b:char_doubling
+                else
+                    let g:char_doubling = !g:char_doubling
+                endif
+                return ''
+            endfunction
+
+            function! DoubledChar(char, delimiter = '') abort
+                let doubling = get(b:, 'char_doubling', g:char_doubling)
+
+                if !empty(a:delimiter)
+                    let end_chars = a:delimiter . "\<C-G>U\<Left>"
+                else
+                    let end_chars = ''
+                endif
+
+                if doubling
+                    return a:char . s:char_pairs[a:char] . end_chars . 
+                        \ "\<C-G>U\<Left>"
+                elseif !empty(a:delimiter)
+                    return a:char . a:delimiter . "\<Space>"
+                else
+                    return a:char . a:delimiter
+                endif
+            endfunction
+
+            function! DoubledCharExpanded(char, delimiter = '') abort
+                let doubling = get(b:, 'char_doubling', g:char_doubling)
+
+                if doubling
+                    return a:char . "\<CR>" . s:char_pairs[a:char] .
+                                \ a:delimiter . "\<C-C>O"
+                else
+                    return a:char . a:delimiter . "\<CR>"
+                endif
+            endfunction
+
+            function! DoubledQuote(char) abort
+                let doubling = get(b:, 'char_doubling', g:char_doubling)
+                let right_char = GetCharAfterCursor()
+
+                if doubling && right_char == a:char
+                    return "\<C-G>U\<Right>"
+                elseif doubling
+                    return a:char . a:char . "\<C-G>U\<Left>"
+                else
+                    return a:char
+                endif
+            endfunction
+
+        " Expansion functions and variables
+            let s:block_pairs = {
+                \ '(':    ')',
+                \ ')':    ')',
+                \ '[':    ']',
+                \ ']':    ']',
+                \ '{':    '}',
+                \ '}':    '}',
+            \ }
+
+            function! s:SplitBlock() abort
+                let char = s:GetCursorChar()
+
+                if char =~? '(\|[\|{'
+                    execute "normal! la\<BS>\<CR>" . s:block_pairs[char]
+                elseif char =~? ')\|]\|}'
+                    execute "normal! a\<BS>\<CR>" . s:block_pairs[char]
+                endif
+            endfunction
+
+        " Indentation mappings
+            function! MostIndentedNeighbor(default_forward) abort
+                let pos = line('.')
+
+                let prev = search('\m.\+', 'bn')
+                let next = search('\m.\+', 'n')
+                let default = a:default_forward ? next : prev
+
+                if prev ==# 0 && next ==# 0
+                    return pos
+                elseif prev == next
+                    return default
+                else
+                    return indent(prev) > indent(next) ? prev : next
+                endif
+            endfunction
+
+            function! LeastIndentedNeighbor(default_forward) abort
+                let pos = line('.')
+
+                let prev = search('\m.\+', 'bn')
+                let next = search('\m.\+', 'n')
+                let default = a:default_forward ? next : prev
+
+                if prev ==# 0 && next ==# 0
+                    return pos
+                elseif prev == next
+                    return default
+                else
+                    return indent(prev) < indent(next) ? prev : next
+                endif
+            endfunction
+
+            function! FirstLineOfIndent(include_blanks, end_on_blank) abort
+                if getline('.') =~# '\m^\s*$'
+                    let start_indent = indent(MostIndentedNeighbor(0))
+                else
+                    let start_indent = indent('.')
+                endif
+
+                if start_indent == 0
+                    return FirstLineOfStrictIndent()
+                endif
+
+                let return_line = line('.')
+
+                for x in range(line('.') - 1, 1, -1)
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if (x_indent < start_indent && !blank) || (blank && !a:include_blanks)
+                        return return_line
+                    elseif !blank || (blank && a:end_on_blank)
+                        let return_line = x
+                    endif
+                endfor
+
+                return return_line
+            endfunction
+
+            function! LastLineOfIndent(include_blanks, end_on_blank) abort
+                if getline('.') =~# '\m^\s*$'
+                    let start_indent = indent(MostIndentedNeighbor(1))
+                else
+                    let start_indent = indent('.')
+                endif
+
+                if start_indent == 0
+                    return LastLineOfStrictIndent()
+                endif
+
+                let return_line = line('.')
+
+                for x in range(line('.') + 1, line('$'))
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if (x_indent < start_indent && !blank) || (blank && !a:include_blanks)
+                        return return_line
+                    elseif !blank || (blank && a:end_on_blank)
+                        let return_line = x
+                    endif
+                endfor
+
+                return return_line
+            endfunction
+
+            function! FirstLineOfStrictIndent() abort
+                let start_indent = indent('.')
+
+                for x in range(line('.') - 1, 1, -1)
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if x_indent !=# start_indent || blank
+                        return x + 1
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! LastLineOfStrictIndent() abort
+                let start_indent = indent('.')
+
+                for x in range(line('.') + 1, line('$'))
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if x_indent !=# start_indent || blank
+                        return x - 1
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! LineOfEqualIndent(forward) abort
+                if getline('.') =~# '\m^\s*$'
+                    return line('.')
+                endif
+
+                let start_indent = indent('.')
+                let step = a:forward ? 1 : -1
+                let end = a:forward ? line('$') : 1
+
+                for x in range(line('.') + step, end, step)
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if x_indent == start_indent && !blank
+                        return x
+                    elseif x_indent < start_indent && !blank
+                        return line('.')
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! LineOfLessIndent(forward) abort
+                if getline('.') =~# '\m^\s*$'
+                    let start_line = MostIndentedNeighbor(1)
+                else
+                    let start_line = line('.')
+                endif
+
+                let step = a:forward ? 1 : -1
+                let end = a:forward ? line('$') : 1
+                let start_indent = indent(start_line)
+
+                for x in range(start_line + step, end, step)
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if x_indent < start_indent && !blank
+                        return x
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! LineOfMoreIndent(forward) abort
+                if getline('.') =~# '\m^\s*$'
+                    " let search = a:forward ? 'n' : 'bn'
+                    let start_line = LeastIndentedNeighbor(!a:forward)
+                else
+                    let start_line = line('.')
+                endif
+
+                let step = a:forward ? 1 : -1
+                let end = a:forward ? line('$') : 1
+                let start_indent = indent(start_line)
+
+                for x in range(start_line + step, end, step)
+                    let x_indent = indent(x)
+                    let blank = getline(x) =~# '\m^\s*$'
+
+                    if x_indent > start_indent && !blank
+                        return x
+                    elseif x_indent < start_indent && !blank
+                        return line('.')
+                    endif
+                endfor
+
+                return line('.')
+            endfunction
+
+            function! SelectInIndent(include_blanks, end_on_blank) abort
+                let start = FirstLineOfIndent(a:include_blanks, a:end_on_blank)
+                let end = LastLineOfIndent(a:include_blanks, a:end_on_blank)
+
+                execute 'normal! ' . start . 'GV' . end . 'G'
+            endfunction
+
+            function! SelectAroundIndent(include_trailing) abort
+                let start = LineOfLessIndent(0)
+                let end = a:include_trailing ?
+                    \ LineOfLessIndent(1) :
+                    \ LastLineOfIndent(1, 0)
+
+                execute 'normal! ' . start . 'GV' . end . 'G'
+            endfunction
+
+            function! SelectStrictIndent() abort
+                let start = FirstLineOfStrictIndent()
+                let end = LastLineOfStrictIndent()
+
+                execute 'normal! ' . start . 'GV' . end . 'G'
+            endfunction
+
+        " Tab Mapping Experiment
+            " inoremap <silent><expr> <Tab> InsertTabOrSpace()
+
+            " <C-T> and <C-D> don't work even if this does. So this whole idea
+            " needs work.
+            " function! InsertTabOrSpace() abort
+            "     if search('\m^\s*\%#.*$')
+            "         return "\<C-V>\<Tab>"
+            "     else
+            "         return "\<Tab>"
+            "     endif
+            " endfunction
+
+            function! InsertSmartTab() abort
+                if search('\m^\s*\%#.*$')
+                    return "\<Tab>"
+                endif
+
+                " try
+                "     let myexpandtab = &expandtab
+                "     set expandtab
+                "     return "\<Tab>"
+                " finally
+                "     let &expandtab = myexpandtab
+                " endtry
+
+                let col = virtcol('.') - 1
+                let tab_stop = &tabstop
+                let len = tab_stop - (col % tab_stop)
+                let ret_str = repeat(" ", len)
+                return ret_str
+            endfunction
+
+    " Utility functions/vars
+        function! GetCharAfterCursor() abort
+            return matchstr(getline('.'), '\%' . col('.') . 'c.')
+        endfunction
+
+        function! GetCharBeforeCursor() abort
+            return matchstr(getline('.'), '\%' . (col('.') - 1) . 'c.')
+        endfunction
+
+        function! s:GetCursorChar()
+            let col = virtcol('.') - 1
+            let char = strcharpart(getline('.'), col, 1)
+            return char
+        endfunction
+
+    " Other functions/variables
+        function! HL() abort
+            echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
+        endfunction

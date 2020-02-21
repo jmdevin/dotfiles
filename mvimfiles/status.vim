@@ -3,7 +3,8 @@ scriptencoding utf-8
 " Notes and todo's
     " TODO: add state of g/b:doubling to statusline
 
-    " TODO: Add paste and spell indicators. Maybe keymap or whatever greek thing too.
+    " TODO: Add paste and spell indicators. Maybe keymap or whatever greek
+    " thing too.
 
     " TODO: make a model statusline
         " Left Side:
@@ -11,6 +12,18 @@ scriptencoding utf-8
         " Right Side:
         " encoding(if_not_utf8)? paste? spell? column L:total_lines [ale/coc?]
         " widthxheight |winnr.bufnr|
+
+    " TODO: change statusline to not have many highlights. Mostly just the
+    " normal colors and then inverted.
+
+    " TODO: combine ale and coc highlights. Make easy way to switch them on
+    " and off?
+
+    " TODO: change highlight for current error in qflist and llist
+
+    " TODO: change highlights for search and search's current match
+
+    " TODO: display length of visually selected area in statusline
 
 " Utility Data
     " Highlight Colors
@@ -285,7 +298,7 @@ scriptencoding utf-8
 
     function! GetStatusLineInactiveTerminal()
         " Left side
-            let l:status = '-- inactive --'
+            let l:status = '- inactive -'
             let l:status.= " %{expand('%:t')}"
 
         let l:status.= '%='
