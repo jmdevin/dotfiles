@@ -22,6 +22,9 @@ scriptencoding utf-8
     " TODO: look into using the 'undofile'/'undodir' feature. Maybe a
     " gitignored directory under .vim?
 
+    " TODO: add a command to turn on and off 'help navigation keys', ie remap
+    " d, u, f, b, e, and y to their <C- > counterparts
+
 " Source defaults, do `runtime` for vim's standard included plugins
     unlet! skip_defaults_vim
     runtime defaults.vim
@@ -395,7 +398,7 @@ scriptencoding utf-8
         else
             set ttymouse=xterm2
         end
-        set updatetime=2000
+        set updatetime=750
 
     " Mouse settings
         set mouse=nvc

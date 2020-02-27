@@ -1,0 +1,17 @@
+# systems
+.DS_store
+
+# emacs
+*~
+\#*\#
+
+# vim
+[._]*.swp
+[._]*.swap
+.netrwhist
+
+# vscode
+.idea/
+
+# python
+.mypy_cache/
