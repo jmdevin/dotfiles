@@ -5,3 +5,6 @@
 	indentHeuristic = true
 [core]
 	excludesfile = /home/john/.gitignore_global
+[merge]
+	tool = vimdiff3
+	conflictStyle = diff3
