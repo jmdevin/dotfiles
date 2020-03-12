@@ -1,6 +1,10 @@
 [user]
 	email = john.m.devin@gmail.com
 	name = John Devin
+[alias]
+    slog = log --all --graph
+    mlog = log --branches --remotes --tags --graph --decorate --notes HEAD
+    mbr = branch -a -vv
 [diff]
 	indentHeuristic = true
 [core]

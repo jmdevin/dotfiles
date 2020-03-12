@@ -47,8 +47,8 @@ date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
     fi
 
 # Vim
-    if [ -x "$(command -v vim)" ] && [ -d ~/.dotfiles ]; then
-        alias dvim='vim ~/.dotfiles'
+    if [ -x "$(command -v vim)" ] && [ -d ~/dotfiles ]; then
+        alias dvim='vim ~/dotfiles'
     fi
     if [ -x "$(command -v vim)" ] && [ -f ~/.vim/vimrc ]; then
         alias mvim='vim ~/.vim/vimrc'
