@@ -14,10 +14,11 @@ date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
         alias lsa='ls -AF --color=always --group-directories-first'
         alias lsl='ls -Fhl --color=always --group-directories-first'
         alias lal='ls -AFhl --color=always --group-directories-first'
+    fi
 
-        if [ -x "$(command -v xdg-open)" ]; then
-            alias open='xdg-open'
-        fi
+# XDG
+    if [ -x "$(command -v xdg-open)" ]; then
+        alias open='xdg-open'
     fi
 
 # Android/flutter
@@ -30,16 +31,16 @@ date +"%A, %B %d, %Y at %T.%N %Z (%::z)" >> ~/mystartup.log
 
 # Emacs
     if [ -x "$(command -v emacs)" ]; then
-        alias emacs='emacs -nw'
+        alias femacs='emacs -fs'
+        alias memacs='emacs ~/.emacs.d/init.el'
+        alias temacs='emacs -nw'
+        alias xemacs='emacs -mm'
     fi
 
 # Git
     if [ -x "$(command -v git)" ]; then
-        alias gdif='git diff'
-        alias glog='git log'
-        alias gst='git status'
+        alias gst='git mst'
     fi
-
     # 'git' itself must be aliased after other aliases have been set, or else
     # it will return as false from 'command -v'
     if [ -x "$(command -v hub)" ]; then

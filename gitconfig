@@ -2,11 +2,17 @@
 	email = john.m.devin@gmail.com
 	name = John Devin
 [alias]
-    slog = log --all --graph
-    mlog = log --branches --remotes --tags --graph --decorate --notes HEAD
     mbr = branch -a -vv
+    llog = log --all --graph
+    mlog = log --branches --remotes --tags --graph --decorate --notes HEAD
+    olog = log --branches --remotes --tags --graph --decorate --notes --oneline HEAD
+    slog = log --all --graph --stat
+    mst = status --short --branch
 [diff]
 	indentHeuristic = true
+[cola]
+	spellcheck = false
+	savewindowsettings = false
 [core]
 	excludesfile = /home/john/.gitignore_global
 [merge]
