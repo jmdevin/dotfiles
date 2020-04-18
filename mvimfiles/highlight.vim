@@ -179,7 +179,8 @@
     hi link WarningMsg YellowHighlight
 
     hi clear NonText
-    hi NonText                  ctermfg=215
+    " hi NonText                  ctermfg=215
+    hi NonText                  ctermfg=240
     hi clear SpecialKey
     hi link SpecialKey NonText
     hi clear EndOfBuffer

@@ -5,4 +5,4 @@
 " setlocal comments+=b:+
 setlocal comments+=fb:+
 setlocal formatoptions+=t
-setlocal textwidth=80
+setlocal textwidth=78

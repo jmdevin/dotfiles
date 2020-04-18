@@ -3,6 +3,10 @@ scriptencoding utf-8
 " Notes and todo's
     " TODO: add state of g/b:doubling to statusline
 
+    " TODO: add state of 'helpnavkeys' to statusline
+
+    " TODO: add state of g:asyncomplete_auto_popup
+
     " TODO: Add paste and spell indicators. Maybe keymap or whatever greek
     " thing too.
 
@@ -24,6 +28,9 @@ scriptencoding utf-8
     " TODO: change highlights for search and search's current match
 
     " TODO: display length of visually selected area in statusline
+
+    " TODO: change display of line/col numbers to XX:XX/XXXX
+    " That's col:cur_line/total_lines
 
 " Utility Data
     " Highlight Colors
