@@ -1,9 +1,13 @@
+/ignore/
+
 /vim/plugged/
 /vim/autoload/plug.vim
 /vim/autoload/plug.vim.old
 /vim/spell/
 
-/node_modules/
+/emacs.d/url/cache/
+
+node_modules/
 yarn.lock
 
 profile_variables.sh
