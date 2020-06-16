@@ -426,7 +426,7 @@ scriptencoding utf-8
 
         " Formatting and typing
             set autoindent
-            set backspace=indent,eol,start
+            set backspace=indent,eol,start,nostop
             set nojoinspaces
 
         " Tab/indent settings
@@ -1038,6 +1038,7 @@ scriptencoding utf-8
                     return "\<C-C>A"
                 else
                     return "\<CR>"
+                endif
             endfunction
 
             function! NextDelimiter() abort
