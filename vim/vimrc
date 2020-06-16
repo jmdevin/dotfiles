@@ -40,18 +40,18 @@ scriptencoding utf-8
     packadd! cfilter
 
 " Alt keys and cursor settings. These need work
-    if system('env') =~? 'gnome_terminal_service'
-        let s:key='a'
-        while s:key <=? 'z'
-            execute 'set <M-' . toupper(s:key) . '>=' . s:key
-            let s:key = nr2char(1 + char2nr(s:key))
-        endwhile
+    " if system('env') =~? 'gnome_terminal_service'
+    "     let s:key='a'
+    "     while s:key <=? 'z'
+    "         execute 'set <M-' . toupper(s:key) . '>=' . s:key
+    "         let s:key = nr2char(1 + char2nr(s:key))
+    "     endwhile
 
         " execute ':set <M-Right>=[1;3C'
         " execute ':set <M-Left>=[1;3D'
         " execute ':set <M-Up>=[1;3A'
         " execute ':set <M-Down>=[1;3B'
-    endif
+    " endif
 
     " This      Means this
     " &t_SI     Insert mode
@@ -97,6 +97,8 @@ scriptencoding utf-8
 
 " Add plugins
     call plug#begin('~/.vim/plugged')
+        " possible vim-plug replacements
+            " Plug 'k-takata/minpac'
         " vim
             Plug 'vim/killersheep'
         " junegunn
@@ -229,9 +231,11 @@ scriptencoding utf-8
         " Colorschemes
             " Actually might use
             Plug 'romainl/Apprentice'
+            Plug 'sainnhe/vim-color-forest-night'
             Plug 'nanotech/jellybeans.vim'
             Plug 'aonemd/kuroi.vim'
             Plug 'jonathanfilip/vim-lucius'
+            Plug 'kaicataldo/material.vim'
             Plug 'dikiaap/minimalist'
             Plug 'NLKNguyen/papercolor-theme' " Papercolor
             Plug 'junegunn/seoul256.vim'
@@ -245,13 +249,13 @@ scriptencoding utf-8
             Plug 'flrnprz/candid.vim'
             Plug 'flrnprz/plastic.vim'
             Plug 'liuchengxu/space-vim-theme'
-            Plug 'sainnhe/vim-color-forest-night'
             Plug 'caksoylar/vim-mysticaltutor'
     call plug#end()
 
 " Plugin Settings
     " Ale
-        let g:ale_echo_delay = 50
+        let g:ale_echo_cursor = 0
+        let g:ale_echo_delay = 400
         let g:ale_echo_msg_format = '[%severity%] %code: %%s [%linter%]'
         let g:ale_fix_on_save = 1
         let g:ale_keep_list_window_open = 1
@@ -341,7 +345,7 @@ scriptencoding utf-8
         \ ]
 
     " Jedi
-        let g:jedi#show_call_signatures = 0
+        " let g:jedi#show_call_signatures = 0
 
     " Indentline
         " TODO: set indentLine to use the final character of char_list for all
@@ -355,9 +359,16 @@ scriptencoding utf-8
         " let g:indentLine_first_char = ' '
         let g:indentLine_indentLevel = 20
         " let g:indentLine_showFirstIndentLevel = 0
-        let g:indentLine_fileTypeExclude = ['help', 'quickfix', 'text', ]
-        let g:indentLine_bufTypeExclude = ['help', 'quickfix',]
+        let g:indentLine_fileTypeExclude = [
+            \   'help', 'quickfix', 'text', 'man',
+        \   ]
+        let g:indentLine_bufTypeExclude = [
+            \   'help', 'quickfix', 'terminal', 'prompt', 'popup', 'nofile',
+        \   ]
         " let g:indentLine_bufNameExclude = []
+        " let g:indentLine_setConceal = 0
+        let g:indentLine_concealcursor = 'n'
+        let g:indentLine_conceallevel = 1
 
     " Netrw
         " let g:netrw_altfile
@@ -411,6 +422,10 @@ scriptencoding utf-8
         " cpoptions (aABceFs default)
             " TODO: check these
 
+        " cinoptions
+            set cinoptions+=)1000
+            set cinoptions+=*1000
+
         " formatoptions (tcq default)
             set formatoptions-=t
             set formatoptions+=r
@@ -439,7 +454,7 @@ scriptencoding utf-8
 
         " Completion settings
             set completeopt=menuone,popup,noinsert,noselect
-            set completepopup=height:15,width:60,highlight:Pmenu,border:off
+            set completepopup=height:15,width:60,highlight:Pmenu,border:off,align:menu
 
     " Editor Settings
         " Search options
@@ -570,7 +585,9 @@ scriptencoding utf-8
         nmap <Space> <leader>
         xmap <Space> <leader>
         omap <Space> <leader>
-        " imap <M-F> <leader>
+        " imap <C-F> <leader>
+        " smap <C-F> <leader>
+        " inoremap <C-F><C-F> <C-F>
 
     " General remappings
         " Comma will be used to initiate a lot of normal-mode mappings
@@ -638,15 +655,15 @@ scriptencoding utf-8
         inoremap <C-G>" "
         inoremap <C-G>' '
 
-        inoremap <silent><expr>) NextClosingChar(')')
-        inoremap <silent><expr>] NextClosingChar(']')
-        inoremap <silent><expr>} NextClosingChar('}')
+        inoremap <silent><expr> ) NextClosingChar(')')
+        inoremap <silent><expr> ] NextClosingChar(']')
+        inoremap <silent><expr> } NextClosingChar('}')
 
         inoremap <C-G>) )
         inoremap <C-G>] ]
         inoremap <C-G>} }
 
-        inoremap <silent><expr> <M-D> DoubleChar()
+        inoremap <silent><expr> <C-F>d DoubleChar()
 
     " Expansion mappings
         " Parentheses
@@ -849,7 +866,8 @@ scriptencoding utf-8
 
         " Flutter
             function! SetFlutterMappings(filetype) abort
-                if exists(':FlutterRun') == 2 && index(s:flutter_filetypes, a:filetype, '', v:true) != -1
+                if exists(':FlutterRun') == 2 && index(s:flutter_filetypes,
+                    \   a:filetype, '', v:true) != -1
                     nnoremap <buffer><leader>frl :FlutterHotReload
                     nnoremap <buffer><leader>frs :FlutterHotRestart
                     nnoremap <buffer><leader>fvd :FlutterVisualDebug
@@ -968,7 +986,9 @@ scriptencoding utf-8
                     \ : g:char_doubling
 
                 if doubling && search('\m\%#.\{-,}' . a:char)
-                    return "\<C-C>f" . a:char . "a"
+                    " TODO: test whether this change must be made
+                    " return "\<Esc>f" . a:char . "\<Esc>a"
+                    return "\<C-C>f" . a:char . 'a'
                 else
                     return a:char
                 endif
@@ -1008,6 +1028,8 @@ scriptencoding utf-8
                 return "\<BS>"
             endfunction
 
+            " Look into whether shiftwidth([{col}]) would be useful, along
+            " with vartabstop
             function! MapTab() abort
                 " let doubling = get(b:, 'char_doubling', g:char_doubling)
                 let smart_tab = InsertSmartTab()
@@ -1358,7 +1380,7 @@ scriptencoding utf-8
                 let col = virtcol('.') - 1
                 let tab_stop = &tabstop
                 let len = tab_stop - (col % tab_stop)
-                let ret_str = repeat(" ", len)
+                let ret_str = repeat(' ', len)
                 return ret_str
             endfunction
 
