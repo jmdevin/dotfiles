@@ -509,6 +509,7 @@ scriptencoding utf-8
             set history=1000
             set tabpagemax=50
             set viminfo='100,<1000
+            set signcolumn=number
 
 " Source additional shitty personal vim files
     " TODO: refactor/reorganize additional personal vim files
