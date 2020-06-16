@@ -4,9 +4,9 @@ scriptencoding utf-8
 
     " TODO: set diffopt
 
-    " TODO: Change ale and coc to have highlights on, but set those highlights
+    " TODO: Change ale and vim-lsp to have highlights on, but set those highlights
     " to none by default. Have easy way to switch them on/off. Maybe have ale
-    " display coc highlights?
+    " display vim-lsp highlights?
 
     " TODO: does fedora always load a file to the last opened position? And if
     " so, why does this not happen in ubuntu? (This is currently being set by
@@ -173,9 +173,6 @@ scriptencoding utf-8
             " Plug 'markonm/traces.vim'
         " Linting/completion
             Plug 'dense-analysis/ale'
-            if executable('node') || executable('npm')
-                Plug 'neoclide/coc.nvim', {'branch': 'release'}
-            endif
             " if has('python') || has('python3')
                 " Plug 'davidhalter/jedi-vim'
             " endif
@@ -276,30 +273,6 @@ scriptencoding utf-8
             \   'sh'        : ['language_server'],
         \}
             "   'python'    : ['flake8', 'mypy', 'pylint', 'bandit'],
-
-    " Coc
-        " Extensions
-            " coc-json
-            " coc-snippets
-            " coc-flutter
-            " coc-python
-            " coc-vimlsp
-            " Maybe?
-                " coc-yaml
-                " coc-html
-                " coc-git
-                " coc-lists
-                " coc-template
-                " coc-texlab
-        " Use this for autocmd mappings
-            let s:coc_filetypes = [
-                \ 'c',
-                \ 'cpp',
-                \ 'dart',
-                \ 'python',
-                \ 'sh',
-                \ 'vim',
-            \ ]
 
     " Cool
         let g:CoolTotalMatches = 1
@@ -409,6 +382,7 @@ scriptencoding utf-8
         else
             set ttymouse=xterm2
         end
+        " TODO: check whether this should be 2000 or so
         set updatetime=750
 
     " Mouse settings
@@ -793,12 +767,7 @@ scriptencoding utf-8
 
     " Tab/enter/backspace/space key mappings
         " Tab
-            inoremap <silent><expr> <TAB>
-                \ exists(':CocInfo') == 2 ?
-                    \ pumvisible() ?
-                        \ coc#_select_confirm()
-                        \ : MapTab()
-                    \ : MapTab()
+            inoremap <silent><expr> <TAB> MapTab()
             imap <C-G><Tab> <Tab>
 
         " Enter
@@ -833,23 +802,6 @@ scriptencoding utf-8
                     nmap <silent><buffer> <leader>aqp <Plug>(ale_previous_wrap)
                     nmap <silent><buffer> <leader>aqf <Plug>(ale_first)
                     nmap <silent><buffer> <leader>aql <Plug>(ale_last)
-                endif
-            endfunction
-
-        " Coc
-            function! SetCocMappings(filetype) abort
-                if exists(':CocInfo') == 2 && index(s:coc_filetypes, a:filetype, '', v:true) != -1
-                    nnoremap <silent><buffer><expr><leader>cs CocActionAsync('showSignatureHelp')
-                    nnoremap <silent><buffer><expr><leader>ch CocActionAsync('doHover')
-
-                    nmap <silent><buffer><leader>ca v<Plug>(coc-codeaction-selected)
-                    xmap <silent><buffer><leader>ca <Plug>(coc-codeaction-selected)
-
-                    nmap <silent><buffer><leader>crn <Plug>(coc-rename)
-
-                    nmap <silent><buffer><leader>cqi <Plug>(coc-diagnostic-info)
-                    nmap <silent><buffer><leader>cqn <Plug>(coc-diagnostic-next)
-                    nmap <silent><buffer><leader>cqp <Plug>(coc-diagnostic-prev)
                 endif
             endfunction
 
