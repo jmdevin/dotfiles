@@ -1,20 +1,24 @@
-[user]
-	email = john.m.devin@gmail.com
-	name = John Devin
 [alias]
-    mbr = branch -a -vv
     llog = log --all --graph
     mlog = log --branches --remotes --tags --graph --decorate --notes HEAD
     olog = log --branches --remotes --tags --graph --decorate --notes --oneline HEAD
     slog = log --all --graph --stat
     mst = status --short --branch
-[diff]
-	indentHeuristic = true
+    mbr = branch -a -vv
 [cola]
-	spellcheck = false
 	savewindowsettings = false
+	spellcheck = false
+[commit]
+	verbose = true
 [core]
 	excludesfile = /home/john/.gitignore_global
+[diff]
+    algorithm = histogram
+	indentHeuristic = true
+    tool = vimdiff3
 [merge]
-	tool = vimdiff3
 	conflictStyle = diff3
+	tool = vimdiff3
+[user]
+	email = john.m.devin@gmail.com
+	name = John Devin

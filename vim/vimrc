@@ -2,8 +2,6 @@ scriptencoding utf-8
 
 " TODOs
 
-    " TODO: set diffopt
-
     " TODO: Change ale and vim-lsp to have highlights on, but set those highlights
     " to none by default. Have easy way to switch them on/off. Maybe have ale
     " display vim-lsp highlights?
@@ -510,6 +508,9 @@ scriptencoding utf-8
             set tabpagemax=50
             set viminfo='100,<1000
             set signcolumn=number
+            if has("patch-8.1.0360")
+                set diffopt+=indent-heuristic,algorithm:histogram
+            endif
 
 " Source additional shitty personal vim files
     " TODO: refactor/reorganize additional personal vim files
