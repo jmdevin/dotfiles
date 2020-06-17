@@ -511,6 +511,13 @@ scriptencoding utf-8
             if has("patch-8.1.0360")
                 set diffopt+=indent-heuristic,algorithm:histogram
             endif
+            set guioptions-=e
+            set guioptions-=m
+            set guioptions-=t
+            set guioptions-=T
+            set guioptions-=r
+            set guioptions-=L
+
 
 " Source additional shitty personal vim files
     " TODO: refactor/reorganize additional personal vim files
