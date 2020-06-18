@@ -249,8 +249,9 @@ scriptencoding utf-8
 
 " Plugin Settings
     " Ale
-        let g:ale_echo_cursor = 0
-        let g:ale_echo_delay = 400
+        let g:ale_cursor_detail = 0
+        let g:ale_echo_cursor = 1
+        let g:ale_echo_delay = 500
         let g:ale_echo_msg_format = '[%severity%] %code: %%s [%linter%]'
         let g:ale_fix_on_save = 1
         let g:ale_keep_list_window_open = 1
@@ -268,7 +269,7 @@ scriptencoding utf-8
         let g:ale_linters = {
             \   'dart'      : ['language_server'],
             \   'python'    : ['bandit', 'flake8', 'mypy'],
-            \   'sh'        : ['language_server'],
+            \   'sh'        : ['language_server', 'shell', 'shellcheck'],
         \}
             "   'python'    : ['flake8', 'mypy', 'pylint', 'bandit'],
 
