@@ -1,6 +1,9 @@
 scriptencoding utf-8
 
 " Notes and todo's
+    " TODO: add something for `:LspStatus` and maybe some sort of
+    " `:LspAvailable` (does that exist?)
+
     " TODO: add state of g/b:doubling to statusline
 
     " TODO: add state of 'helpnavkeys' to statusline

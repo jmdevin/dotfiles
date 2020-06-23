@@ -359,7 +359,8 @@
     hi clear DiffDelete
     hi DiffDelete               ctermfg=255 ctermbg=1
     hi clear DiffText
-    hi DiffText                 ctermfg=16  ctermbg=11
+    " hi DiffText                 ctermfg=16  ctermbg=11
+    hi DiffText                 ctermfg=0   ctermbg=15
     hi clear SpellBad
     hi link SpellBad WarningMsg
     hi clear SpellCap
